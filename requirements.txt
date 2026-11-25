@@ -1,0 +1,6 @@
+numpy>=2.0
+scikit-learn>=1.5
+umap-learn>=0.5.6
+requests>=2.31
+# optional: sample a real Sagrada Família mesh with --mesh
+# trimesh>=4.0

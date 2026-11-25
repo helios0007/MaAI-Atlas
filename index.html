@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MaAI Atlas</title>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;600&display=swap" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="atlas.css" />
+  <link rel="stylesheet" href="ui.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://esm.sh/three@0.170.0",
+        "three/addons/": "https://esm.sh/three@0.170.0/examples/jsm/",
+        "d3-force": "https://esm.sh/d3-force@3.0.0"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="canvas-wrap"></div>
+  <div id="labels-layer"></div>
+  <div id="gap-layer"></div>
+  <div id="web-layer"></div>
+  <div id="hover-tip" class="glass" hidden></div>
+
+  <!-- Top bar: brand, search, counters -->
+  <header id="topbar">
+    <div class="tb-brand">
+      <span class="logo-mark"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-logo"/></svg></span>
+      <div class="tb-name">
+        <b>MaAI Atlas</b>
+        <span>IAAC · research map</span>
+      </div>
+      <span id="synthetic-badge" class="synthetic-badge" hidden title="All projects are generated. The pipeline and views are real.">Synthetic data</span>
+    </div>
+
+    <div id="search">
+      <svg class="ic sm muted"><use href="assets/icons/atlas-icons.svg#i-search"/></svg>
+      <input type="search" id="search-input" placeholder="Search by meaning: heat in streets, robots that adapt…" autocomplete="off" aria-label="Search projects by meaning" />
+      <kbd class="kbd" id="search-kbd">/</kbd>
+      <button id="search-clear" class="icon-btn" title="Clear search" hidden><svg class="ic sm"><use href="assets/icons/atlas-icons.svg#i-close"/></svg></button>
+      <div id="search-results" hidden></div>
+    </div>
+
+    <div class="stats-row" aria-label="Atlas counts">
+      <div class="stat"><span class="stat-val" id="stat-projects">—</span><span class="stat-lbl">Projects</span></div>
+      <div class="stat"><span class="stat-val" id="stat-branches">—</span><span class="stat-lbl">Branches</span></div>
+      <div class="stat"><span class="stat-val" id="stat-gaps">—</span><span class="stat-lbl">Gaps</span></div>
+      <div class="stat"><span class="stat-val" id="stat-sources">—</span><span class="stat-lbl">Sources</span></div>
+      <div class="stat"><span class="stat-val" id="stat-built">—</span><span class="stat-lbl">Built</span></div>
+    </div>
+    <button class="ghost-btn" id="btn-about-top"><svg class="ic sm"><use href="assets/icons/atlas-icons.svg#i-guide"/></svg><span>How it works</span></button>
+  </header>
+
+  <!-- Left icon rail -->
+  <nav id="rail" aria-label="Atlas tools">
+    <button class="rail-btn" id="btn-home" data-tip="Programmes and cohorts"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-programmes"/></svg></button>
+    <span class="rail-sep"></span>
+    <button class="rail-btn tab active" data-tab="branches" id="tab-branches" data-tip="Branches"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-branch"/></svg></button>
+    <button class="rail-btn tab" data-tab="gaps" id="tab-gaps" data-tip="Gaps"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-gap"/></svg></button>
+    <span class="rail-sep"></span>
+    <button class="rail-btn" id="btn-network" data-tip="Citation network"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-network"/></svg></button>
+    <button class="rail-btn" id="btn-matrix" data-tip="Method × domain"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-matrix"/></svg></button>
+    <span class="rail-sep"></span>
+    <button class="rail-btn primary" id="btn-upload" data-tip="Add a project"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-stone-add"/></svg></button>
+    <span class="rail-fill"></span>
+    <button class="rail-btn" id="btn-reel" data-tip="Play the reel"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-reel"/></svg></button>
+    <button class="rail-btn" id="btn-about" data-tip="How it works"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-guide"/></svg></button>
+  </nav>
+
+  <!-- Left panel -->
+  <aside id="left-col">
+    <div id="hud-left" class="glass">
+      <div class="panel-block">
+        <div class="section-title"><span><svg class="ic xs"><use href="assets/icons/atlas-icons.svg#i-cohort"/></svg> Cohorts</span><span id="cohort-label" class="mono">All</span></div>
+        <div class="cohort-pills seg" id="cohort-pills"></div>
+      </div>
+
+      <div id="pane-branches" class="pane">
+        <div class="section-title">
+          <span>Research branches</span>
+          <button id="branch-reset" class="link-btn" hidden>Show all</button>
+        </div>
+        <p class="pane-hint">Each branch builds one part of the basilica. Click a branch to fly to it.</p>
+        <div id="branch-list"></div>
+      </div>
+
+      <div id="pane-gaps" class="pane" hidden>
+        <div class="section-title"><span>Detected gaps</span></div>
+        <p class="pane-hint">Places where MaAI work is thin. Each gap shows its evidence.</p>
+        <div class="gap-filters" id="gap-filters"></div>
+        <div id="gap-list"></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- View controls (bottom centre) -->
+  <div id="cosmos-legend" class="glass" aria-label="Cosmic web legend">
+    <div class="cl-title"><span>Cosmic web <span id="cl-step" class="cl-step"></span></span><button class="cl-key" id="cl-key" aria-expanded="false">Key</button></div>
+    <div class="cl-row"><span class="cl-sw galaxy"></span>Galaxy = one project. Star colour = cohort, red old, blue new.</div>
+    <div class="cl-row"><span class="cl-sw fil"></span>Filament = trail network between near projects.</div>
+    <div class="cl-row"><span class="cl-sw cor"></span>Corridor = link between branches in 64D. % = support.</div>
+    <div class="cl-row"><span class="cl-sw bridge"></span>Bridge project on a corridor.</div>
+    <div class="cl-row"><span class="cl-sw void"></span>Yellow ring = void, also empty in 64D. Grey = map only.</div>
+    <div class="cl-layers" role="group" aria-label="Cosmic web layers">
+      <label><input type="checkbox" data-layer="trails" checked autocomplete="off" />Filaments</label>
+      <label><input type="checkbox" data-layer="corridors" checked autocomplete="off" />Corridors</label>
+      <label><input type="checkbox" data-layer="voids" checked autocomplete="off" />Voids</label>
+      <label><input type="checkbox" data-layer="field" autocomplete="off" />Field</label>
+    </div>
+  </div>
+  <div id="hud-bottom" class="glass">
+    <div class="mode-switch seg" role="group" aria-label="View">
+      <button class="mode-btn" id="btn-2d"><svg class="ic sm"><use href="assets/icons/atlas-icons.svg#i-map"/></svg>2D map</button>
+      <button class="mode-btn active" id="btn-3d"><svg class="ic sm"><use href="assets/icons/atlas-icons.svg#i-basilica"/></svg>3D basilica</button>
+    </div>
+    <div class="slider-wrap">
+      <input type="range" id="morph-slider" min="0" max="100" value="100" aria-label="Morph between map and basilica" />
+      <span id="morph-pct">100%</span>
+    </div>
+    <span class="bar-sep"></span>
+    <label class="icon-toggle" data-tip="Gap scaffold"><input type="checkbox" id="toggle-ghosts" checked /><svg class="ic sm"><use href="assets/icons/atlas-icons.svg#i-scaffold"/></svg></label>
+    <label class="icon-toggle" data-tip="Gap markers on the map"><input type="checkbox" id="toggle-gapmarks" checked /><svg class="ic sm"><use href="assets/icons/atlas-icons.svg#i-gap"/></svg></label>
+    <label class="icon-toggle" data-tip="Cosmic web style for the map"><input type="checkbox" id="toggle-cosmos" checked autocomplete="off" /><svg class="ic sm"><use href="assets/icons/atlas-icons.svg#i-galaxy"/></svg></label>
+    <label class="icon-toggle" data-tip="Auto-orbit in 3D"><input type="checkbox" id="toggle-orbit" autocomplete="off" /><svg class="ic sm"><use href="assets/icons/atlas-icons.svg#i-orbit"/></svg></label>
+  </div>
+
+  <!-- Inspector -->
+  <aside id="hud-inspector" class="glass">
+    <div class="insp-head">
+      <button id="insp-back" class="icon-btn" title="Back" hidden><svg class="ic sm"><use href="assets/icons/atlas-icons.svg#i-back"/></svg></button>
+      <span id="insp-heading">About this map</span>
+    </div>
+    <div id="inspector-body"></div>
+  </aside>
+
+  <!-- Citation network overlay -->
+  <section id="network-overlay" class="overlay glass" hidden aria-label="Citation network">
+    <div class="overlay-head">
+      <div class="oh-title">
+        <span class="oh-icon"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-network"/></svg></span>
+        <div>
+          <h2>Citation network</h2>
+          <p class="overlay-sub">Circles are projects, coloured by branch. Squares are sources, sized by citations. Sources that many branches cite sit between them.</p>
+        </div>
+      </div>
+      <div class="overlay-tools">
+        <label class="mini-field">Min. citations
+          <select id="net-min"><option>2</option><option selected>3</option><option>5</option><option>8</option></select>
+        </label>
+        <label class="mini-field">Branch
+          <select id="net-branch"></select>
+        </label>
+        <button class="icon-btn" id="network-close" title="Close"><svg class="ic sm"><use href="assets/icons/atlas-icons.svg#i-close"/></svg></button>
+      </div>
+    </div>
+    <div class="overlay-body"><canvas id="network-canvas"></canvas><div id="network-tip" class="glass" hidden></div></div>
+  </section>
+
+  <!-- Method x domain overlay -->
+  <section id="matrix-overlay" class="overlay glass" hidden aria-label="Method by domain matrix">
+    <div class="overlay-head">
+      <div class="oh-title">
+        <span class="oh-icon"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-matrix"/></svg></span>
+        <div>
+          <h2>Method family × application domain</h2>
+          <p class="overlay-sub">Each cell is the number of projects for one pairing. A dashed empty cell is an untested combination: both sides are common, but no project uses them together.</p>
+        </div>
+      </div>
+      <div class="overlay-tools"><button class="icon-btn" id="matrix-close" title="Close"><svg class="ic sm"><use href="assets/icons/atlas-icons.svg#i-close"/></svg></button></div>
+    </div>
+    <div class="overlay-body scroll"><div id="matrix-wrap"></div></div>
+  </section>
+
+  <!-- How it works -->
+  <section id="about-overlay" hidden aria-label="How the Atlas works">
+    <div class="about-card glass" role="dialog" aria-modal="true" aria-labelledby="about-title">
+      <div class="about-head">
+        <div>
+          <span class="eyebrow">Guide</span>
+          <h2 id="about-title">How the MaAI Atlas works</h2>
+        </div>
+        <button class="icon-btn" id="about-close" title="Close"><svg class="ic sm"><use href="assets/icons/atlas-icons.svg#i-close"/></svg></button>
+      </div>
+
+      <div class="about-body">
+        <p class="about-lead">The Atlas is a map of MaAI student research. It puts each project in a place by its meaning. Then it shows the research branches and the gaps between them.</p>
+        <p class="note" id="about-synthetic" hidden>The projects in this version are synthetic. The pipeline and all views are real. They will work without changes when real projects are added.</p>
+
+        <h3>What is built</h3>
+        <div class="built-grid">
+          <div class="built"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-map"/></svg><b>2D map</b><span>Similar projects are near each other.</span></div>
+          <div class="built"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-basilica"/></svg><b>3D basilica</b><span>The same points make the Sagrada Família. Each project is one stone.</span></div>
+          <div class="built"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-gap"/></svg><b>Gap finder</b><span>Four tests find research that nobody did yet.</span></div>
+          <div class="built"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-search"/></svg><b>Search by meaning</b><span>Type a topic in your words. The browser finds the closest projects.</span></div>
+          <div class="built"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-network"/></svg><b>Citation network</b><span>Projects connect to the papers they cite.</span></div>
+          <div class="built"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-matrix"/></svg><b>Method × domain</b><span>A table that shows which pairs nobody tried.</span></div>
+          <div class="built"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-stone-add"/></svg><b>Add a project</b><span>The form puts a new project on the map and fills a gap.</span></div>
+          <div class="built"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-collect"/></svg><b>Blog connector</b><span>It reads MaAI posts from the IAAC blog and their GitHub links.</span></div>
+        </div>
+
+        <h3>How it works</h3>
+        <ol class="flow">
+          <li><span class="flow-ic"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-collect"/></svg></span><div><b>Collect</b><span>The pipeline reads project posts from the IAAC blog. It keeps the text, the people, the references and the links.</span></div></li>
+          <li><span class="flow-ic"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-tag"/></svg></span><div><b>Tag</b><span>It finds the methods, data, tools and domains in the text. Each tag keeps the sentence that it came from.</span></div></li>
+          <li><span class="flow-ic"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-cite"/></svg></span><div><b>Clean the references</b><span>It joins the same paper when students write it in different styles.</span></div></li>
+          <li><span class="flow-ic"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-repo"/></svg></span><div><b>Check the code</b><span>It reads each GitHub repository. It gives a score from 0 to 6 for reproducibility.</span></div></li>
+          <li><span class="flow-ic"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-embed"/></svg></span><div><b>Measure the meaning</b><span>It changes each text into a list of numbers. Similar texts get similar numbers.</span></div></li>
+          <li><span class="flow-ic"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-cluster"/></svg></span><div><b>Make the map and the branches</b><span>It puts the projects on a flat map. Then it finds groups of near projects. Each group is a branch.</span></div></li>
+          <li><span class="flow-ic"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-gap"/></svg></span><div><b>Find the gaps</b><span>It looks for empty areas, untried pairs, outside topics and branches that become smaller.</span></div></li>
+          <li><span class="flow-ic"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-basilica"/></svg></span><div><b>Build the basilica</b><span>Each branch builds one part. Projects are stones. Gaps are scaffold that is not built yet.</span></div></li>
+        </ol>
+
+        <h3>This run</h3>
+        <div class="run-stats" id="about-stats"></div>
+
+        <h3>Not built yet</h3>
+        <ul class="plain small">
+          <li>Merge one project that is a blog post, a PDF and a repository.</li>
+          <li>Read thesis PDFs (GROBID) and find paper DOIs (OpenAlex).</li>
+          <li>A shared server for new projects. Now, new projects stay in this browser.</li>
+          <li>A saved map model, so the positions do not move between cohorts.</li>
+        </ul>
+      </div>
+
+      <div class="about-foot">
+        <span class="muted small">Press <kbd class="kbd">/</kbd> to search. Press <kbd class="kbd">Esc</kbd> to close.</span>
+        <span class="spacer"></span>
+        <button class="action-btn" id="about-start">Explore the map</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Add project drawer -->
+  <div id="upload-modal" class="glass hidden" aria-hidden="true">
+    <div class="modal-head">
+      <div class="oh-title">
+        <span class="oh-icon accent"><svg class="ic"><use href="assets/icons/atlas-icons.svg#i-stone-add"/></svg></span>
+        <div>
+          <span class="eyebrow">Add a stone</span>
+          <h2>Add a MaAI project</h2>
+        </div>
+      </div>
+      <button id="upload-close" class="icon-btn" title="Close"><svg class="ic sm"><use href="assets/icons/atlas-icons.svg#i-close"/></svg></button>
+    </div>
+
+    <div class="modal-body">
+      <label class="field"><span>Project title</span>
+        <input type="text" id="up-title" placeholder="e.g. Causal Passive Cooling Twins" />
+      </label>
+      <label class="field"><span>Abstract <small>(the Atlas uses it to place the project by meaning)</small></span>
+        <textarea id="up-abstract" rows="4" placeholder="Which question does it answer? Which method and data does it use?"></textarea>
+      </label>
+      <div class="field-row">
+        <label class="field"><span>Cohort</span><select id="up-cohort"></select></label>
+        <label class="field"><span>Work type</span>
+          <select id="up-type"><option>Thesis</option><option>Studio</option><option>Seminar</option><option>Workshop</option></select>
+        </label>
+      </div>
+      <div class="field-row">
+        <label class="field"><span>AI method</span><input type="text" id="up-method" placeholder="e.g. Causal inference" /></label>
+        <label class="field"><span>Dataset</span><input type="text" id="up-dataset" placeholder="e.g. Smart meters" /></label>
+      </div>
+      <label class="field"><span>Repository URL</span><input type="text" id="up-repo" placeholder="https://github.com/…" /></label>
+      <div class="field">
+        <span>Reproducibility signals <small>(each one adds 8% to the stone)</small></span>
+        <div class="repro-checks" id="repro-checks"></div>
+      </div>
+      <div class="field">
+        <span>Placement</span>
+        <div id="placement-suggest" class="placement-suggest"></div>
+        <div id="zone-picker" class="zone-picker"></div>
+        <div id="pick-hint" class="pick-hint"><svg class="ic xs"><use href="assets/icons/atlas-icons.svg#i-pin"/></svg> Or click the 3D model to pin an exact spot.</div>
+      </div>
+    </div>
+
+    <div class="modal-foot">
+      <button class="action-btn secondary" id="upload-export" title="Download all projects added in this browser as JSON"><svg class="ic sm"><use href="assets/icons/atlas-icons.svg#i-export"/></svg>Export JSON</button>
+      <span class="spacer"></span>
+      <button class="action-btn secondary" id="upload-cancel">Cancel</button>
+      <button class="action-btn" id="upload-submit">Place stone</button>
+    </div>
+  </div>
+
+  <div id="toast" class="glass" role="status"></div>
+
+  <!-- Programmes start page (home.js) -->
+  <section id="home" hidden aria-label="Programmes">
+    <div class="hp-wrap">
+      <div class="hp-head">
+        <div>
+          <div class="hp-crumb" id="home-crumb"></div>
+          <p class="hp-lead" id="home-lead"></p>
+        </div>
+        <button class="hp-btn ghost" id="home-skip">Go to the Atlas<svg class="ic sm" viewBox="0 0 24 24"><path d="M9.5 5.5L16 12l-6.5 6.5"/></svg></button>
+      </div>
+      <div id="home-body"></div>
+    </div>
+  </section>
+
+  <script type="module" src="home.js"></script>
+  <script type="module" src="app.js"></script>
+  <script type="module" src="ui.js"></script>
+</body>
+</html>

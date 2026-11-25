@@ -1,0 +1,93 @@
+{
+ "source": "synthetic+parametric_gaudi_v2",
+ "stats": {
+  "stability_ari": 0.9620997594873252,
+  "synthetic_theme_ari": 0.9298237917065587,
+  "n_branches": 6,
+  "n_frontier": 1,
+  "raw_references": 1467,
+  "unique_sources": 50,
+  "external_docs": 180
+ },
+ "zones": [
+  {
+   "idx": 0,
+   "name": "Nativity Fa\u00e7ade & East Transept",
+   "branch_idxs": [
+    1
+   ],
+   "capacity": 18199,
+   "projects": 42,
+   "gap_weight": 11.0,
+   "built_fraction": 0.792,
+   "built_points": 14421,
+   "ghost_points": 3778
+  },
+  {
+   "idx": 1,
+   "name": "Passion Fa\u00e7ade & West Transept",
+   "branch_idxs": [
+    2
+   ],
+   "capacity": 17109,
+   "projects": 40,
+   "gap_weight": 20.0,
+   "built_fraction": 0.667,
+   "built_points": 11406,
+   "ghost_points": 5703
+  },
+  {
+   "idx": 2,
+   "name": "Evangelist Towers & Crossing",
+   "branch_idxs": [
+    3
+   ],
+   "capacity": 13621,
+   "projects": 32,
+   "gap_weight": 0.0,
+   "built_fraction": 0.96,
+   "built_points": 13076,
+   "ghost_points": 545
+  },
+  {
+   "idx": 3,
+   "name": "Central Nave, Vaults & Tree Columns",
+   "branch_idxs": [
+    0,
+    5
+   ],
+   "capacity": 18422,
+   "projects": 59,
+   "gap_weight": 11.0,
+   "built_fraction": 0.843,
+   "built_points": 15527,
+   "ghost_points": 2895
+  },
+  {
+   "idx": 4,
+   "name": "Apse & Tower of the Virgin Mary",
+   "branch_idxs": [
+    4
+   ],
+   "capacity": 10338,
+   "projects": 18,
+   "gap_weight": 4.0,
+   "built_fraction": 0.818,
+   "built_points": 8458,
+   "ghost_points": 1880
+  },
+  {
+   "idx": 5,
+   "name": "Glory Fa\u00e7ade & Tower of Jesus Christ",
+   "branch_idxs": [
+    6
+   ],
+   "capacity": 17541,
+   "projects": 1,
+   "gap_weight": 35.0,
+   "built_fraction": 0.12,
+   "built_points": 2104,
+   "ghost_points": 15437
+  }
+ ]
+}

@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+data/raw/
+# blog records may contain names and unpublished text: review before committing
+data/curated/projects_blog.json
+
+# local and private files: not for the public repo
+*.pptx
+MaAI x IAAC - Internship Details*.pdf
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini

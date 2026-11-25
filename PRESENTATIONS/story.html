@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MaAI Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;800&display=swap" />
+<style>
+  /* Product OS style: black page, condensed display type, mono folio, one violet accent */
+  :root {
+    --bg: #000;
+    --ink: #f2f3f5;
+    --muted: #9a9ca4;
+    --faint: #5d5f67;
+    --line: rgba(242, 243, 245, 0.14);
+    --soft: #121316;
+    --accent: #8a7cff;
+    --display: 'Archivo', 'Arial Narrow', sans-serif;
+    --sans: 'Inter', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --b-gen: #2dd4bf; --b-urb: #fb923c; --b-cli: #a3e635; --b-kno: #a78bfa; --b-bio: #38bdf8; --b-rob: #f472b6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  [hidden] { display: none !important; }
+
+  /* ---------- deck frame ---------- */
+  .slide {
+    position: absolute; inset: 0; padding: 13vh 7vw 10vh; z-index: 1;
+    display: flex; flex-direction: column; justify-content: center;
+    opacity: 0; visibility: hidden; transition: opacity .5s ease, visibility 0s linear .5s;
+  }
+  .slide.active { opacity: 1; visibility: visible; transition: opacity .5s ease; }
+  .slide > * { transform: translateY(16px); opacity: 0; transition: transform .8s cubic-bezier(.2,.7,.2,1), opacity .8s ease; }
+  .slide.active > * { transform: none; opacity: 1; }
+  .slide.active > *:nth-child(2) { transition-delay: .1s; }
+  .slide.active > *:nth-child(3) { transition-delay: .2s; }
+  .slide.active > *:nth-child(4) { transition-delay: .3s; }
+  .folio {
+    position: fixed; left: 7vw; right: 7vw; top: 4.5vh; z-index: 10; pointer-events: none;
+    display: flex; justify-content: space-between; text-transform: uppercase; letter-spacing: .13em;
+    font: 800 12px var(--mono); color: var(--muted);
+  }
+  .folio b { color: var(--ink); font-weight: 800; }
+  .foot {
+    position: fixed; right: 7vw; bottom: 3.6vh; z-index: 10;
+    display: flex; gap: 22px; align-items: center;
+    font: 600 12px var(--mono); color: var(--faint); letter-spacing: .1em; text-transform: uppercase;
+  }
+  .foot a { color: var(--muted); text-decoration: none; }
+  .foot a:hover, .foot button:hover:not(:disabled) { color: var(--accent); }
+  .foot button { color: var(--muted); font: 600 12px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+  .foot button:disabled { opacity: .3; cursor: default; }
+  #bar { position: fixed; left: 0; top: 0; height: 2px; background: var(--accent); transition: width .5s ease; z-index: 11; }
+
+  /* ---------- type ---------- */
+  h1, h2 { font-family: var(--display); font-stretch: 72%; font-weight: 800; letter-spacing: -.02em; line-height: .96; text-wrap: balance; }
+  h1 { font-size: clamp(84px, 13vw, 230px); letter-spacing: -.035em; line-height: .86; }
+  h2 { font-size: clamp(40px, 4.8vw, 80px); max-width: 20ch; }
+  h2 em, h1 em { font-style: normal; color: var(--accent); }
+  .sub { font-size: clamp(16px, 1.35vw, 21px); color: var(--muted); line-height: 1.5; max-width: 50ch; margin-top: 22px; }
+  .label { font: 800 11.5px var(--mono); letter-spacing: .13em; text-transform: uppercase; color: var(--muted); }
+  .cite { font: 400 11px var(--mono); color: var(--faint); margin-top: 4vh; line-height: 1.6; }
+  .head { margin-bottom: 6vh; }
+
+  /* ---------- 1 title ---------- */
+  .title-slide { justify-content: flex-end; padding-bottom: 15vh; }
+  .title-slide .sub { font-size: clamp(18px, 1.7vw, 26px); color: var(--ink); opacity: .8; max-width: 38ch; margin-top: 30px; }
+
+  /* ---------- heading lists (problem, solution) ---------- */
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 6vw; max-width: 1300px; }
+  .cols .label { padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+  .item { display: grid; grid-template-columns: 56px 1fr; align-items: baseline; padding: 2.3vh 0; border-bottom: 1px solid var(--line); }
+  .item .n { font: 800 13px var(--mono); color: var(--accent); }
+  .item b { font-family: var(--display); font-stretch: 80%; font-weight: 700; font-size: clamp(26px, 2.6vw, 42px); line-height: 1.05; letter-spacing: -.01em; }
+  .pairs .item { grid-template-columns: 56px minmax(0, .9fr) 44px minmax(0, 1.3fr); }
+  .pairs .item s { color: var(--muted); text-decoration: none; font-size: clamp(15px, 1.25vw, 19px); }
+  .pairs .item i { font-style: normal; color: var(--faint); }
+  .pairs .item b { font-size: clamp(24px, 2.3vw, 38px); }
+
+  /* ---------- cards in 4 columns ---------- */
+  .four, .record, .lenses { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); max-width: 1400px; }
+  .four > div, .record > div, .lenses > div { padding: 3vh 2vw 0 0; }
+  .four > div + div, .record > div + div, .lenses > div + div { padding-left: 2vw; border-left: 1px solid var(--line); }
+  .four b { display: block; font-family: var(--display); font-stretch: 80%; font-weight: 700; font-size: clamp(24px, 2.2vw, 36px); margin: 12px 0; }
+  .four p { color: var(--muted); font-size: 15px; line-height: 1.55; }
+  .tag { display: inline-block; font: 800 11px var(--mono); letter-spacing: .13em; text-transform: uppercase; color: var(--accent); }
+  .tag.next { color: var(--muted); }
+  .record ul { list-style: none; margin-top: 14px; }
+  .record li { font-size: 16px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .record li small { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+
+  /* ---------- fingerprint ---------- */
+  .fp { display: grid; grid-template-columns: 270px 1fr 1fr; gap: 4vw; align-items: center; max-width: 1300px; }
+  .pick { display: block; width: 100%; text-align: left; padding: 15px 0; border-bottom: 1px solid var(--line); color: var(--muted); transition: color .2s; }
+  .pick b { display: block; font-weight: 600; font-size: 17px; }
+  .pick span { font-size: 13px; }
+  .pick.on { color: var(--ink); }
+  .pick.on b { color: var(--accent); }
+  .bars .row { margin-bottom: 16px; }
+  .bars .lbl { display: flex; justify-content: space-between; font: 600 12px var(--mono); color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: .08em; }
+  .bars .track { height: 6px; background: rgba(255,255,255,.08); }
+  .bars .fill { height: 100%; transition: width .6s cubic-bezier(.2,.7,.2,1), background .3s; }
+  .fpmap { position: relative; aspect-ratio: 1; max-height: 44vh; border: 1px solid var(--line); }
+  .zone { position: absolute; border-radius: 50%; border: 1px dashed; display: grid; place-items: center; font: 600 11px var(--mono); text-transform: uppercase; letter-spacing: .1em; }
+  .dot { position: absolute; width: 14px; height: 14px; border-radius: 50%; transform: translate(-50%, -50%); transition: left .7s cubic-bezier(.2,.7,.2,1), top .7s cubic-bezier(.2,.7,.2,1), background .3s; }
+
+  /* ---------- concept steps ---------- */
+  .steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.6vw; max-width: 1500px; }
+  .step svg, .step img { width: 100%; aspect-ratio: 4/3; display: block; background: var(--soft); object-fit: cover; }
+  .step .n { font: 800 12px var(--mono); color: var(--accent); margin: 16px 0 8px; letter-spacing: .13em; }
+  .step b { display: block; font-family: var(--display); font-stretch: 80%; font-weight: 700; font-size: clamp(19px, 1.7vw, 28px); line-height: 1.08; }
+  .step small { display: block; font: 400 11px var(--mono); color: var(--faint); margin-top: 8px; }
+
+  /* ---------- live atlas and media slides ---------- */
+  #live { position: fixed; inset: 0; z-index: 0; border: 0; width: 100%; height: 100%; opacity: 0; pointer-events: none; transition: opacity .8s ease; background: #000; }
+  body.live-on #live { opacity: 1; pointer-events: auto; }
+  .media-slide { padding: 0; pointer-events: none; }
+  .media-slide > * { pointer-events: auto; }
+  .media-slide .stage, .media-slide .overlay-head { pointer-events: none; }
+  .media-slide .overlay-head { position: absolute; left: 7vw; top: 11vh; z-index: 2; }
+  .media-slide .overlay-head h2 { font-size: clamp(36px, 4.2vw, 70px); max-width: 14ch; }
+  .stage { position: absolute; inset: 0; }
+  .stage img, .stage video { width: 100%; height: 100%; object-fit: contain; display: block; background: #000; }
+  body.live-on .stage { display: none; }
+  .legend { position: absolute; left: 7vw; bottom: 10vh; z-index: 2; width: min(440px, 40vw); }
+  .legend .tabs { display: flex; gap: 22px; margin-bottom: 16px; }
+  .legend .tabs button, .vbar button { font: 800 12px var(--mono); letter-spacing: .13em; text-transform: uppercase; color: var(--muted); padding-bottom: 6px; border-bottom: 2px solid transparent; }
+  .legend .tabs button.on, .vbar button.on, .legend .tabs button:hover, .vbar button:hover { color: var(--ink); border-bottom-color: var(--accent); }
+  .legend b { display: block; font-family: var(--display); font-stretch: 80%; font-weight: 700; font-size: clamp(24px, 2.2vw, 36px); margin-bottom: 8px; }
+  .legend span { color: var(--muted); font-size: 15px; line-height: 1.5; }
+
+  /* ---------- basilica concept ---------- */
+  .sf { display: grid; grid-template-columns: 1.3fr .7fr; gap: 4vw; align-items: center; max-width: 1500px; }
+  .timeline { display: grid; grid-template-columns: repeat(6, 1fr); border-top: 1px solid var(--line); margin-bottom: 5vh; }
+  .timeline div { padding: 14px 12px 0 0; }
+  .timeline b { display: block; font-family: var(--display); font-stretch: 72%; font-weight: 800; font-size: clamp(28px, 2.6vw, 44px); color: var(--accent); }
+  .timeline span { font-size: 13px; color: var(--muted); line-height: 1.45; display: block; margin-top: 4px; }
+  .map-table { width: 100%; border-collapse: collapse; }
+  .map-table td { padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 16px; vertical-align: top; }
+  .map-table td:first-child { color: var(--muted); width: 45%; }
+  .map-table td:nth-child(2) { color: var(--faint); width: 36px; }
+  .sf img { width: 100%; max-height: 74vh; object-fit: cover; object-position: 50% 30%; aspect-ratio: 3/4; }
+
+  /* ---------- transition controls ---------- */
+  .vbar { position: absolute; left: 7vw; right: 7vw; bottom: 10vh; z-index: 2; display: flex; gap: 26px; align-items: center; }
+  .vbar .track { flex: 1; height: 2px; background: var(--line); position: relative; }
+  .vbar .track i { position: absolute; left: 0; top: -1px; height: 4px; background: var(--accent); width: 0; }
+  .vbar output { font: 800 12px var(--mono); color: var(--accent); width: 44px; text-align: right; }
+  .vbar input { flex: 1; accent-color: var(--accent); }
+  body.live-on .vbar input, body:not(.live-on) .vbar .track, body.live-on #v-play { display: none; }
+
+  /* ---------- gaps ---------- */
+  .switch { display: flex; gap: 26px; margin-bottom: 4vh; }
+  .switch button { font: 800 12px var(--mono); letter-spacing: .13em; text-transform: uppercase; color: var(--muted); padding-bottom: 6px; border-bottom: 2px solid transparent; }
+  .switch button.on { color: var(--ink); border-bottom-color: var(--accent); }
+  .lenses .big { font-family: var(--display); font-stretch: 72%; font-weight: 800; font-size: clamp(64px, 6.5vw, 110px); line-height: .9; color: var(--accent); }
+  .lenses b { display: block; font-weight: 600; font-size: 18px; margin: 12px 0 8px; }
+  .lenses p { color: var(--muted); font-size: 14.5px; line-height: 1.5; }
+  .lenses p + p { color: var(--ink); margin-top: 12px; font-size: 14px; }
+  /* ---------- method x topic ---------- */
+  .mx { display: grid; grid-template-columns: auto minmax(260px, 340px); gap: 3.5vw; align-items: start; }
+  .mx table { border-collapse: separate; border-spacing: 3px; }
+  .mx th { font-weight: 500; color: var(--muted); }
+  .mx th.grp { font: 700 10.5px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--faint); text-align: left; padding: 0 2px 6px; border-bottom: 1px solid var(--line); }
+  .mx th.col { height: 112px; vertical-align: bottom; padding: 4px 0; }
+  .mx th.col span { writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; font-size: 11.5px; }
+  .mx th.row { text-align: right; font-size: 13.5px; padding-right: 10px; white-space: nowrap; }
+  .mx td { width: clamp(30px, 2.6vw, 44px); height: clamp(22px, 2.7vh, 32px); text-align: center; font: 600 11.5px var(--mono); color: var(--ink);
+    background: rgba(138,124,255,var(--a)); border-radius: 3px; cursor: pointer; transition: transform .15s; }
+  .mx td.zero { background: rgba(255,255,255,.035); color: transparent; }
+  .mx td.flag { background: repeating-linear-gradient(45deg, rgba(138,124,255,.22) 0 4px, transparent 4px 8px); outline: 1.5px dashed var(--accent); outline-offset: -1.5px; color: var(--accent); }
+  .mx td.hl-r, .mx td.hl-c { box-shadow: inset 0 0 0 1px rgba(255,255,255,.16); }
+  .mx td.sel { outline: 2px solid var(--ink); outline-offset: -2px; transform: scale(1.12); }
+  .mx th.on { color: var(--ink); }
+  .mxinfo .label { margin-bottom: 14px; }
+  .mxinfo h3 { font-family: var(--display); font-stretch: 80%; font-weight: 700; font-size: clamp(24px, 2.1vw, 34px); line-height: 1.05; margin-bottom: 22px; }
+  .mxinfo .nums { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 20px; }
+  .mxinfo .nums b { display: block; font-family: var(--display); font-stretch: 72%; font-weight: 800; font-size: clamp(48px, 4.6vw, 76px); line-height: .9; }
+  .mxinfo .nums span { color: var(--muted); font-size: 13.5px; }
+  .mxinfo .nums .obs b { color: var(--accent); }
+  .mxinfo p { color: var(--muted); font-size: 14.5px; line-height: 1.55; }
+  .mxinfo .verdict { color: var(--ink); margin-top: 12px; }
+  .mxkey { display: flex; gap: 22px; margin-top: 12px; font: 600 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .mxkey i { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: -3px; margin-right: 8px; }
+
+  /* ---------- citation network ---------- */
+  .net { display: grid; grid-template-columns: minmax(260px, 24vw) 1fr; gap: 3vw; align-items: stretch; height: 64vh; }
+  .net-side { display: flex; flex-direction: column; gap: 22px; min-height: 0; }
+  .net-stat b { font-family: var(--display); font-stretch: 72%; font-weight: 800; font-size: clamp(40px, 3.6vw, 60px); line-height: .9; }
+  .net-stat b em { font-style: normal; color: var(--accent); }
+  .net-stat span { display: block; color: var(--muted); font-size: 13.5px; margin-top: 6px; }
+  .net-list button { display: grid; grid-template-columns: 1fr auto; gap: 10px; width: 100%; text-align: left; padding: 9px 0; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  .net-list button i { font: 700 12px var(--mono); font-style: normal; color: var(--faint); }
+  .net-list button.on, .net-list button:hover { color: var(--ink); }
+  .net-list button.on i { color: var(--accent); }
+  .net-info { font-size: 14px; line-height: 1.5; color: var(--muted); }
+  .net-info b { display: block; color: var(--ink); font-size: 16px; margin-bottom: 4px; }
+  .net-view { position: relative; min-height: 0; }
+  .net-view canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: crosshair; }
+  .net-legend { position: absolute; left: 0; bottom: -4px; display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12px; color: var(--muted); pointer-events: none; }
+  .net-legend i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 7px; }
+
+  /* ---------- stone ---------- */
+  .stone { display: grid; grid-template-columns: 1fr 1fr; gap: 6vw; align-items: center; max-width: 1200px; }
+  .stone-view { height: 42vh; display: grid; place-items: center; border: 1px solid var(--line); position: relative; }
+  .block { background: var(--accent); transition: width .5s cubic-bezier(.2,.7,.2,1), height .5s cubic-bezier(.2,.7,.2,1); }
+  .stone-view small { position: absolute; left: 16px; bottom: 12px; font: 600 12px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+  .checks button { display: flex; justify-content: space-between; width: 100%; padding: 15px 0; border-bottom: 1px solid var(--line); font-size: 17px; color: var(--muted); }
+  .checks button.on { color: var(--ink); }
+  .checks button i { font-style: normal; font: 800 12px var(--mono); text-transform: uppercase; letter-spacing: .1em; }
+  .checks button.on i { color: var(--accent); }
+
+  /* ---------- search ---------- */
+  .search { max-width: 980px; }
+  .q { display: flex; gap: 26px; flex-wrap: wrap; margin-bottom: 3vh; }
+  .q button { font-family: var(--display); font-stretch: 80%; font-weight: 600; font-size: clamp(20px, 1.8vw, 28px); color: var(--muted); border-bottom: 2px solid transparent; }
+  .q button.on { color: var(--ink); border-bottom-color: var(--accent); }
+  .res { display: grid; grid-template-columns: 1fr 180px; align-items: center; padding: 15px 0; border-bottom: 1px solid var(--line); }
+  .res b { font-weight: 600; }
+  .res span { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+  .res .track { height: 4px; background: rgba(255,255,255,.08); }
+  .res .track i { display: block; height: 100%; background: var(--accent); }
+  .cite-img { display: grid; grid-template-columns: 1fr 1fr; gap: 4vw; align-items: center; max-width: 1300px; }
+  .cite-img img { width: 100%; max-height: 52vh; object-fit: contain; }
+
+  /* ---------- next ---------- */
+  .progs { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--line); max-width: 1400px; margin-bottom: 5vh; }
+  .progs div { padding: 14px 12px 14px 0; border-bottom: 1px solid var(--line); }
+  .progs b { font-family: var(--display); font-stretch: 80%; font-weight: 700; font-size: 22px; }
+  .progs span { display: block; font: 400 11.5px var(--mono); color: var(--muted); margin-top: 4px; }
+  .progs .live b, .progs .live span { color: var(--accent); }
+  .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4vw; max-width: 1400px; }
+  .three b { display: block; font-family: var(--display); font-stretch: 80%; font-weight: 700; font-size: clamp(24px, 2.2vw, 36px); margin: 10px 0 8px; }
+  .three p { color: var(--muted); font-size: 15px; line-height: 1.5; }
+
+  @media (prefers-reduced-motion: reduce) { .slide > *, .slide.active > * { transition: none; transform: none; } }
+  @media (max-width: 900px) {
+    .slide { padding: 10vh 16px 12vh; justify-content: flex-start; overflow-y: auto; }
+    .cols, .four, .record, .fp, .steps, .sf, .lenses, .mx, .net, .stone, .cite-img, .three { grid-template-columns: 1fr; }
+    .net { height: auto; } .net-view { height: 50vh; }
+    .four > div + div, .record > div + div, .lenses > div + div { padding-left: 0; border-left: 0; }
+    .timeline, .progs { grid-template-columns: repeat(2, 1fr); }
+    .pairs .item { grid-template-columns: 32px 1fr; }
+    .pairs .item i { display: none; }
+    .folio { left: 16px; right: 16px; }
+    .foot { right: 16px; }
+    .legend { width: auto; right: 16px; left: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<iframe id="live" title="Live MaAI Atlas" tabindex="-1"></iframe>
+<div class="folio"><span><b>MaAI Atlas</b> · IAAC Barcelona</span><span id="folio-r"></span></div>
+
+<main id="deck">
+
+  <!-- 1 -->
+  <section class="slide title-slide active" data-name="Introduction">
+    <h1>MaAI Atlas</h1>
+    <p class="sub">One searchable map of student research in the Master in AI for Architecture at IAAC.</p>
+  </section>
+
+  <!-- 2 problem -->
+  <section class="slide" data-name="Problem">
+    <div class="head"><h2>Good student work becomes <em>invisible</em> after each year.</h2></div>
+    <div class="cols">
+      <div>
+        <div class="label">On the IAAC blog</div>
+        <div class="item"><span class="n">01</span><b>Hard to upload work</b></div>
+        <div class="item"><span class="n">02</span><b>Hard to find work</b></div>
+        <div class="item"><span class="n">03</span><b>Parts are not connected</b></div>
+      </div>
+      <div>
+        <div class="label">Across the programme</div>
+        <div class="item"><span class="n">04</span><b>Scattered everywhere</b></div>
+        <div class="item"><span class="n">05</span><b>No big picture</b></div>
+        <div class="item"><span class="n">06</span><b>Hidden blind spots</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 solution -->
+  <section class="slide" data-name="Solution">
+    <div class="head"><h2>One atlas answers each problem.</h2></div>
+    <div class="pairs" style="max-width:1200px">
+      <div class="item"><span class="n">01</span><s>Hard to upload</s><i>&rarr;</i><b>"Add my work" form</b></div>
+      <div class="item"><span class="n">02</span><s>Hard to find</s><i>&rarr;</i><b>Search by meaning</b></div>
+      <div class="item"><span class="n">03</span><s>Not connected</s><i>&rarr;</i><b>One record per project</b></div>
+      <div class="item"><span class="n">04</span><s>Scattered</s><i>&rarr;</i><b>One shared map</b></div>
+      <div class="item"><span class="n">05</span><s>No big picture</s><i>&rarr;</i><b>Trends by cohort</b></div>
+      <div class="item"><span class="n">06</span><s>Blind spots</s><i>&rarr;</i><b>Gap detection</b></div>
+    </div>
+  </section>
+
+  <!-- 4 sources -->
+  <section class="slide" data-name="Sources">
+    <div class="head"><h2>Four sources feed one automatic pipeline.</h2></div>
+    <div class="four">
+      <div><span class="tag">Ready</span><b>IAAC blog</b><p>Posts from blog.iaac.net through the WordPress API: text, people, references and GitHub links. One request per second.</p></div>
+      <div><span class="tag">Ready</span><b>GitHub</b><p>Each linked repository is checked for six reproducibility habits and its main languages.</p></div>
+      <div><span class="tag">Ready</span><b>Student form</b><p>Students add their own project. It goes to a faculty review queue before it is public.</p></div>
+      <div><span class="tag next">Next phase</span><b>Thesis PDFs</b><p>GROBID reads full PDFs. OpenAlex matches references to DOIs and adds external papers.</p></div>
+    </div>
+  </section>
+
+  <!-- 5 record -->
+  <section class="slide" data-name="Record">
+    <div class="head"><h2>Every project gets one standard record.</h2></div>
+    <div class="record">
+      <div><span class="label">Identity</span><ul><li>Title and abstract</li><li>Authors and advisors</li><li>Cohort<small>24/25, 25/26, 26/27</small></li><li>Work type<small>thesis, studio, seminar</small></li></ul></div>
+      <div><span class="label">Research</span><ul><li>AI methods<small>26 in a fixed list</small></li><li>Tools<small>14, e.g. PyTorch, Rhino</small></li><li>Datasets<small>22, e.g. OSM, Landsat</small></li><li>Domain and scale</li></ul></div>
+      <div><span class="label">Evidence</span><ul><li>Source sentence for each tag</li><li>References<small>merged bibliography</small></li><li>Repository link</li><li>Reproducibility score<small>0 to 6</small></li></ul></div>
+      <div><span class="label">Consent</span><ul><li>Permission to publish</li><li>Show names or not</li><li>Review status<small>pending until approved</small></li></ul></div>
+    </div>
+  </section>
+
+  <!-- 6 fingerprint -->
+  <section class="slide" data-name="Map logic">
+    <div class="head"><h2>Projects with similar text sit close together.</h2></div>
+    <div class="fp">
+      <div id="fp-picks">
+        <button class="pick on" data-i="0"><b>Cooling street trees</b><span>heat, shade, satellites</span></button>
+        <button class="pick" data-i="1"><b>Urban heat predictors</b><span>microclimate, sensors</span></button>
+        <button class="pick" data-i="2"><b>Robotic timber joinery</b><span>robot arm, wood</span></button>
+      </div>
+      <div class="bars" id="fp-bars"></div>
+      <div class="fpmap">
+        <div class="zone" style="left:8%;top:8%;width:46%;height:46%;border-color:var(--b-cli);color:var(--b-cli)">Climate</div>
+        <div class="zone" style="right:8%;bottom:8%;width:42%;height:42%;border-color:var(--b-rob);color:var(--b-rob)">Robotics</div>
+        <div class="dot" id="fp-dot"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 cosmic web: how we arrived -->
+  <section class="slide" data-name="Idea: cosmic web">
+    <div class="head"><h2>From a scatter of dots to a <em>cosmic web</em>.</h2></div>
+    <div class="steps">
+      <div class="step">
+        <svg viewBox="0 0 160 120" aria-hidden="true"><g fill="#9a9ca4" id="scatter"></g></svg>
+        <div class="n">1</div><b>A plain scatter of projects is hard to read</b><small>our first map</small>
+      </div>
+      <div class="step">
+        <svg viewBox="0 0 160 120" aria-hidden="true">
+          <g stroke="#8a7cff" stroke-opacity=".75" stroke-width="1.4" fill="none"><path d="M20 95 C55 70 70 50 80 30 M80 30 C100 45 120 55 145 50 M80 30 L70 8 M20 95 C50 98 90 100 140 105 M145 50 C140 70 140 90 140 105"/></g>
+          <g fill="#f2f3f5"><circle cx="80" cy="30" r="4"/><circle cx="20" cy="95" r="3"/><circle cx="145" cy="50" r="3"/><circle cx="140" cy="105" r="3"/></g>
+          <circle cx="100" cy="75" r="18" fill="none" stroke="#9a9ca4" stroke-dasharray="3 3"/>
+        </svg>
+        <div class="n">2</div><b>Galaxies sit on filaments around empty voids</b><small>the cosmic web</small>
+      </div>
+      <div class="step">
+        <svg viewBox="0 0 160 120" aria-hidden="true">
+          <g stroke="#f2c14e" stroke-width="2" fill="none" stroke-linecap="round"><path d="M25 30 C50 40 60 45 80 60 C95 70 110 80 135 90 M80 60 C85 40 100 30 120 25 M80 60 C65 75 50 85 35 95 M120 25 C125 50 130 70 135 90"/></g>
+          <g fill="#f2f3f5"><rect x="21" y="26" width="8" height="8"/><rect x="116" y="21" width="8" height="8"/><rect x="131" y="86" width="8" height="8"/><rect x="31" y="91" width="8" height="8"/><rect x="76" y="56" width="8" height="8"/></g>
+        </svg>
+        <div class="n">3</div><b>A slime mould links food with an efficient network</b><small>Tokyo rail test, Tero et al. 2010</small>
+      </div>
+      <div class="step">
+        <svg viewBox="0 0 160 120" aria-hidden="true">
+          <defs><radialGradient id="glow"><stop offset="0" stop-color="#b8a8ff" stop-opacity=".9"/><stop offset="1" stop-color="#8a7cff" stop-opacity="0"/></radialGradient></defs>
+          <g stroke="#8a7cff" stroke-opacity=".8" stroke-width="3" fill="none" stroke-linecap="round"><path d="M15 90 C45 70 60 60 80 40 C100 25 125 30 150 20 M80 40 C95 60 115 80 145 95"/></g>
+          <g fill="url(#glow)"><circle cx="80" cy="40" r="14"/><circle cx="15" cy="90" r="10"/><circle cx="150" cy="20" r="10"/><circle cx="145" cy="95" r="10"/></g>
+        </svg>
+        <div class="n">4</div><b>Astronomers used the slime model to trace the real web</b><small>Burchett, Elek et al. 2020</small>
+      </div>
+      <div class="step">
+        <img src="assets/map2d_4k.jpg" alt="Cosmic web of MaAI projects" style="object-position:30% 45%" />
+        <div class="n">5</div><b>We trace the same web between student projects</b><small>MaAI Atlas, 2D map</small>
+      </div>
+    </div>
+    <p class="cite">Tero et al., Science 327 (2010) 439. Jones, Artificial Life 16 (2010). Burchett et al., ApJ Letters 891 (2020) L35. Elek et al., Artificial Life 28 (2022) 22.</p>
+  </section>
+
+  <!-- 8 cosmic web map (live Atlas when served over http, still image from a file) -->
+  <section class="slide media-slide" id="s-map" data-name="2D map" data-live="0">
+    <div class="stage"><img src="assets/map2d_all.jpg" alt="2D cosmic web map of MaAI projects" /></div>
+    <div class="overlay-head"><h2>The cosmic web of MaAI research.</h2></div>
+    <div class="legend">
+      <div class="tabs" id="legend-tabs">
+        <button class="on" data-k="0">Galaxy</button><button data-k="1">Filament</button><button data-k="2">Bridge</button><button data-k="3">Void</button>
+      </div>
+      <div id="cap"></div>
+    </div>
+  </section>
+
+  <!-- 9 sagrada: how we arrived -->
+  <section class="slide" data-name="Idea: basilica">
+    <div class="sf">
+      <div>
+        <div class="head"><h2>Like the Sagrada Família, research is built by <em>many generations</em>.</h2></div>
+        <div class="timeline">
+          <div><b>1882</b><span>First stone</span></div>
+          <div><b>1883</b><span>Gaudí takes over</span></div>
+          <div><b>1926</b><span>Gaudí dies, others continue</span></div>
+          <div><b>1936</b><span>Models broken, rebuilt from fragments</span></div>
+          <div><b>2026</b><span>Tower of Jesus Christ, 172.5 m</span></div>
+          <div><b>~2035</b><span>Glory façade still to build</span></div>
+        </div>
+        <table class="map-table">
+          <tr><td>Each stone</td><td>&rarr;</td><td>One student project</td></tr>
+          <tr><td>Each generation of builders</td><td>&rarr;</td><td>One cohort, from base to spires</td></tr>
+          <tr><td>Unbuilt scaffold</td><td>&rarr;</td><td>A research gap</td></tr>
+          <tr><td>Glory façade, not yet built</td><td>&rarr;</td><td>The frontier between fields</td></tr>
+        </table>
+        <p class="cite">Sources: sagradafamilia.org (history, 2026 news); Catalan News and Ara, 2026.</p>
+      </div>
+      <img src="assets/basilica_4k.jpg" alt="MaAI projects as a point-cloud basilica" />
+    </div>
+  </section>
+
+  <!-- 10 transition (live Atlas over http; recorded video from a file) -->
+  <section class="slide media-slide" id="s-video" data-name="2D to 3D" data-live="0">
+    <div class="stage">
+      <video id="tv" muted playsinline preload="auto" poster="assets/transition_first.jpg"></video>
+    </div>
+    <div class="overlay-head"><h2>The same points build the basilica.</h2></div>
+    <div class="vbar">
+      <button id="v-play">Play</button>
+      <button id="v-2d" class="on">2D map</button>
+      <button id="v-3d">3D basilica</button>
+      <div class="track"><i id="v-fill"></i></div>
+      <input type="range" id="v-slider" min="0" max="1000" value="0" aria-label="Transition position" />
+      <output id="v-pct">0%</output>
+    </div>
+  </section>
+
+  <!-- 11 gaps -->
+  <section class="slide" id="s-gap" data-name="Gaps">
+    <div class="head"><h2>Four checks find open thesis topics, with evidence.</h2></div>
+    <div class="lenses" id="v-lenses">
+      <div><div class="big">3</div><b>Empty space</b><p>Open areas between two busy branches.</p><p>Between Generative Design and Climate.</p></div>
+      <div><div class="big">8</div><b>Untried pairs</b><p>A common method and a common topic, never combined.</p><p>Generative AI × Urban Heat: 0 projects.</p></div>
+      <div><div class="big">4</div><b>External trends</b><p>Active outside research that MaAI does not cover.</p><p>27 papers on causal AI for energy.</p></div>
+      <div><div class="big">2</div><b>Fading fields</b><p>Topics that dropped in the newest cohort.</p><p>Robotic fabrication: 7 to 1.</p></div>
+    </div>
+  </section>
+
+  <!-- 12 method x topic (real Atlas data) -->
+  <section class="slide" id="s-matrix" data-name="Method × topic">
+    <div class="head"><h2>Some common methods never met <em>common topics</em>.</h2></div>
+    <div class="mx">
+      <div>
+        <table id="mx"></table>
+        <div class="mxkey"><span><i style="background:rgba(138,124,255,.75)"></i>More projects</span><span><i style="outline:1.5px dashed var(--accent);outline-offset:-1.5px"></i>Untried pair</span><span><i style="background:rgba(255,255,255,.06)"></i>Quiet</span></div>
+      </div>
+      <div class="mxinfo" id="mxinfo"></div>
+    </div>
+  </section>
+
+  <!-- stone -->
+  <section class="slide" data-name="Code quality">
+    <div class="head"><h2>Reproducible code earns a larger stone.</h2></div>
+    <div class="stone">
+      <div class="stone-view"><div class="block" id="block"></div><small id="stone-note"></small></div>
+      <div class="checks" id="checks"></div>
+    </div>
+  </section>
+
+  <!-- search -->
+  <section class="slide" id="s-explore" data-name="Search">
+    <div class="head"><h2>Search in plain words, not keywords.</h2></div>
+    <div class="search" id="v-search">
+      <div class="q" id="q">
+        <button class="on" data-q="robots">"robots that adapt to material"</button>
+        <button data-q="heat">"cooling hot city streets"</button>
+        <button data-q="codes">"AI checking building rules"</button>
+      </div>
+      <div id="results"></div>
+    </div>
+  </section>
+
+  <!-- citation network (real Atlas data) -->
+  <section class="slide" id="s-cite" data-name="Citation network">
+    <div class="head"><h2>Shared papers connect the <em>branches</em>.</h2></div>
+    <div class="net">
+      <div class="net-side">
+        <div class="net-stat" id="net-stat"></div>
+        <div><div class="label">Most cited</div><div class="net-list" id="net-list"></div></div>
+        <div class="net-info" id="net-info"></div>
+      </div>
+      <div class="net-view"><canvas id="net"></canvas><div class="net-legend" id="net-legend"></div></div>
+    </div>
+  </section>
+
+  <!-- next steps -->
+  <section class="slide" data-name="Next steps">
+    <div class="head"><h2>The same pipeline is ready for every IAAC programme.</h2></div>
+    <div class="progs">
+      <div class="live"><b>MaAI</b><span>pilot · 77 posts</span></div>
+      <div><b>MAA</b><span>1,788 posts</span></div>
+      <div><b>MaCAD</b><span>825 posts</span></div>
+      <div><b>MaCT</b><span>574 posts</span></div>
+      <div><b>MRAC</b><span>356 posts</span></div>
+      <div><b>MAEBB</b><span>341 posts</span></div>
+      <div><b>MaUP</b><span>198 posts</span></div>
+      <div><b>3DPA</b><span>68 posts</span></div>
+      <div><b>MDDI</b><span>external site</span></div>
+      <div><b>MDEF</b><span>external site</span></div>
+    </div>
+    <div class="three">
+      <div><span class="label">Step 1</span><b>Approve real data</b><p>Confirm which posts, PDFs and names can be public.</p></div>
+      <div><span class="label">Step 2</span><b>Connect PDFs and papers</b><p>Add thesis PDFs and DOI links next to the blog.</p></div>
+      <div><span class="label">Step 3</span><b>Lock the map</b><p>New cohorts add stones without moving old ones.</p></div>
+    </div>
+    <p class="cite">Post counts: blog.iaac.net WordPress API, 25 Nov 2026.</p>
+  </section>
+
+</main>
+
+<div class="foot">
+  <a href="../index.html" target="_blank">Open the Atlas</a>
+  <button id="prev" aria-label="Previous slide">Prev</button><span id="count">01 / 16</span><button id="next" aria-label="Next slide">Next</button>
+</div>
+<div id="bar"></div>
+
+<script type="application/json" id="atlas-data">{"branches":[["Generative Design","#2DD4BF"],["Urban Analytics","#FB923C"],["Climate & Energy","#A3E635"],["Knowledge & Tools","#A78BFA"],["Bio-based & Reclaimed Materials","#38BDF8"],["Robotic Fabrication","#F472B6"],["Bridging & Frontier Projects","#FACC15"]],"projects":[[13.5,-11.88,2],[39.95,3.22,0],[9.48,-17.84,2],[14.33,-13.87,2],[41.92,4.18,0],[47.46,-5.36,0],[15.1,-15.69,2],[46.04,29.72,4],[47.16,24.44,5],[-37.6,29.96,3],[-41.4,35.7,3],[49.36,25.31,5],[-42.01,-4.84,1],[10.27,-21.75,2],[-38.39,-4.53,1],[42.51,31.78,4],[9.79,-22.6,2],[52.0,23.25,5],[-47.54,-3.99,1],[-39.8,-5.08,1],[20.35,-10.35,2],[42.54,0.11,0],[18.28,-11.97,2],[-44.1,-3.41,1],[21.91,-22.91,0],[11.79,-23.05,2],[-37.66,-5.16,1],[-49.2,-2.46,1],[-42.27,37.57,3],[-38.51,34.6,3],[-44.72,0.39,1],[-42.43,0.15,1],[46.21,0.8,0],[42.21,31.91,4],[7.17,-20.28,2],[-42.07,-2.27,1],[16.45,-16.36,2],[-39.82,-9.03,1],[-47.16,-7.07,1],[10.89,-14.45,2],[41.91,-2.55,0],[11.1,-17.23,2],[-38.88,-1.82,1],[48.64,4.61,0],[46.74,23.24,5],[37.48,-3.15,0],[36.9,-2.09,0],[47.81,20.51,5],[-41.67,-0.17,1],[43.58,33.03,4],[45.76,18.6,5],[48.27,32.05,4],[48.89,-5.33,0],[49.45,19.32,5],[11.16,-21.43,2],[-49.28,-0.65,1],[47.11,6.5,0],[48.62,33.09,4],[48.52,-6.76,0],[16.7,-22.59,2],[-38.52,26.31,3],[-43.14,34.77,3],[44.33,24.03,5],[-38.57,-9.62,1],[-50.99,-5.09,1],[-38.28,-2.29,1],[15.66,-12.76,2],[51.5,23.91,5],[-38.28,30.82,3],[-40.44,-6.88,1],[44.99,-2.76,0],[-41.1,0.58,1],[42.06,2.0,0],[-51.19,-1.67,1],[51.76,24.15,5],[-37.55,38.27,3],[48.25,28.04,4],[-50.35,-3.85,1],[10.18,-20.53,2],[18.87,-18.36,2],[-43.8,-1.72,1],[16.98,-11.55,2],[-36.35,-10.19,1],[-49.3,-6.42,1],[-50.36,-0.7,1],[13.45,-12.4,2],[47.38,12.71,6],[40.74,2.28,0],[41.86,2.9,0],[13.79,-18.2,2],[49.66,24.66,5],[-37.0,-8.95,1],[48.91,28.06,4],[-43.59,-3.91,1],[-47.61,-2.8,1],[42.38,-1.47,0],[50.4,26.27,5],[11.7,-16.12,2],[-44.11,33.02,3],[-42.75,32.06,3],[46.33,-1.99,0],[47.38,-6.92,0],[48.34,-6.02,0],[50.85,23.46,5],[-41.79,1.27,1],[40.97,1.57,0],[16.48,-23.35,2],[44.62,-0.71,0],[-50.39,-6.77,1],[48.06,23.68,5],[18.86,-16.05,2],[-41.02,32.27,3],[-43.23,32.35,3],[46.24,22.2,5],[49.65,1.54,0],[36.55,-2.4,0],[45.45,2.02,0],[49.31,-6.46,0],[46.87,6.28,0],[13.04,-21.95,2],[42.56,31.26,4],[49.34,33.08,4],[-37.81,-7.16,1],[-42.94,-1.47,1],[15.8,-15.01,2],[-43.03,-5.89,1],[11.04,-12.42,2],[-36.61,37.0,3],[-39.46,37.82,3],[45.83,29.56,4],[19.48,-14.26,2],[39.05,-4.04,0],[-44.24,1.1,1],[43.63,30.74,4],[18.16,-16.03,2],[48.44,5.88,0],[-45.17,31.58,3],[-38.41,38.12,3],[48.96,0.63,0],[-39.72,-7.0,1],[17.73,-22.78,2],[49.75,30.02,4],[42.32,-3.36,0],[-36.78,32.24,3],[-42.38,30.8,3],[-52.0,-1.72,1],[19.31,-23.32,2],[-44.43,-3.59,1],[47.59,-0.49,0],[18.43,-19.33,2],[-36.78,31.59,3],[46.46,30.79,4],[-40.52,31.79,3],[-36.62,-6.99,1],[18.19,-12.76,2],[-46.45,-6.09,1],[44.27,4.13,0],[47.61,4.41,0],[16.11,-21.82,2],[15.04,-19.32,2],[39.46,-4.49,0],[46.46,2.13,0],[45.9,31.22,4],[37.17,-1.76,0],[-45.71,31.39,3],[-44.27,36.44,3],[43.33,28.22,4],[44.6,-2.3,0],[-38.42,39.46,3],[-42.71,37.15,3],[17.54,-22.05,2],[9.85,-16.08,2],[-35.24,-7.94,1],[49.01,-1.01,0],[38.32,-4.99,0],[-44.93,29.69,3],[-37.61,35.54,3],[45.12,4.65,0],[45.17,32.22,4],[-39.82,28.84,3],[-41.91,30.38,3],[45.28,-6.47,0],[47.35,16.48,5],[19.26,-23.46,2],[-38.81,38.95,3],[-47.91,-7.96,1],[47.74,33.66,4],[8.61,-19.73,2],[-43.9,36.63,3],[18.43,-18.25,2],[-38.26,29.42,3],[-37.11,34.26,3]],"sources":[["EnergyPlus: Creating a New-Generation Building Energy Simulation Program","Crawley",2001,"Energy and Buildings",4,[0,3,6,16,20,22,25,34,36,41,59,78,81,82,89,97,115,126,130,134,154,158,159,170,171,183,187,189]],["Local Climate Zones for Urban Temperature Studies","Stewart",2012,"Bulletin of the American Meteorological Society",4,[0,2,3,6,13,16,22,24,25,34,36,39,54,59,66,78,79,81,85,89,97,106,108,109,110,119,126,134,140,143,149,154,158,159,171,172,183,189,190]],["Long Short-Term Memory","Hochreiter",1997,"Neural Computation",4,[0,2,3,6,25,34,39,41,59,66,81,85,89,97,106,110,130,140,149,158,159,170,171,183,187,189]],["The ERA5 Global Reanalysis","Hersbach",2020,"Quarterly Journal of the Royal Meteorological Society",4,[0,2,6,22,34,39,41,54,59,66,78,79,82,85,97,106,110,124,126,130,134,146,149,154,158,159,170,171,183,187]],["The Energetic Basis of the Urban Heat Island","Oke",1982,"Quarterly Journal of the Royal Meteorological Society",4,[0,1,2,6,13,16,22,25,34,36,39,41,54,66,78,79,81,85,106,124,126,130,146,149,154,158,159,170,171,187,189]],["U-Net: Convolutional Networks for Biomedical Image Segmentation","Ronneberger",2015,"MICCAI",4,[0,1,2,10,13,16,20,22,25,31,34,39,41,59,66,78,85,97,106,110,119,124,126,130,140,149,154,158,159,170,171,183,187]],["Attention Is All You Need","Vaswani",2017,"NeurIPS",4,[0,2,3,10,13,24,27,31,32,37,44,45,46,48,54,58,65,67,68,72,75,87,91,92,99,109,113,117,123,130,132,135,136,148,150,151,160,162,163,173,175,180,189]],["UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction","Mcinnes",2018,"arXiv",4,[0,6,7,12,16,21,23,25,33,37,39,43,46,51,52,53,71,73,78,84,88,96,100,110,119,124,125,132,137,143,153,154,161,162,166,176,178,181,182,187,188,191]],["Denoising Diffusion Probabilistic Models","Ho",2020,"NeurIPS",4,[1,4,24,40,43,47,50,56,72,87,88,95,99,102,107,114,115,117,118,131,142,157,160,162,163,173,174,181]],["Adding Conditional Control to Text-to-Image Diffusion Models","Zhang",2023,"ICCV",4,[1,5,20,24,36,43,45,52,58,70,86,87,89,92,95,101,102,105,114,115,140,142,156,157,167,173,181,182]],["High-Resolution Image Synthesis with Latent Diffusion Models","Rombach",2022,"CVPR",4,[1,4,5,21,32,40,52,53,56,72,100,102,107,114,117,127,131,135,138,148,157,160,163,167,173,177,181]],["House-GAN: Relational Generative Adversarial Networks for Graph-Constrained House Layout Generation","Nauata",2020,"ECCV",4,[1,4,9,20,21,24,39,45,46,52,58,92,102,107,114,116,117,118,131,135,138,142,148,160,163,167,181,186]],["Adam: A Method for Stochastic Optimization","Kingma",2015,"ICLR",4,[1,5,11,13,25,28,29,33,40,41,45,50,61,62,64,66,71,76,77,82,84,95,98,101,105,106,108,111,114,115,119,121,126,127,128,130,131,133,139,142,143,144,146,149,155,156,157,159,160,167,168,169,170,177,179,181,184]],["Temporal Fusion Transformers for Interpretable Multi-Horizon Time Series Forecasting","Lim",2021,"International Journal of Forecasting",4,[1,6,13,16,20,22,24,25,34,36,41,78,79,81,82,85,91,106,110,115,119,126,130,140,146,149,154,171,172,175,187,189]],["Physics-Informed Neural Networks: A Deep Learning Framework for Solving Forward and Inverse Problems Involving Nonlinear Partial Differential Equations","Raissi",2019,"Journal of Computational Physics",4,[2,3,6,13,16,20,22,24,25,36,39,41,54,59,66,78,79,85,89,97,106,108,110,115,119,124,126,130,134,145,146,149,154,158,159,165,189]],["Scikit-learn: Machine Learning in Python","Pedregosa",2011,"JMLR",4,[2,14,15,19,26,27,30,34,35,36,38,47,49,55,57,59,61,65,70,72,79,80,82,83,85,86,89,92,98,100,103,104,110,112,124,129,133,141,145,146,147,152,153,156,157,167,173,179,182,183,185,186,190,191]],["Deep Residual Learning for Image Recognition","He",2016,"CVPR",4,[3,4,5,7,8,17,22,23,30,36,38,40,44,47,49,54,56,58,60,63,66,69,90,93,95,97,101,107,108,117,118,125,134,138,140,155,158,163,164,166,172,174,175,180,183,189,190]],["Image-to-Image Translation with Conditional Adversarial Networks","Isola",2017,"CVPR",4,[4,32,39,43,45,53,58,70,95,100,101,105,107,114,115,116,117,126,135,138,148,154,156,174,177,186]],["A Pattern Language","Alexander",1977,"Oxford University Press",4,[4,21,24,46,50,52,56,72,87,88,89,95,100,101,102,107,116,117,157,161,173,174,177,181]],["NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis","Mildenhall",2020,"ECCV",4,[4,5,21,50,52,57,58,70,72,87,88,100,101,102,105,114,116,117,118,142,160,163,167,173,182]],["PyTorch: An Imperative Style, High-Performance Deep Learning Library","Paszke",2019,"NeurIPS",4,[4,9,10,16,17,18,20,21,22,42,60,62,74,76,78,79,81,83,91,94,102,107,112,115,116,120,122,123,127,129,131,135,140,164,165,171,178]],["Data-Driven Interior Plan Generation for Residential Buildings","Wu",2019,"ACM TOG",4,[5,40,43,47,56,86,87,92,95,100,101,105,107,115,127,130,135,142,148,156,157,160,161,163,167,174,177]],["Generative Adversarial Nets","Goodfellow",2014,"NeurIPS",4,[5,21,32,45,46,52,56,58,70,72,87,88,89,101,102,106,107,112,115,126,131,135,142,156,157,160,161,177,181]],["Graph2Plan: Learning Floorplan Generation from Layout Graphs","Hu",2020,"ACM TOG",4,[5,21,27,32,39,45,70,72,77,86,88,95,100,101,115,116,118,131,138,160,181,186]],["Proximal Policy Optimization Algorithms","Schulman",2017,"arXiv",4,[7,8,11,17,44,49,50,51,53,62,67,74,90,96,103,109,113,120,121,129,133,141,151,162,166,178,182,186]],["PointNet: Deep Learning on Point Sets for 3D Classification and Segmentation","Qi",2017,"CVPR",4,[7,15,17,33,44,47,50,51,62,67,76,86,90,92,96,103,109,113,133,138,141,151,160,178,179,182]],["Mask R-CNN","He",2017,"ICCV",4,[7,8,15,33,47,50,51,57,62,67,74,76,86,96,108,109,113,120,121,129,151,160,162,166,178,182,186]],["Human-Level Control through Deep Reinforcement Learning","Mnih",2015,"Nature",4,[7,11,15,16,17,33,49,51,62,67,74,86,90,92,103,109,113,120,129,133,151,162,166,168,178,182,186]],["PointNet++: Deep Hierarchical Feature Learning on Point Sets in a Metric Space","Qi",2017,"NeurIPS",4,[7,8,15,17,33,44,49,51,53,57,67,74,76,86,90,103,113,120,121,129,133,141,151,162,166,178,182,186]],["You Only Look Once: Unified, Real-Time Object Detection","Redmon",2016,"CVPR",4,[8,11,15,17,33,51,53,57,62,67,74,76,86,92,96,109,129,133,162,166]],["Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor","Haarnoja",2018,"ICML",4,[8,33,44,47,49,50,53,57,71,74,76,86,90,92,96,109,113,120,121,133,141,151,162,166,178,182,186]],["Digital Materiality in Architecture","Gramazio",2008,"Lars Müller Publishers",4,[8,11,33,44,47,49,50,51,57,65,67,74,76,86,109,113,120,129,132,133,141,166,178,182,186]],["Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks","Lewis",2020,"NeurIPS",4,[9,10,33,61,68,98,112,127,136,143,144,145,164,169,180,188,191]],["Language Models are Few-Shot Learners","Brown",2020,"NeurIPS",4,[9,10,29,60,61,68,75,98,111,112,126,127,128,136,137,143,145,150,152,164,165,168,176,184,188,190,191]],["Learning Transferable Visual Models From Natural Language Supervision","Radford",2021,"ICML",4,[9,61,75,99,111,112,127,136,145,150,152,164,168,169,175,179,180,184,188,190,191]],["Knowledge Graphs","Hogan",2021,"ACM Computing Surveys",4,[9,10,28,29,35,60,68,98,99,101,111,112,128,137,143,144,145,150,152,165,169,175,176,180,188,191]],["BIM Handbook","Eastman",2008,"Wiley",4,[9,10,28,29,61,68,75,98,99,111,127,128,136,141,145,150,164,165,168,179,184,190]],["ReAct: Synergizing Reasoning and Acting in Language Models","Yao",2023,"ICLR",4,[10,58,60,61,68,73,75,98,111,112,136,137,144,145,150,152,164,165,168,169,175,176,179,184,191]],["Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks","Reimers",2019,"EMNLP",4,[10,28,29,60,61,64,68,98,99,112,127,128,131,143,144,145,150,164,169,176,179,180,188]],["BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding","Devlin",2019,"NAACL",4,[10,28,60,61,64,68,75,98,99,121,128,136,137,144,150,152,164,169,175,176,179,188,190,191]],["Inductive Representation Learning on Large Graphs","Hamilton",2017,"NeurIPS",4,[12,14,19,30,35,48,63,64,65,71,73,77,83,84,91,94,104,108,122,132,139,147,153,155]],["The Death and Life of Great American Cities","Jacobs",1961,"Random House",4,[12,14,18,23,26,27,30,31,34,35,37,48,55,63,64,65,69,71,77,83,84,91,93,104,115,122,123,125,139,185]],["Graph Attention Networks","Veličković",2018,"ICLR",4,[12,14,19,23,30,31,42,55,64,65,71,73,80,82,83,93,94,108,118,122,125,132,139,147,185]],["The Social Logic of Space","Hillier",1984,"Cambridge University Press",4,[12,14,18,19,26,27,30,31,35,42,45,48,53,60,63,64,65,67,69,73,82,93,94,108,111,122,123,125,132,147,155,172,185]],["Introducing the 15-Minute City: Sustainability, Resilience and Place Identity in Future Post-Pandemic Cities","Moreno",2021,"Smart Cities",4,[12,13,14,23,26,35,42,48,55,60,63,65,69,71,73,77,78,83,93,123,139,147,153,155,172]],["Semi-Supervised Classification with Graph Convolutional Networks","Kipf",2017,"ICLR",4,[14,15,18,19,23,26,30,31,34,35,37,38,42,48,55,63,65,69,73,84,93,94,123,125,145,147,153]],["OSMnx: New Methods for Acquiring, Constructing, Analyzing, and Visualizing Complex Street Networks","Boeing",2017,"Computers, Environment and Urban Systems",4,[14,23,27,30,37,38,42,48,55,63,64,65,69,71,73,79,80,82,83,84,91,108,122,123,125,132,145,153,172]],["Random Forests","Breiman",2001,"Machine Learning",4,[18,19,23,26,27,30,35,38,42,48,55,63,69,71,73,77,80,82,91,92,93,104,108,122,123,132,139,155,172,185]],["3D Gaussian Splatting for Real-Time Radiance Field Rendering","Kerbl",2023,"ACM TOG",4,[21,24,32,40,46,53,58,87,88,95,100,114,117,118,129,142,156,157,161,163,174]],["XGBoost: A Scalable Tree Boosting System","Chen",2016,"KDD",4,[26,35,37,38,42,55,60,64,69,71,77,80,83,84,91,93,104,122,123,147,150,164,185]]],"raw_refs":1467,"mx":{"rows":["3D vision","Classical ML","Computer vision","Control & robotics","Generative models","Graph learning","Knowledge representation","Language models","Scientific ML","Sequence models","Simulation"],"cols":["Air Quality","Building Energy","Urban Climate & Heat","Construction Monitoring","Bio-based & Reclaimed Materials","Robotic Fabrication","Facade Design","Floor Plan Layout","Massing & Form-Finding","Codes & Compliance","Design Knowledge & Precedents","AI in Design Education","Public Space & Streetscape","Urban Mobility","Urban Morphology"],"groups":["Climate & Energy","Climate & Energy","Climate & Energy","Fabrication & Materials","Fabrication & Materials","Fabrication & Materials","Generative Design","Generative Design","Generative Design","Knowledge & Tools","Knowledge & Tools","Knowledge & Tools","Urban Analytics","Urban Analytics","Urban Analytics"],"obs":[[0,2,0,2,4,7,1,3,3,0,0,0,0,0,0],[1,4,9,0,0,0,0,0,0,0,0,1,7,8,7],[2,4,7,3,4,1,0,0,0,0,0,0,3,4,3],[0,0,0,1,9,11,0,1,1,0,0,0,0,0,0],[0,3,0,1,0,4,10,17,13,1,0,0,0,0,0],[0,1,0,0,0,0,0,0,0,1,0,0,2,9,7],[0,0,0,0,0,0,0,0,0,3,4,0,0,0,1],[0,0,0,0,0,0,0,2,2,11,10,6,0,0,0],[2,7,5,0,0,0,0,1,2,0,0,0,0,1,1],[2,6,6,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,2]],"exp":[[0.6,2.32,2.32,0.6,1.46,1.98,0.95,2.06,1.8,1.38,1.2,0.6,1.03,1.89,1.8],[1.01,3.9,3.9,1.01,2.46,3.32,1.59,3.47,3.04,2.31,2.02,1.01,1.73,3.18,3.04],[0.85,3.27,3.27,0.85,2.06,2.79,1.33,2.91,2.54,1.94,1.7,0.85,1.45,2.66,2.54],[0.63,2.43,2.43,0.63,1.53,2.07,0.99,2.16,1.89,1.44,1.26,0.63,1.08,1.98,1.89],[1.34,5.17,5.17,1.34,3.25,4.4,2.11,4.59,4.02,3.06,2.68,1.34,2.3,4.21,4.02],[0.55,2.11,2.11,0.55,1.33,1.8,0.86,1.88,1.64,1.25,1.09,0.55,0.94,1.72,1.64],[0.22,0.84,0.84,0.22,0.53,0.72,0.34,0.75,0.66,0.5,0.44,0.22,0.38,0.69,0.66],[0.85,3.27,3.27,0.85,2.06,2.79,1.33,2.91,2.54,1.94,1.7,0.85,1.45,2.66,2.54],[0.52,2.0,2.0,0.52,1.26,1.71,0.82,1.78,1.56,1.19,1.04,0.52,0.89,1.63,1.56],[0.38,1.48,1.48,0.38,0.93,1.26,0.6,1.31,1.15,0.88,0.77,0.38,0.66,1.2,1.15],[0.05,0.21,0.21,0.05,0.13,0.18,0.09,0.19,0.16,0.12,0.11,0.05,0.09,0.17,0.16]],"flag":["Generative models × Urban Climate & Heat","Generative models × Urban Mobility","Generative models × Urban Morphology","Classical ML × Floor Plan Layout","Classical ML × Robotic Fabrication","Language models × Urban Climate & Heat","Language models × Building Energy","Generative models × Bio-based & Reclaimed Materials"]}}</script>
+<script>
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+  // ---------- navigation ----------
+  const slides = $$('.slide');
+  let cur = 0, wheelAt = 0;
+  function go(i) {
+    cur = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach((s, k) => s.classList.toggle('active', k === cur));
+    const pad = (n) => String(n).padStart(2, '0');
+    $('#count').textContent = `${pad(cur + 1)} / ${pad(slides.length)}`;
+    $('#bar').style.width = `${((cur + 1) / slides.length) * 100}%`;
+    $('#prev').disabled = cur === 0; $('#next').disabled = cur === slides.length - 1;
+    $('#folio-r').textContent = `${pad(cur + 1)} / ${slides[cur].dataset.name || ''}`;
+    live.show(slides[cur]);
+    if (slides[cur].id === 's-cite') requestAnimationFrame(() => net.show());
+    if (slides[cur].id === 's-video' && !live.ok) loadVideo(); else $('#tv').pause();
+    try { history.replaceState(null, '', '#' + (cur + 1)); } catch {}
+  }
+  $('#prev').onclick = () => go(cur - 1);
+  $('#next').onclick = () => go(cur + 1);
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT') return;
+    if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); go(cur + 1); }
+    if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); go(cur - 1); }
+    if (e.key === 'Home') go(0);
+    if (e.key === 'End') go(slides.length - 1);
+  });
+  document.addEventListener('wheel', (e) => {
+    if (Date.now() - wheelAt < 700 || Math.abs(e.deltaY) < 30) return;
+    wheelAt = Date.now(); go(cur + (e.deltaY > 0 ? 1 : -1));
+  }, { passive: true });
+
+  // ---------- fingerprint ----------
+  const fps = [
+    { c: 'var(--b-cli)', v: [15, 92, 74, 10], x: 30, y: 30 },
+    { c: 'var(--b-cli)', v: [18, 88, 66, 14], x: 40, y: 40 },
+    { c: 'var(--b-rob)', v: [92, 12, 16, 86], x: 72, y: 72 },
+  ];
+  const fpL = ['robots', 'heat', 'city', 'wood'];
+  function pickFP(i) {
+    $$('#fp-picks .pick').forEach((b) => b.classList.toggle('on', +b.dataset.i === i));
+    const f = fps[i];
+    $('#fp-bars').innerHTML = fpL.map((l, k) => `<div class="row"><div class="lbl"><span>${l}</span><span>${f.v[k]}%</span></div><div class="track"><div class="fill" style="width:${f.v[k]}%;background:${f.c}"></div></div></div>`).join('');
+    const d = $('#fp-dot'); d.style.left = f.x + '%'; d.style.top = f.y + '%'; d.style.background = f.c;
+  }
+  $('#fp-picks').addEventListener('click', (e) => { const b = e.target.closest('.pick'); if (b) pickFP(+b.dataset.i); });
+  pickFP(0);
+
+  // first-map scatter (deterministic)
+  (() => {
+    let s = 7; const r = () => ((s = (s * 16807) % 2147483647) / 2147483647);
+    $('#scatter').innerHTML = Array.from({ length: 140 }, () => `<circle cx="${(10 + r() * 140).toFixed(1)}" cy="${(10 + r() * 100).toFixed(1)}" r="1.4"/>`).join('');
+  })();
+
+  // ---------- cosmic web legend ----------
+  const caps = [
+    ['Galaxy = one project', 'Each cluster of stars is one project. Older cohorts are warm, newer cohorts are blue. A better repository makes a larger galaxy.'],
+    ['Filament = a natural path', 'A slime-mould simulation grows the paths between nearby projects. The dust drifts along them. Bright knots are where many projects meet.'],
+    ['Bridge = a tested link', 'A chain of projects that connects two branches. It is tested 40 times. 100% means it is stable.'],
+    ['Void = empty space', 'An area with no projects yet, confirmed in the full 64-dimension embedding, not only on the flat map. The yellow rings mark them.'],
+  ];
+  // A tab shows only its layer and dims the rest. The same tab again shows all layers.
+  // Live: the Atlas dims the layers. From a file: a still image for each tab.
+  let focusK = -1;
+  function pickMarker(k) {
+    focusK = k;
+    $$('#legend-tabs button').forEach((m) => m.classList.toggle('on', +m.dataset.k === k));
+    $('#cap').innerHTML = k < 0
+      ? '<b>Four parts of the map</b><span>Select a part to show it alone.</span>'
+      : `<b>${caps[k][0]}</b><span>${caps[k][1]}</span>`;
+    live.focus(k);
+    $('#s-map .stage img').src = k < 0 ? 'assets/map2d_all.jpg' : `assets/map2d_focus${k}.jpg`;
+  }
+  $('#legend-tabs').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) pickMarker(+b.dataset.k === focusK ? -1 : +b.dataset.k); });
+
+  // ---------- live Atlas ----------
+  // One frame for slides 8 and 10. It loads two slides early, so the slime-mould web is ready.
+  // Over http the deck shows the real, animated Atlas. From a file (no modules) it uses the still and the video.
+  const live = {
+    ok: location.protocol.startsWith('http'), frame: $('#live'), loaded: false, ready: false, mode: 0, want: 0,
+    load() {
+      if (this.loaded || !this.ok) return;
+      this.loaded = true;
+      this.frame.src = '../index.html?embed&mode=0&pad=0.34,0.1,0.03,0.17';
+    },
+    send(v) {
+      this.want = v;
+      if (this.ready) this.frame.contentWindow.postMessage({ atlas: 'mode', v }, '*');
+    },
+    fk: -1,
+    focus(k) {
+      this.fk = k;
+      if (this.ready) this.frame.contentWindow.postMessage({ atlas: 'focus', k }, '*');
+    },
+    show(slide) {
+      const idx = slides.indexOf(slide), first = slides.findIndex((x) => x.dataset.live !== undefined);
+      if (idx >= first - 2) this.load();
+      const on = this.ok && slide.dataset.live !== undefined;
+      document.body.classList.toggle('live-on', on);
+      if (on && slide.id === 's-map') { this.send(0); setMorphUI(0); }
+      if (slide.id !== 's-map' && focusK >= 0) pickMarker(-1);
+    },
+  };
+  pickMarker(-1);
+  window.addEventListener('message', (e) => {
+    const d = e.data || {};
+    if (d.atlas === 'ready') { live.ready = true; live.send(live.want); live.focus(live.fk); }
+    if (d.atlas === 'morph') setMorphUI(d.v);
+    if (d.atlas === 'key') document.dispatchEvent(new KeyboardEvent('keydown', { key: d.key }));
+  });
+  function setMorphUI(v) {
+    $('#v-fill').style.width = (v * 100).toFixed(1) + '%';
+    $('#v-pct').textContent = Math.round(v * 100) + '%';
+    $('#v-2d').classList.toggle('on', v < 0.5); $('#v-3d').classList.toggle('on', v >= 0.5);
+  }
+
+  // ---------- transition video ----------
+  // Python's http.server has no byte ranges, so a plain src cannot seek; a blob can.
+  const tv = $('#tv'), vs = $('#v-slider'), vp = $('#v-pct');
+  let vLoaded = false, vUrl = '', vRetry = 0;
+  function loadVideo() {
+    if (vLoaded) return; vLoaded = true;
+    const src = 'assets/transition.webm';
+    if (location.protocol === 'file:') { tv.src = vUrl = src; return; }
+    fetch(src).then((r) => r.blob()).then((b) => { tv.src = vUrl = URL.createObjectURL(b); }).catch(() => { tv.src = vUrl = src; });
+  }
+  // a rare decoder error: reload the same source and return to the same moment
+  tv.addEventListener('error', () => {
+    if (!vUrl || vRetry++ > 3) return;
+    const t = tv.currentTime || 0;
+    tv.src = vUrl; tv.load();
+    tv.addEventListener('loadedmetadata', () => { tv.currentTime = t; }, { once: true });
+  });
+  const showPos = () => {
+    if (!tv.duration) return;
+    const k = tv.currentTime / tv.duration;
+    vs.value = Math.round(k * 1000); vp.textContent = Math.round(k * 100) + '%';
+  };
+  tv.addEventListener('timeupdate', showPos);
+  tv.addEventListener('ended', () => $('#v-play').textContent = 'Replay');
+  (function tick() { if (!tv.paused) showPos(); requestAnimationFrame(tick); })();
+  $('#v-play').onclick = () => {
+    if (tv.paused) { if (tv.ended || tv.currentTime >= tv.duration - 0.05) tv.currentTime = 0; tv.play(); $('#v-play').textContent = 'Pause'; }
+    else { tv.pause(); $('#v-play').textContent = 'Play'; }
+  };
+  const seek = (k) => { tv.pause(); $('#v-play').textContent = 'Play'; if (tv.duration) tv.currentTime = k * tv.duration; };
+  // From a file: "3D basilica" plays the recorded change from the start; "2D map" goes back to the start.
+  const playTo3D = () => {
+    loadVideo();
+    const go3 = () => { tv.currentTime = 0; tv.play().catch(() => {}); $('#v-play').textContent = 'Pause'; };
+    if (tv.readyState >= 1) go3(); else tv.addEventListener('loadedmetadata', go3, { once: true });
+    $('#v-2d').classList.remove('on'); $('#v-3d').classList.add('on');
+  };
+  const backTo2D = () => { seek(0); $('#v-3d').classList.remove('on'); $('#v-2d').classList.add('on'); };
+  $('#v-2d').onclick = () => (live.ok ? live.send(0) : backTo2D());
+  $('#v-3d').onclick = () => (live.ok ? live.send(1) : playTo3D());
+  vs.addEventListener('input', () => { seek(vs.value / 1000); vp.textContent = Math.round(vs.value / 10) + '%'; });
+
+  // ---------- method x topic (real data) ----------
+  const AD = JSON.parse($('#atlas-data').textContent);
+  (function matrix() {
+    const X = AD.mx, max = Math.max(...X.obs.flat());
+    const rowT = X.obs.map((r) => r.reduce((a, b) => a + b, 0));
+    const colT = X.cols.map((_, j) => X.obs.reduce((a, r) => a + r[j], 0));
+    const flagged = new Set(X.flag);
+    const groups = [];
+    X.groups.forEach((g) => { if (!groups.length || groups.at(-1).n !== g) groups.push({ n: g, k: 0 }); groups.at(-1).k++; });
+    let h = `<tr><th></th>${groups.map((g) => `<th class="grp" colspan="${g.k}">${g.n}</th>`).join('')}</tr>`;
+    h += `<tr><th></th>${X.cols.map((c, j) => `<th class="col" data-j="${j}"><span>${c}</span></th>`).join('')}</tr>`;
+    X.rows.forEach((r, i) => {
+      h += `<tr><th class="row" data-i="${i}">${r}</th>`;
+      X.cols.forEach((c, j) => {
+        const o = X.obs[i][j], f = flagged.has(`${r} × ${c}`);
+        h += `<td class="${f ? 'flag' : o ? '' : 'zero'}" style="--a:${(0.1 + 0.8 * o / max).toFixed(2)}" data-i="${i}" data-j="${j}">${o || (f ? '0' : '')}</td>`;
+      });
+      h += '</tr>';
+    });
+    $('#mx').innerHTML = h;
+    function pick(i, j) {
+      $$('#mx td').forEach((td) => {
+        const a = +td.dataset.i === i, b = +td.dataset.j === j;
+        td.classList.toggle('sel', a && b); td.classList.toggle('hl-r', a); td.classList.toggle('hl-c', b);
+      });
+      $$('#mx th.row').forEach((t) => t.classList.toggle('on', +t.dataset.i === i));
+      $$('#mx th.col').forEach((t) => t.classList.toggle('on', +t.dataset.j === j));
+      const o = X.obs[i][j], e = X.exp[i][j], f = flagged.has(`${X.rows[i]} × ${X.cols[j]}`);
+      const verdict = f ? 'Untried pair. Both sides are common, so this is a possible thesis topic.'
+        : o === 0 ? 'Quiet cell. Neither side is common enough for an empty cell to matter.'
+        : o >= 2 * e ? 'A strong cluster. More projects than chance would give.'
+        : 'Normal coverage.';
+      $('#mxinfo').innerHTML = `<div class="label">Selected pair</div><h3>${X.rows[i]}<br>× ${X.cols[j]}</h3>
+        <div class="nums"><div class="obs"><b>${o}</b><span>projects found</span></div><div><b>${e.toFixed(1)}</b><span>expected by chance</span></div></div>
+        <p>${X.rows[i]} is used in ${rowT[i]} projects. ${X.cols[j]} is studied in ${colT[j]}.</p><p class="verdict">${verdict}</p>`;
+    }
+    $('#mx').addEventListener('click', (ev) => { const td = ev.target.closest('td'); if (td) pick(+td.dataset.i, +td.dataset.j); });
+    $('#mx').addEventListener('mouseover', (ev) => { const td = ev.target.closest('td'); if (td) pick(+td.dataset.i, +td.dataset.j); });
+    pick(X.rows.indexOf('Generative models'), X.cols.indexOf('Urban Climate & Heat'));
+  })();
+
+  // ---------- citation network (real data) ----------
+  // Projects sit at their place on the 2D map. Each paper sits at the centre of the projects that cite it,
+  // so papers that many branches share end up between the branches.
+  const net = (function () {
+    const cv = $('#net'), ctx = cv.getContext('2d');
+    const B = AD.branches, Pj = AD.projects;
+    const S = AD.sources.map(([title, author, year, venue, variants, by], k) => ({ k, title, author, year, venue, variants, by, br: new Set(by.map((i) => Pj[i][2])) }));
+    const top = [...S].sort((a, b) => b.by.length - a.by.length);
+    let W = 0, H = 0, sel = top[0], t0 = 0, anim = 0, P = [], Q = [];
+    $('#net-stat').innerHTML = `<b>${AD.raw_refs.toLocaleString('en')} <em>&rarr;</em> ${S.length}</b><span>raw references merged into clean sources</span>`;
+    $('#net-list').innerHTML = top.slice(0, 6).map((s) => `<button data-k="${s.k}">${s.title.length > 46 ? s.title.slice(0, 44) + '…' : s.title}<i>${s.by.length}</i></button>`).join('');
+    $('#net-legend').innerHTML = B.map(([n, c]) => `<span><i style="background:${c}"></i>${n}</span>`).join('');
+    function layout() {
+      const r = cv.getBoundingClientRect(), d = Math.min(2, devicePixelRatio || 1);
+      W = r.width; H = r.height; cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0);
+      const xs = Pj.map((p) => p[0]), ys = Pj.map((p) => p[1]);
+      const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+      const pad = 30, sc = Math.min((W - 2 * pad) / (x1 - x0), (H - 2 * pad - 40) / (y1 - y0));
+      const ox = (W - sc * (x1 - x0)) / 2, oy = (H - 40 - sc * (y1 - y0)) / 2;
+      P = Pj.map(([x, y]) => [ox + (x - x0) * sc, oy + (y1 - y) * sc]);
+      Q = S.map((s) => { let x = 0, y = 0; s.by.forEach((i) => { x += P[i][0]; y += P[i][1]; }); return [x / s.by.length, y / s.by.length]; });
+      for (let it = 0; it < 60; it++)            // push overlapping papers apart
+        for (let a = 0; a < Q.length; a++) for (let b = a + 1; b < Q.length; b++) {
+          const dx = Q[b][0] - Q[a][0], dy = Q[b][1] - Q[a][1], dd = Math.hypot(dx, dy) || 0.01, min = 18;
+          if (dd < min) { const k = (min - dd) / dd / 2; Q[a][0] -= dx * k; Q[a][1] -= dy * k; Q[b][0] += dx * k; Q[b][1] += dy * k; }
+        }
+    }
+    const size = (s) => 3 + Math.sqrt(s.by.length) * 1.5;
+    function draw() {
+      const k = Math.min(1, (performance.now() - t0) / 1400), e = 1 - Math.pow(1 - k, 3);
+      ctx.clearRect(0, 0, W, H);
+      ctx.lineWidth = 0.6;
+      S.forEach((s) => {
+        const on = s === sel, q = Q[s.k];
+        s.by.forEach((i) => {
+          ctx.strokeStyle = B[Pj[i][2]][1]; ctx.globalAlpha = on ? 0.7 : 0.05;
+          ctx.beginPath(); ctx.moveTo(q[0], q[1]); ctx.lineTo(q[0] + (P[i][0] - q[0]) * e, q[1] + (P[i][1] - q[1]) * e); ctx.stroke();
+        });
+      });
+      const hit = new Set(sel ? sel.by : []);
+      P.forEach((p, i) => { ctx.globalAlpha = !sel || hit.has(i) ? 1 : 0.35; ctx.fillStyle = B[Pj[i][2]][1]; ctx.beginPath(); ctx.arc(p[0], p[1], hit.has(i) ? 3.2 : 2.4, 0, 7); ctx.fill(); });
+      S.forEach((s) => {
+        const q = Q[s.k], z = size(s), on = s === sel;
+        ctx.globalAlpha = on ? 1 : 0.75; ctx.fillStyle = on ? '#fff' : '#d9dae0';
+        ctx.fillRect(q[0] - z / 2, q[1] - z / 2, z, z);
+        if (on) { ctx.strokeStyle = '#8a7cff'; ctx.lineWidth = 2; ctx.strokeRect(q[0] - z / 2 - 4, q[1] - z / 2 - 4, z + 8, z + 8); ctx.lineWidth = 0.6; }
+      });
+      ctx.globalAlpha = 1;
+      if (k < 1) anim = requestAnimationFrame(draw);
+    }
+    function select(s, replay) {
+      sel = s;
+      $$('#net-list button').forEach((b) => b.classList.toggle('on', +b.dataset.k === s.k));
+      $('#net-info').innerHTML = `<b>${s.title}</b>${s.author}, ${s.year}${s.venue ? ' · ' + s.venue : ''}<br>Cited by ${s.by.length} projects in ${s.br.size} of ${B.length} branches.<br>Students wrote it in ${s.variants} different formats.`;
+      if (replay) t0 = performance.now() - 900;
+      cancelAnimationFrame(anim); draw();
+    }
+    $('#net-list').addEventListener('click', (ev) => { const b = ev.target.closest('button'); if (b) select(S[+b.dataset.k], true); });
+    cv.addEventListener('mousemove', (ev) => {
+      const r = cv.getBoundingClientRect(), x = ev.clientX - r.left, y = ev.clientY - r.top;
+      let best = null, bd = 16;
+      S.forEach((s) => { const d = Math.hypot(Q[s.k][0] - x, Q[s.k][1] - y); if (d < bd) { bd = d; best = s; } });
+      if (best && best !== sel) select(best, true);
+    });
+    window.addEventListener('resize', () => { if ($('#s-cite').classList.contains('active')) { layout(); draw(); } });
+    return { show() { layout(); t0 = performance.now(); select(sel, false); } };
+  })();
+
+  // ---------- stone ----------
+  const habits = [['README', 1], ['Dependencies', 1], ['Pinned versions', 0], ['Sample data', 1], ['Open license', 0], ['Run script', 1]];
+  function renderStone() {
+    const n = habits.filter((h) => h[1]).length, s = 70 + n * 16;
+    Object.assign($('#block').style, { width: s + 'px', height: s + 'px' });
+    $('#stone-note').textContent = `${n} / 6 checks · stone +${n * 8}%`;
+    $('#checks').innerHTML = habits.map((h, i) => `<button class="${h[1] ? 'on' : ''}" data-i="${i}">${h[0]}<i>${h[1] ? 'pass' : 'missing'}</i></button>`).join('');
+  }
+  $('#checks').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; const h = habits[+b.dataset.i]; h[1] = h[1] ? 0 : 1; renderStone(); });
+  renderStone();
+
+  // ---------- search ----------
+  const qd = {
+    robots: [['Vision-guided curing', 'Robotic Fabrication · 25/26', 96], ['Timber curing', 'Robotic Fabrication · 24/25', 91], ['Stereotomic toolpaths', 'Robotic Fabrication · 25/26', 88]],
+    heat: [['Albedo predictors', 'Climate & Energy · 25/26', 95], ['Cooling downscaling', 'Climate & Energy · 24/25', 89], ['Canopy twins in Milan', 'Climate & Energy · 26/27', 84]],
+    codes: [['Ontology copilots', 'Knowledge & Tools · 26/27', 97], ['Regulation assistants', 'Knowledge & Tools · 25/26', 92], ['Code critique', 'Knowledge & Tools · 26/27', 86]],
+  };
+  function runQ(k) {
+    $$('#q button').forEach((b) => b.classList.toggle('on', b.dataset.q === k));
+    $('#results').innerHTML = qd[k].map(([t, s, v]) => `<div class="res"><div><b>${t}</b><span>${s}</span></div><div class="track"><i style="width:${v}%"></i></div></div>`).join('');
+  }
+  $('#q').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) runQ(b.dataset.q); });
+  runQ('robots');
+
+  // start at the slide in the URL hash
+  go(Math.max(0, (parseInt(location.hash.slice(1), 10) || 1) - 1));
+</script>
+</body>
+</html>

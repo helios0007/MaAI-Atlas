@@ -1,0 +1,5654 @@
+{
+  "source": "parametric_gaudi_v2_detailed",
+  "point_count": 95230,
+  "floats_per_point": 13,
+  "built_points": 68828,
+  "ghost_points": 26402,
+  "branches": [
+    {
+      "id": "urban",
+      "name": "Urban Analytics & Mobility",
+      "zone": "Nativity Fa\u00e7ade & East Transept",
+      "color": "#2DD4BF",
+      "umap_center": [
+        -38.0,
+        22.0
+      ],
+      "methods": [
+        "GNN",
+        "Random Forest",
+        "XGBoost",
+        "Spatial Clustering",
+        "Agent-Based Model"
+      ],
+      "datasets": [
+        "OSM",
+        "Copernicus Urban Atlas",
+        "Mobile Telemetry",
+        "GTFS",
+        "Street View"
+      ]
+    },
+    {
+      "id": "generative",
+      "name": "Generative Design & Spatial AI",
+      "zone": "Passion Fa\u00e7ade & West Transept",
+      "color": "#FB923C",
+      "umap_center": [
+        36.0,
+        18.0
+      ],
+      "methods": [
+        "Diffusion Model",
+        "ControlNet",
+        "3D Gaussian Splatting",
+        "GAN",
+        "LLM Agent"
+      ],
+      "datasets": [
+        "Floorplan Corpus",
+        "RPLAN",
+        "Objaverse",
+        "Synthetic Rhino",
+        "Architectural Plans"
+      ]
+    },
+    {
+      "id": "climate",
+      "name": "Climate, Energy & Environment",
+      "zone": "Evangelist Towers & Crossing",
+      "color": "#34D399",
+      "umap_center": [
+        -24.0,
+        -26.0
+      ],
+      "methods": [
+        "Physics Surrogate",
+        "PINN",
+        "CNN",
+        "Time-Series Transformer",
+        "EnergyPlus + ML"
+      ],
+      "datasets": [
+        "ERA5-Land",
+        "Landsat LST",
+        "EPW Weather",
+        "Sentinel-2",
+        "Open Buildings 2.5D"
+      ]
+    },
+    {
+      "id": "fabrication",
+      "name": "Robotics, Materiality & Fabrication",
+      "zone": "Central Nave, Vaults & Tree Columns",
+      "color": "#A78BFA",
+      "umap_center": [
+        24.0,
+        -24.0
+      ],
+      "methods": [
+        "Reinforcement Learning",
+        "Computer Vision",
+        "Inverse Kinematics",
+        "PointNet++"
+      ],
+      "datasets": [
+        "Robotic Toolpaths",
+        "3D Clay Scans",
+        "Timber Scans",
+        "Depth Sensors"
+      ]
+    },
+    {
+      "id": "foundations",
+      "name": "AI Methods, Knowledge & Theory",
+      "zone": "Apse & Tower of the Virgin Mary",
+      "color": "#38BDF8",
+      "umap_center": [
+        0.0,
+        42.0
+      ],
+      "methods": [
+        "RAG",
+        "Knowledge Graph",
+        "Semantic Embeddings",
+        "Multimodal VLM",
+        "Fine-Tuning"
+      ],
+      "datasets": [
+        "IAAC Archive",
+        "OpenAlex",
+        "Building Codes",
+        "BIM / IFC Graphs"
+      ]
+    },
+    {
+      "id": "frontier",
+      "name": "Research Gaps & Emerging Frontier",
+      "zone": "Glory Fa\u00e7ade & Tower of Jesus Christ",
+      "color": "#FACC15",
+      "umap_center": [
+        2.0,
+        -4.0
+      ],
+      "methods": [
+        "Causal Inference",
+        "World Models",
+        "Embodied AI",
+        "Neuro-Symbolic"
+      ],
+      "datasets": [
+        "Post-Occupancy Sensors",
+        "Longitudinal Urban Twins",
+        "Open Embodied Logs"
+      ]
+    }
+  ],
+  "cohorts": [
+    "24/25",
+    "25/26",
+    "26/27"
+  ],
+  "projects": [
+    {
+      "id": 0,
+      "title": "Curbside Intensification",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "Random Forest",
+      "dataset": "OSM",
+      "repro_score": 2,
+      "umap": [
+        -32.82,
+        20.85
+      ],
+      "basilica": [
+        15.68,
+        -32.9,
+        -0.45
+      ],
+      "point_count": 284
+    },
+    {
+      "id": 1,
+      "title": "Walkability Surrogates",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Agent-Based Model",
+      "dataset": "Street View",
+      "repro_score": 3,
+      "umap": [
+        -39.64,
+        24.13
+      ],
+      "basilica": [
+        15.77,
+        -31.33,
+        0.06
+      ],
+      "point_count": 284
+    },
+    {
+      "id": 2,
+      "title": "15-Minute Isochrones",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "Agent-Based Model",
+      "dataset": "Mobile Telemetry",
+      "repro_score": 3,
+      "umap": [
+        -32.81,
+        19.02
+      ],
+      "basilica": [
+        16.8,
+        -29.54,
+        -0.16
+      ],
+      "point_count": 284
+    },
+    {
+      "id": 3,
+      "title": "Transit Equity Graph",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Spatial Clustering",
+      "dataset": "Mobile Telemetry",
+      "repro_score": 2,
+      "umap": [
+        -34.65,
+        16.06
+      ],
+      "basilica": [
+        17.52,
+        -28.21,
+        0.05
+      ],
+      "point_count": 284
+    },
+    {
+      "id": 4,
+      "title": "Micro-Mobility Flows",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "Spatial Clustering",
+      "dataset": "GTFS",
+      "repro_score": 3,
+      "umap": [
+        -36.24,
+        25.15
+      ],
+      "basilica": [
+        18.01,
+        -27.35,
+        0.47
+      ],
+      "point_count": 284
+    },
+    {
+      "id": 5,
+      "title": "Heat-Aware Routing",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "XGBoost",
+      "dataset": "Copernicus Urban Atlas",
+      "repro_score": 2,
+      "umap": [
+        -42.19,
+        21.57
+      ],
+      "basilica": [
+        18.19,
+        -26.79,
+        -0.35
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 6,
+      "title": "Streetscape Vitality",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "GNN",
+      "dataset": "GTFS",
+      "repro_score": 2,
+      "umap": [
+        -23.39,
+        14.2
+      ],
+      "basilica": [
+        18.45,
+        -26.37,
+        -0.14
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 7,
+      "title": "Parcel Land-Use Drift",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "Random Forest",
+      "dataset": "Street View",
+      "repro_score": 3,
+      "umap": [
+        -39.48,
+        23.46
+      ],
+      "basilica": [
+        18.35,
+        -25.93,
+        0.75
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 8,
+      "title": "Pedestrian Canopy Atlas",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "Agent-Based Model",
+      "dataset": "OSM",
+      "repro_score": 3,
+      "umap": [
+        -47.73,
+        -3.75
+      ],
+      "basilica": [
+        18.77,
+        -25.58,
+        -0.16
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 9,
+      "title": "Informal Settlement Morphometrics",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "XGBoost",
+      "dataset": "Street View",
+      "repro_score": 2,
+      "umap": [
+        -44.73,
+        27.28
+      ],
+      "basilica": [
+        18.29,
+        -25.23,
+        0.28
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 10,
+      "title": "Nighttime Urban Pulse",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "Agent-Based Model",
+      "dataset": "GTFS",
+      "repro_score": 1,
+      "umap": [
+        -36.92,
+        23.05
+      ],
+      "basilica": [
+        18.24,
+        -24.87,
+        -0.15
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 11,
+      "title": "Block Permeability",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Seminar",
+      "method": "GNN",
+      "dataset": "Copernicus Urban Atlas",
+      "repro_score": 4,
+      "umap": [
+        -45.31,
+        27.58
+      ],
+      "basilica": [
+        18.25,
+        -24.47,
+        0.37
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 12,
+      "title": "Curbside Intensification v2",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Hackathon",
+      "method": "Agent-Based Model",
+      "dataset": "Mobile Telemetry",
+      "repro_score": 3,
+      "umap": [
+        -32.24,
+        20.24
+      ],
+      "basilica": [
+        17.78,
+        -23.67,
+        -0.18
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 13,
+      "title": "Walkability Surrogates v2",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Random Forest",
+      "dataset": "Street View",
+      "repro_score": 3,
+      "umap": [
+        -33.3,
+        25.45
+      ],
+      "basilica": [
+        18.44,
+        -23.19,
+        -0.36
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 14,
+      "title": "15-Minute Isochrones v2",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Hackathon",
+      "method": "Agent-Based Model",
+      "dataset": "OSM",
+      "repro_score": 3,
+      "umap": [
+        -33.15,
+        7.14
+      ],
+      "basilica": [
+        18.4,
+        -22.78,
+        -0.12
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 15,
+      "title": "Transit Equity Graph v2",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "XGBoost",
+      "dataset": "Copernicus Urban Atlas",
+      "repro_score": 2,
+      "umap": [
+        -27.33,
+        22.53
+      ],
+      "basilica": [
+        18.05,
+        -22.26,
+        0.48
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 16,
+      "title": "Micro-Mobility Flows v2",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "Agent-Based Model",
+      "dataset": "Mobile Telemetry",
+      "repro_score": 2,
+      "umap": [
+        -38.45,
+        32.69
+      ],
+      "basilica": [
+        18.35,
+        -21.8,
+        0.15
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 17,
+      "title": "Heat-Aware Routing v2",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Hackathon",
+      "method": "Spatial Clustering",
+      "dataset": "GTFS",
+      "repro_score": 1,
+      "umap": [
+        -34.56,
+        14.36
+      ],
+      "basilica": [
+        18.45,
+        -21.24,
+        0.22
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 18,
+      "title": "Streetscape Vitality v2",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "GNN",
+      "dataset": "Copernicus Urban Atlas",
+      "repro_score": 3,
+      "umap": [
+        -32.82,
+        35.27
+      ],
+      "basilica": [
+        17.81,
+        -20.66,
+        0.24
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 19,
+      "title": "Parcel Land-Use Drift v2",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "XGBoost",
+      "dataset": "OSM",
+      "repro_score": 3,
+      "umap": [
+        -35.83,
+        1.97
+      ],
+      "basilica": [
+        17.96,
+        -20.14,
+        0.18
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 20,
+      "title": "Pedestrian Canopy Atlas v2",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "XGBoost",
+      "dataset": "Copernicus Urban Atlas",
+      "repro_score": 1,
+      "umap": [
+        -39.09,
+        26.05
+      ],
+      "basilica": [
+        18.14,
+        -19.41,
+        -0.4
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 21,
+      "title": "Informal Settlement Morphometrics v2",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "GNN",
+      "dataset": "OSM",
+      "repro_score": 3,
+      "umap": [
+        -18.74,
+        19.18
+      ],
+      "basilica": [
+        17.9,
+        -18.84,
+        0.02
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 22,
+      "title": "Nighttime Urban Pulse v2",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "XGBoost",
+      "dataset": "Street View",
+      "repro_score": 4,
+      "umap": [
+        -47.25,
+        14.2
+      ],
+      "basilica": [
+        18.07,
+        -18.15,
+        -0.22
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 23,
+      "title": "Block Permeability v2",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Random Forest",
+      "dataset": "OSM",
+      "repro_score": 4,
+      "umap": [
+        -37.93,
+        17.41
+      ],
+      "basilica": [
+        17.95,
+        -17.44,
+        0.34
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 24,
+      "title": "Curbside Intensification v3",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Spatial Clustering",
+      "dataset": "Street View",
+      "repro_score": 4,
+      "umap": [
+        -39.92,
+        26.92
+      ],
+      "basilica": [
+        17.73,
+        -16.88,
+        0.25
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 25,
+      "title": "Walkability Surrogates v3",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Hackathon",
+      "method": "Agent-Based Model",
+      "dataset": "Copernicus Urban Atlas",
+      "repro_score": 2,
+      "umap": [
+        -40.25,
+        19.51
+      ],
+      "basilica": [
+        17.63,
+        -16.29,
+        0.07
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 26,
+      "title": "15-Minute Isochrones v3",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Spatial Clustering",
+      "dataset": "GTFS",
+      "repro_score": 3,
+      "umap": [
+        -35.72,
+        24.54
+      ],
+      "basilica": [
+        17.38,
+        -15.7,
+        -0.11
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 27,
+      "title": "Transit Equity Graph v3",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "Agent-Based Model",
+      "dataset": "GTFS",
+      "repro_score": 4,
+      "umap": [
+        -32.4,
+        21.19
+      ],
+      "basilica": [
+        17.33,
+        -15.05,
+        -0.11
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 28,
+      "title": "Micro-Mobility Flows v3",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "XGBoost",
+      "dataset": "Street View",
+      "repro_score": 3,
+      "umap": [
+        -52.01,
+        25.67
+      ],
+      "basilica": [
+        16.89,
+        -14.13,
+        -0.39
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 29,
+      "title": "Heat-Aware Routing v3",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "Spatial Clustering",
+      "dataset": "Mobile Telemetry",
+      "repro_score": 2,
+      "umap": [
+        -42.86,
+        14.72
+      ],
+      "basilica": [
+        16.62,
+        -13.3,
+        -0.74
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 30,
+      "title": "Streetscape Vitality v3",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "Agent-Based Model",
+      "dataset": "GTFS",
+      "repro_score": 2,
+      "umap": [
+        -50.01,
+        22.09
+      ],
+      "basilica": [
+        16.07,
+        -12.31,
+        -0.11
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 31,
+      "title": "Parcel Land-Use Drift v3",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "GNN",
+      "dataset": "OSM",
+      "repro_score": 4,
+      "umap": [
+        -54.76,
+        16.1
+      ],
+      "basilica": [
+        15.69,
+        -11.67,
+        -0.51
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 32,
+      "title": "Pedestrian Canopy Atlas v3",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "Agent-Based Model",
+      "dataset": "OSM",
+      "repro_score": 3,
+      "umap": [
+        -44.1,
+        26.56
+      ],
+      "basilica": [
+        15.63,
+        -11.1,
+        -0.21
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 33,
+      "title": "Informal Settlement Morphometrics v3",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Hackathon",
+      "method": "GNN",
+      "dataset": "Street View",
+      "repro_score": 1,
+      "umap": [
+        -39.85,
+        29.33
+      ],
+      "basilica": [
+        15.48,
+        -10.6,
+        0.1
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 34,
+      "title": "Nighttime Urban Pulse v3",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "Agent-Based Model",
+      "dataset": "Copernicus Urban Atlas",
+      "repro_score": 2,
+      "umap": [
+        -23.46,
+        16.29
+      ],
+      "basilica": [
+        15.67,
+        -10.16,
+        0.39
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 35,
+      "title": "Block Permeability v3",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Spatial Clustering",
+      "dataset": "Street View",
+      "repro_score": 2,
+      "umap": [
+        -44.3,
+        16.19
+      ],
+      "basilica": [
+        15.56,
+        -9.55,
+        0.69
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 36,
+      "title": "Curbside Intensification v4",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Seminar",
+      "method": "GNN",
+      "dataset": "OSM",
+      "repro_score": 3,
+      "umap": [
+        -33.69,
+        14.01
+      ],
+      "basilica": [
+        15.46,
+        -9.28,
+        -0.07
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 37,
+      "title": "Walkability Surrogates v4",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "Agent-Based Model",
+      "dataset": "Street View",
+      "repro_score": 4,
+      "umap": [
+        -56.14,
+        14.78
+      ],
+      "basilica": [
+        16.34,
+        -8.71,
+        0.05
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 38,
+      "title": "15-Minute Isochrones v4",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "XGBoost",
+      "dataset": "OSM",
+      "repro_score": 2,
+      "umap": [
+        -30.92,
+        12.28
+      ],
+      "basilica": [
+        16.08,
+        -8.32,
+        0.13
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 39,
+      "title": "Transit Equity Graph v4",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Seminar",
+      "method": "Random Forest",
+      "dataset": "Street View",
+      "repro_score": 3,
+      "umap": [
+        -43.29,
+        31.47
+      ],
+      "basilica": [
+        16.77,
+        -7.9,
+        0.06
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 40,
+      "title": "Micro-Mobility Flows v4",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "Agent-Based Model",
+      "dataset": "Street View",
+      "repro_score": 4,
+      "umap": [
+        -38.71,
+        20.33
+      ],
+      "basilica": [
+        17.2,
+        -7.37,
+        0.04
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 41,
+      "title": "Heat-Aware Routing v4",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "GNN",
+      "dataset": "OSM",
+      "repro_score": 1,
+      "umap": [
+        -47.77,
+        32.59
+      ],
+      "basilica": [
+        17.5,
+        -6.67,
+        -0.11
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 42,
+      "title": "Streetscape Vitality v4",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Hackathon",
+      "method": "Agent-Based Model",
+      "dataset": "Mobile Telemetry",
+      "repro_score": 4,
+      "umap": [
+        -43.94,
+        14.06
+      ],
+      "basilica": [
+        18.31,
+        -5.65,
+        -0.1
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 43,
+      "title": "Parcel Land-Use Drift v4",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Agent-Based Model",
+      "dataset": "Street View",
+      "repro_score": 2,
+      "umap": [
+        -45.6,
+        11.26
+      ],
+      "basilica": [
+        18.49,
+        -4.64,
+        -0.03
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 44,
+      "title": "Pedestrian Canopy Atlas v4",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Seminar",
+      "method": "Spatial Clustering",
+      "dataset": "OSM",
+      "repro_score": 3,
+      "umap": [
+        -47.85,
+        5.09
+      ],
+      "basilica": [
+        18.49,
+        -3.65,
+        -0.19
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 45,
+      "title": "Informal Settlement Morphometrics v4",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "GNN",
+      "dataset": "Street View",
+      "repro_score": 3,
+      "umap": [
+        -56.19,
+        37.79
+      ],
+      "basilica": [
+        18.54,
+        -2.72,
+        -0.47
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 46,
+      "title": "Nighttime Urban Pulse v4",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "Agent-Based Model",
+      "dataset": "GTFS",
+      "repro_score": 2,
+      "umap": [
+        -41.2,
+        22.93
+      ],
+      "basilica": [
+        18.63,
+        -2.02,
+        0.19
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 47,
+      "title": "Block Permeability v4",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "Agent-Based Model",
+      "dataset": "Mobile Telemetry",
+      "repro_score": 2,
+      "umap": [
+        -32.19,
+        30.41
+      ],
+      "basilica": [
+        18.39,
+        -1.34,
+        0.12
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 48,
+      "title": "Curbside Intensification v5",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "XGBoost",
+      "dataset": "Street View",
+      "repro_score": 4,
+      "umap": [
+        -45.01,
+        15.53
+      ],
+      "basilica": [
+        18.54,
+        -0.4,
+        -0.12
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 49,
+      "title": "Walkability Surrogates v5",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "Spatial Clustering",
+      "dataset": "GTFS",
+      "repro_score": 1,
+      "umap": [
+        -43.96,
+        24.59
+      ],
+      "basilica": [
+        18.48,
+        0.51,
+        0.19
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 50,
+      "title": "15-Minute Isochrones v5",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Hackathon",
+      "method": "XGBoost",
+      "dataset": "OSM",
+      "repro_score": 2,
+      "umap": [
+        -43.12,
+        34.57
+      ],
+      "basilica": [
+        18.26,
+        1.77,
+        0.15
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 51,
+      "title": "Transit Equity Graph v5",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Hackathon",
+      "method": "Agent-Based Model",
+      "dataset": "Street View",
+      "repro_score": 1,
+      "umap": [
+        -33.55,
+        31.06
+      ],
+      "basilica": [
+        18.13,
+        3.23,
+        -0.63
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 52,
+      "title": "Micro-Mobility Flows v5",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Spatial Clustering",
+      "dataset": "GTFS",
+      "repro_score": 3,
+      "umap": [
+        -32.09,
+        24.27
+      ],
+      "basilica": [
+        18.11,
+        4.54,
+        0.25
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 53,
+      "title": "Heat-Aware Routing v5",
+      "branch": "urban",
+      "branch_idx": 0,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "GNN",
+      "dataset": "Copernicus Urban Atlas",
+      "repro_score": 3,
+      "umap": [
+        -41.39,
+        11.63
+      ],
+      "basilica": [
+        18.16,
+        6.06,
+        -0.13
+      ],
+      "point_count": 283
+    },
+    {
+      "id": 54,
+      "title": "Parametric Massing Diffusion",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Seminar",
+      "method": "Diffusion Model",
+      "dataset": "Objaverse",
+      "repro_score": 1,
+      "umap": [
+        38.53,
+        46.07
+      ],
+      "basilica": [
+        -17.74,
+        -33.13,
+        0.3
+      ],
+      "point_count": 264
+    },
+    {
+      "id": 55,
+      "title": "Plan-to-Section VLM",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Seminar",
+      "method": "Diffusion Model",
+      "dataset": "RPLAN",
+      "repro_score": 2,
+      "umap": [
+        28.58,
+        21.0
+      ],
+      "basilica": [
+        -16.93,
+        -31.79,
+        -0.47
+      ],
+      "point_count": 264
+    },
+    {
+      "id": 56,
+      "title": "Adaptive Reuse Layouts",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "LLM Agent",
+      "dataset": "Architectural Plans",
+      "repro_score": 2,
+      "umap": [
+        24.0,
+        20.07
+      ],
+      "basilica": [
+        -16.68,
+        -30.39,
+        -0.63
+      ],
+      "point_count": 264
+    },
+    {
+      "id": 57,
+      "title": "Daylight-Guided Floorplans",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "GAN",
+      "dataset": "Floorplan Corpus",
+      "repro_score": 4,
+      "umap": [
+        43.79,
+        12.48
+      ],
+      "basilica": [
+        -16.86,
+        -28.6,
+        0.2
+      ],
+      "point_count": 264
+    },
+    {
+      "id": 58,
+      "title": "Tectonic Grammar Agents",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "LLM Agent",
+      "dataset": "Objaverse",
+      "repro_score": 2,
+      "umap": [
+        37.53,
+        25.25
+      ],
+      "basilica": [
+        -17.87,
+        -27.45,
+        0.5
+      ],
+      "point_count": 264
+    },
+    {
+      "id": 59,
+      "title": "Facade LoRA Synthesis",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "Diffusion Model",
+      "dataset": "Synthetic Rhino",
+      "repro_score": 2,
+      "umap": [
+        40.94,
+        25.86
+      ],
+      "basilica": [
+        -17.83,
+        -26.43,
+        -0.27
+      ],
+      "point_count": 264
+    },
+    {
+      "id": 60,
+      "title": "Courtyard Typology Latent Space",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Seminar",
+      "method": "ControlNet",
+      "dataset": "Floorplan Corpus",
+      "repro_score": 3,
+      "umap": [
+        28.26,
+        25.24
+      ],
+      "basilica": [
+        -18.27,
+        -25.96,
+        0.5
+      ],
+      "point_count": 264
+    },
+    {
+      "id": 61,
+      "title": "Spatial Graph to BIM",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "GAN",
+      "dataset": "RPLAN",
+      "repro_score": 2,
+      "umap": [
+        33.99,
+        25.86
+      ],
+      "basilica": [
+        -17.76,
+        -25.35,
+        -0.12
+      ],
+      "point_count": 264
+    },
+    {
+      "id": 62,
+      "title": "Zero-Shot Zoning",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "GAN",
+      "dataset": "Objaverse",
+      "repro_score": 3,
+      "umap": [
+        33.9,
+        17.37
+      ],
+      "basilica": [
+        -17.8,
+        -24.85,
+        0.4
+      ],
+      "point_count": 264
+    },
+    {
+      "id": 63,
+      "title": "Modular Timber Configurator",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "GAN",
+      "dataset": "Objaverse",
+      "repro_score": 2,
+      "umap": [
+        34.44,
+        17.72
+      ],
+      "basilica": [
+        -17.94,
+        -24.06,
+        0.41
+      ],
+      "point_count": 264
+    },
+    {
+      "id": 64,
+      "title": "Acoustic Shell Generator",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "GAN",
+      "dataset": "Objaverse",
+      "repro_score": 4,
+      "umap": [
+        36.76,
+        21.3
+      ],
+      "basilica": [
+        -17.61,
+        -23.34,
+        0.15
+      ],
+      "point_count": 264
+    },
+    {
+      "id": 65,
+      "title": "Vernacular Prompting",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "3D Gaussian Splatting",
+      "dataset": "Synthetic Rhino",
+      "repro_score": 3,
+      "umap": [
+        38.82,
+        17.42
+      ],
+      "basilica": [
+        -17.72,
+        -22.64,
+        -0.12
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 66,
+      "title": "Parametric Massing Diffusion v2",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "GAN",
+      "dataset": "Objaverse",
+      "repro_score": 3,
+      "umap": [
+        32.12,
+        4.04
+      ],
+      "basilica": [
+        -17.6,
+        -22.01,
+        -0.57
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 67,
+      "title": "Plan-to-Section VLM v2",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Hackathon",
+      "method": "Diffusion Model",
+      "dataset": "Architectural Plans",
+      "repro_score": 1,
+      "umap": [
+        34.87,
+        20.0
+      ],
+      "basilica": [
+        -17.65,
+        -21.31,
+        -0.22
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 68,
+      "title": "Adaptive Reuse Layouts v2",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Seminar",
+      "method": "Diffusion Model",
+      "dataset": "Floorplan Corpus",
+      "repro_score": 4,
+      "umap": [
+        38.72,
+        12.08
+      ],
+      "basilica": [
+        -17.73,
+        -20.76,
+        -0.08
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 69,
+      "title": "Daylight-Guided Floorplans v2",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "GAN",
+      "dataset": "Synthetic Rhino",
+      "repro_score": 4,
+      "umap": [
+        36.83,
+        11.33
+      ],
+      "basilica": [
+        -17.94,
+        -20.11,
+        -0.17
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 70,
+      "title": "Tectonic Grammar Agents v2",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "ControlNet",
+      "dataset": "Objaverse",
+      "repro_score": 4,
+      "umap": [
+        44.04,
+        22.13
+      ],
+      "basilica": [
+        -18.05,
+        -19.81,
+        0.52
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 71,
+      "title": "Facade LoRA Synthesis v2",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "3D Gaussian Splatting",
+      "dataset": "Architectural Plans",
+      "repro_score": 3,
+      "umap": [
+        28.85,
+        21.48
+      ],
+      "basilica": [
+        -18.02,
+        -19.51,
+        -0.07
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 72,
+      "title": "Courtyard Typology Latent Space v2",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "3D Gaussian Splatting",
+      "dataset": "Floorplan Corpus",
+      "repro_score": 2,
+      "umap": [
+        26.23,
+        21.17
+      ],
+      "basilica": [
+        -17.99,
+        -19.15,
+        0.19
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 73,
+      "title": "Spatial Graph to BIM v2",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "3D Gaussian Splatting",
+      "dataset": "Architectural Plans",
+      "repro_score": 4,
+      "umap": [
+        42.64,
+        19.3
+      ],
+      "basilica": [
+        -17.86,
+        -18.79,
+        0.24
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 74,
+      "title": "Zero-Shot Zoning v2",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "3D Gaussian Splatting",
+      "dataset": "Architectural Plans",
+      "repro_score": 3,
+      "umap": [
+        17.9,
+        8.92
+      ],
+      "basilica": [
+        -17.75,
+        -18.08,
+        0.07
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 75,
+      "title": "Modular Timber Configurator v2",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "3D Gaussian Splatting",
+      "dataset": "Floorplan Corpus",
+      "repro_score": 1,
+      "umap": [
+        33.76,
+        31.19
+      ],
+      "basilica": [
+        -17.75,
+        -17.36,
+        -0.29
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 76,
+      "title": "Acoustic Shell Generator v2",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "GAN",
+      "dataset": "RPLAN",
+      "repro_score": 3,
+      "umap": [
+        39.04,
+        28.58
+      ],
+      "basilica": [
+        -17.73,
+        -16.72,
+        -0.42
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 77,
+      "title": "Vernacular Prompting v2",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "GAN",
+      "dataset": "Architectural Plans",
+      "repro_score": 1,
+      "umap": [
+        53.14,
+        30.9
+      ],
+      "basilica": [
+        -17.42,
+        -16.15,
+        0.28
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 78,
+      "title": "Parametric Massing Diffusion v3",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "ControlNet",
+      "dataset": "RPLAN",
+      "repro_score": 3,
+      "umap": [
+        48.13,
+        17.14
+      ],
+      "basilica": [
+        -17.11,
+        -15.63,
+        0.02
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 79,
+      "title": "Plan-to-Section VLM v3",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Seminar",
+      "method": "ControlNet",
+      "dataset": "Synthetic Rhino",
+      "repro_score": 3,
+      "umap": [
+        33.7,
+        15.04
+      ],
+      "basilica": [
+        -17.29,
+        -14.89,
+        0.34
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 80,
+      "title": "Adaptive Reuse Layouts v3",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Seminar",
+      "method": "Diffusion Model",
+      "dataset": "Objaverse",
+      "repro_score": 3,
+      "umap": [
+        34.52,
+        16.35
+      ],
+      "basilica": [
+        -17.35,
+        -14.38,
+        -0.21
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 81,
+      "title": "Daylight-Guided Floorplans v3",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "LLM Agent",
+      "dataset": "Synthetic Rhino",
+      "repro_score": 4,
+      "umap": [
+        42.63,
+        29.29
+      ],
+      "basilica": [
+        -17.24,
+        -13.43,
+        -0.02
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 82,
+      "title": "Tectonic Grammar Agents v3",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "GAN",
+      "dataset": "Objaverse",
+      "repro_score": 3,
+      "umap": [
+        29.64,
+        22.4
+      ],
+      "basilica": [
+        -16.81,
+        -12.75,
+        0.04
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 83,
+      "title": "Facade LoRA Synthesis v3",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "3D Gaussian Splatting",
+      "dataset": "Synthetic Rhino",
+      "repro_score": 1,
+      "umap": [
+        33.56,
+        16.31
+      ],
+      "basilica": [
+        -16.4,
+        -12.15,
+        -0.31
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 84,
+      "title": "Courtyard Typology Latent Space v3",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "LLM Agent",
+      "dataset": "RPLAN",
+      "repro_score": 2,
+      "umap": [
+        36.03,
+        23.87
+      ],
+      "basilica": [
+        -16.54,
+        -11.56,
+        -0.29
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 85,
+      "title": "Spatial Graph to BIM v3",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Diffusion Model",
+      "dataset": "Synthetic Rhino",
+      "repro_score": 3,
+      "umap": [
+        45.74,
+        18.52
+      ],
+      "basilica": [
+        -15.71,
+        -11.24,
+        0.55
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 86,
+      "title": "Zero-Shot Zoning v3",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Hackathon",
+      "method": "LLM Agent",
+      "dataset": "Synthetic Rhino",
+      "repro_score": 2,
+      "umap": [
+        39.72,
+        15.65
+      ],
+      "basilica": [
+        -15.81,
+        -10.77,
+        0.1
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 87,
+      "title": "Modular Timber Configurator v3",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "3D Gaussian Splatting",
+      "dataset": "Objaverse",
+      "repro_score": 2,
+      "umap": [
+        37.9,
+        13.94
+      ],
+      "basilica": [
+        -15.81,
+        -10.42,
+        -0.44
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 88,
+      "title": "Acoustic Shell Generator v3",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Seminar",
+      "method": "GAN",
+      "dataset": "Synthetic Rhino",
+      "repro_score": 2,
+      "umap": [
+        32.75,
+        21.28
+      ],
+      "basilica": [
+        -15.35,
+        -9.96,
+        0.25
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 89,
+      "title": "Vernacular Prompting v3",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Seminar",
+      "method": "GAN",
+      "dataset": "Synthetic Rhino",
+      "repro_score": 3,
+      "umap": [
+        45.04,
+        18.41
+      ],
+      "basilica": [
+        -15.4,
+        -9.58,
+        -0.2
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 90,
+      "title": "Parametric Massing Diffusion v4",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "ControlNet",
+      "dataset": "Objaverse",
+      "repro_score": 2,
+      "umap": [
+        30.88,
+        23.77
+      ],
+      "basilica": [
+        -15.77,
+        -9.1,
+        0.16
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 91,
+      "title": "Plan-to-Section VLM v4",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "Diffusion Model",
+      "dataset": "Floorplan Corpus",
+      "repro_score": 3,
+      "umap": [
+        36.78,
+        22.54
+      ],
+      "basilica": [
+        -15.81,
+        -8.67,
+        -0.03
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 92,
+      "title": "Adaptive Reuse Layouts v4",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Hackathon",
+      "method": "3D Gaussian Splatting",
+      "dataset": "Architectural Plans",
+      "repro_score": 2,
+      "umap": [
+        39.01,
+        15.7
+      ],
+      "basilica": [
+        -15.93,
+        -8.25,
+        0.43
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 93,
+      "title": "Daylight-Guided Floorplans v4",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "GAN",
+      "dataset": "Synthetic Rhino",
+      "repro_score": 2,
+      "umap": [
+        27.16,
+        11.95
+      ],
+      "basilica": [
+        -16.38,
+        -7.7,
+        0.1
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 94,
+      "title": "Tectonic Grammar Agents v4",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Hackathon",
+      "method": "GAN",
+      "dataset": "Architectural Plans",
+      "repro_score": 2,
+      "umap": [
+        33.21,
+        28.78
+      ],
+      "basilica": [
+        -16.68,
+        -7.05,
+        -0.22
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 95,
+      "title": "Facade LoRA Synthesis v4",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Seminar",
+      "method": "LLM Agent",
+      "dataset": "RPLAN",
+      "repro_score": 2,
+      "umap": [
+        32.37,
+        25.14
+      ],
+      "basilica": [
+        -17.72,
+        -6.05,
+        -0.22
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 96,
+      "title": "Courtyard Typology Latent Space v4",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Seminar",
+      "method": "ControlNet",
+      "dataset": "Floorplan Corpus",
+      "repro_score": 4,
+      "umap": [
+        34.17,
+        19.91
+      ],
+      "basilica": [
+        -18.08,
+        -4.89,
+        0.03
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 97,
+      "title": "Spatial Graph to BIM v4",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "ControlNet",
+      "dataset": "Architectural Plans",
+      "repro_score": 1,
+      "umap": [
+        45.97,
+        12.94
+      ],
+      "basilica": [
+        -18.18,
+        -3.91,
+        0.21
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 98,
+      "title": "Zero-Shot Zoning v4",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Seminar",
+      "method": "ControlNet",
+      "dataset": "RPLAN",
+      "repro_score": 4,
+      "umap": [
+        37.84,
+        20.29
+      ],
+      "basilica": [
+        -18.15,
+        -2.6,
+        0.01
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 99,
+      "title": "Modular Timber Configurator v4",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Seminar",
+      "method": "GAN",
+      "dataset": "Floorplan Corpus",
+      "repro_score": 3,
+      "umap": [
+        38.87,
+        22.71
+      ],
+      "basilica": [
+        -18.03,
+        -1.1,
+        -0.04
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 100,
+      "title": "Acoustic Shell Generator v4",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "GAN",
+      "dataset": "RPLAN",
+      "repro_score": 3,
+      "umap": [
+        33.36,
+        21.61
+      ],
+      "basilica": [
+        -18.22,
+        -0.13,
+        0.4
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 101,
+      "title": "Vernacular Prompting v4",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "Diffusion Model",
+      "dataset": "Objaverse",
+      "repro_score": 1,
+      "umap": [
+        36.25,
+        8.68
+      ],
+      "basilica": [
+        -18.2,
+        0.7,
+        0.25
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 102,
+      "title": "Parametric Massing Diffusion v5",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "GAN",
+      "dataset": "Architectural Plans",
+      "repro_score": 4,
+      "umap": [
+        53.97,
+        22.7
+      ],
+      "basilica": [
+        -18.26,
+        2.19,
+        -0.28
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 103,
+      "title": "Plan-to-Section VLM v5",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "ControlNet",
+      "dataset": "RPLAN",
+      "repro_score": 2,
+      "umap": [
+        19.35,
+        26.13
+      ],
+      "basilica": [
+        -18.05,
+        3.92,
+        -0.17
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 104,
+      "title": "Adaptive Reuse Layouts v5",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "3D Gaussian Splatting",
+      "dataset": "Synthetic Rhino",
+      "repro_score": 2,
+      "umap": [
+        44.26,
+        21.41
+      ],
+      "basilica": [
+        -18.22,
+        5.45,
+        0.16
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 105,
+      "title": "Daylight-Guided Floorplans v5",
+      "branch": "generative",
+      "branch_idx": 1,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Hackathon",
+      "method": "LLM Agent",
+      "dataset": "RPLAN",
+      "repro_score": 4,
+      "umap": [
+        37.62,
+        19.87
+      ],
+      "basilica": [
+        -18.17,
+        6.76,
+        -0.16
+      ],
+      "point_count": 263
+    },
+    {
+      "id": 106,
+      "title": "SURROUND PM2.5",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Seminar",
+      "method": "PINN",
+      "dataset": "Landsat LST",
+      "repro_score": 2,
+      "umap": [
+        -18.1,
+        -37.09
+      ],
+      "basilica": [
+        -0.38,
+        -18.67,
+        0.32
+      ],
+      "point_count": 222
+    },
+    {
+      "id": 107,
+      "title": "OASIS Heat Resilience",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Physics Surrogate",
+      "dataset": "Open Buildings 2.5D",
+      "repro_score": 2,
+      "umap": [
+        -22.92,
+        -32.6
+      ],
+      "basilica": [
+        0.28,
+        -18.02,
+        0.79
+      ],
+      "point_count": 222
+    },
+    {
+      "id": 108,
+      "title": "Urban Canyon UTCI",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Seminar",
+      "method": "Physics Surrogate",
+      "dataset": "Sentinel-2",
+      "repro_score": 4,
+      "umap": [
+        -33.25,
+        -23.58
+      ],
+      "basilica": [
+        0.41,
+        -17.04,
+        0.39
+      ],
+      "point_count": 222
+    },
+    {
+      "id": 109,
+      "title": "Passive Cooling Surrogate",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Seminar",
+      "method": "EnergyPlus + ML",
+      "dataset": "ERA5-Land",
+      "repro_score": 1,
+      "umap": [
+        -26.37,
+        -33.72
+      ],
+      "basilica": [
+        0.32,
+        -15.92,
+        -0.54
+      ],
+      "point_count": 222
+    },
+    {
+      "id": 110,
+      "title": "Roof Albedo Microclimate",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "Physics Surrogate",
+      "dataset": "Open Buildings 2.5D",
+      "repro_score": 3,
+      "umap": [
+        -21.54,
+        -27.7
+      ],
+      "basilica": [
+        -0.51,
+        -15.18,
+        -0.23
+      ],
+      "point_count": 222
+    },
+    {
+      "id": 111,
+      "title": "Flood-Resilient Blocks",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Seminar",
+      "method": "EnergyPlus + ML",
+      "dataset": "EPW Weather",
+      "repro_score": 4,
+      "umap": [
+        -20.11,
+        -15.34
+      ],
+      "basilica": [
+        -0.04,
+        -14.48,
+        0.98
+      ],
+      "point_count": 222
+    },
+    {
+      "id": 112,
+      "title": "Solar Envelope Predictor",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "Time-Series Transformer",
+      "dataset": "Open Buildings 2.5D",
+      "repro_score": 4,
+      "umap": [
+        -33.21,
+        -8.37
+      ],
+      "basilica": [
+        -0.94,
+        -13.99,
+        -0.62
+      ],
+      "point_count": 222
+    },
+    {
+      "id": 113,
+      "title": "Night-Ventilation Optimizer",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Time-Series Transformer",
+      "dataset": "Landsat LST",
+      "repro_score": 3,
+      "umap": [
+        -20.69,
+        -29.22
+      ],
+      "basilica": [
+        -0.96,
+        -13.55,
+        0.6
+      ],
+      "point_count": 222
+    },
+    {
+      "id": 114,
+      "title": "Tree Canopy Cooling",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Seminar",
+      "method": "PINN",
+      "dataset": "ERA5-Land",
+      "repro_score": 2,
+      "umap": [
+        -31.25,
+        -24.93
+      ],
+      "basilica": [
+        0.42,
+        -13.04,
+        0.1
+      ],
+      "point_count": 222
+    },
+    {
+      "id": 115,
+      "title": "Building-Scale LST Downscaling",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "Time-Series Transformer",
+      "dataset": "Sentinel-2",
+      "repro_score": 4,
+      "umap": [
+        -21.02,
+        -24.01
+      ],
+      "basilica": [
+        -0.08,
+        -12.5,
+        0.41
+      ],
+      "point_count": 222
+    },
+    {
+      "id": 116,
+      "title": "Embodied Carbon Estimator",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Seminar",
+      "method": "CNN",
+      "dataset": "Open Buildings 2.5D",
+      "repro_score": 2,
+      "umap": [
+        -12.28,
+        -17.52
+      ],
+      "basilica": [
+        0.48,
+        -11.62,
+        0.32
+      ],
+      "point_count": 222
+    },
+    {
+      "id": 117,
+      "title": "Wind Comfort GNN",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "CNN",
+      "dataset": "ERA5-Land",
+      "repro_score": 3,
+      "umap": [
+        -18.05,
+        -23.7
+      ],
+      "basilica": [
+        0.21,
+        -10.83,
+        0.21
+      ],
+      "point_count": 222
+    },
+    {
+      "id": 118,
+      "title": "SURROUND PM2.5 v2",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "Physics Surrogate",
+      "dataset": "ERA5-Land",
+      "repro_score": 3,
+      "umap": [
+        -22.45,
+        -23.73
+      ],
+      "basilica": [
+        0.58,
+        -10.09,
+        0.11
+      ],
+      "point_count": 222
+    },
+    {
+      "id": 119,
+      "title": "OASIS Heat Resilience v2",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "CNN",
+      "dataset": "Landsat LST",
+      "repro_score": 4,
+      "umap": [
+        -26.63,
+        -27.47
+      ],
+      "basilica": [
+        0.18,
+        -9.34,
+        0.18
+      ],
+      "point_count": 222
+    },
+    {
+      "id": 120,
+      "title": "Urban Canyon UTCI v2",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "EnergyPlus + ML",
+      "dataset": "ERA5-Land",
+      "repro_score": 3,
+      "umap": [
+        -13.69,
+        -29.01
+      ],
+      "basilica": [
+        0.45,
+        -8.6,
+        0.73
+      ],
+      "point_count": 222
+    },
+    {
+      "id": 121,
+      "title": "Passive Cooling Surrogate v2",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Physics Surrogate",
+      "dataset": "Sentinel-2",
+      "repro_score": 4,
+      "umap": [
+        -21.08,
+        -32.8
+      ],
+      "basilica": [
+        0.29,
+        -7.99,
+        -0.53
+      ],
+      "point_count": 222
+    },
+    {
+      "id": 122,
+      "title": "Roof Albedo Microclimate v2",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Time-Series Transformer",
+      "dataset": "Landsat LST",
+      "repro_score": 4,
+      "umap": [
+        -35.71,
+        -11.33
+      ],
+      "basilica": [
+        0.16,
+        -7.25,
+        -0.33
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 123,
+      "title": "Flood-Resilient Blocks v2",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "CNN",
+      "dataset": "Sentinel-2",
+      "repro_score": 3,
+      "umap": [
+        -29.22,
+        -24.87
+      ],
+      "basilica": [
+        -0.39,
+        -6.88,
+        -0.09
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 124,
+      "title": "Solar Envelope Predictor v2",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Seminar",
+      "method": "PINN",
+      "dataset": "Open Buildings 2.5D",
+      "repro_score": 3,
+      "umap": [
+        -18.79,
+        -28.67
+      ],
+      "basilica": [
+        -0.43,
+        -6.21,
+        0.26
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 125,
+      "title": "Night-Ventilation Optimizer v2",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Seminar",
+      "method": "EnergyPlus + ML",
+      "dataset": "Open Buildings 2.5D",
+      "repro_score": 3,
+      "umap": [
+        -15.91,
+        -22.66
+      ],
+      "basilica": [
+        0.06,
+        -5.72,
+        0.73
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 126,
+      "title": "Tree Canopy Cooling v2",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "Time-Series Transformer",
+      "dataset": "Open Buildings 2.5D",
+      "repro_score": 2,
+      "umap": [
+        -19.4,
+        -17.44
+      ],
+      "basilica": [
+        0.67,
+        -5.21,
+        0.57
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 127,
+      "title": "Building-Scale LST Downscaling v2",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "Time-Series Transformer",
+      "dataset": "ERA5-Land",
+      "repro_score": 1,
+      "umap": [
+        -14.64,
+        -32.04
+      ],
+      "basilica": [
+        -0.75,
+        -4.61,
+        -0.26
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 128,
+      "title": "Embodied Carbon Estimator v2",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Physics Surrogate",
+      "dataset": "Sentinel-2",
+      "repro_score": 3,
+      "umap": [
+        -35.88,
+        -22.66
+      ],
+      "basilica": [
+        0.18,
+        -3.97,
+        0.48
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 129,
+      "title": "Wind Comfort GNN v2",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "EnergyPlus + ML",
+      "dataset": "Landsat LST",
+      "repro_score": 3,
+      "umap": [
+        -18.13,
+        -34.65
+      ],
+      "basilica": [
+        -0.65,
+        -3.47,
+        0.08
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 130,
+      "title": "SURROUND PM2.5 v3",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Hackathon",
+      "method": "Physics Surrogate",
+      "dataset": "Open Buildings 2.5D",
+      "repro_score": 3,
+      "umap": [
+        -21.47,
+        -27.14
+      ],
+      "basilica": [
+        0.41,
+        -2.71,
+        -0.18
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 131,
+      "title": "OASIS Heat Resilience v3",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Seminar",
+      "method": "EnergyPlus + ML",
+      "dataset": "Sentinel-2",
+      "repro_score": 3,
+      "umap": [
+        -24.47,
+        -24.12
+      ],
+      "basilica": [
+        0.07,
+        -2.15,
+        -0.65
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 132,
+      "title": "Urban Canyon UTCI v3",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "Time-Series Transformer",
+      "dataset": "Sentinel-2",
+      "repro_score": 4,
+      "umap": [
+        -34.11,
+        -38.17
+      ],
+      "basilica": [
+        0.19,
+        -1.16,
+        -0.98
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 133,
+      "title": "Passive Cooling Surrogate v3",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Time-Series Transformer",
+      "dataset": "Sentinel-2",
+      "repro_score": 1,
+      "umap": [
+        -15.2,
+        -28.46
+      ],
+      "basilica": [
+        0.04,
+        -0.07,
+        0.63
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 134,
+      "title": "Roof Albedo Microclimate v3",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Seminar",
+      "method": "EnergyPlus + ML",
+      "dataset": "EPW Weather",
+      "repro_score": 2,
+      "umap": [
+        -22.81,
+        -27.99
+      ],
+      "basilica": [
+        -0.02,
+        1.47,
+        -0.66
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 135,
+      "title": "Flood-Resilient Blocks v3",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Physics Surrogate",
+      "dataset": "EPW Weather",
+      "repro_score": 2,
+      "umap": [
+        -16.58,
+        -23.54
+      ],
+      "basilica": [
+        0.52,
+        3.38,
+        0.3
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 136,
+      "title": "Solar Envelope Predictor v3",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Hackathon",
+      "method": "Physics Surrogate",
+      "dataset": "Sentinel-2",
+      "repro_score": 3,
+      "umap": [
+        -18.1,
+        -12.62
+      ],
+      "basilica": [
+        0.61,
+        4.94,
+        -0.03
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 137,
+      "title": "Night-Ventilation Optimizer v3",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "CNN",
+      "dataset": "Landsat LST",
+      "repro_score": 2,
+      "umap": [
+        -26.7,
+        -34.26
+      ],
+      "basilica": [
+        0.92,
+        6.37,
+        -0.23
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 138,
+      "title": "Tree Canopy Cooling v3",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Time-Series Transformer",
+      "dataset": "Open Buildings 2.5D",
+      "repro_score": 4,
+      "umap": [
+        -24.52,
+        -32.44
+      ],
+      "basilica": [
+        0.63,
+        7.24,
+        0.26
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 139,
+      "title": "Building-Scale LST Downscaling v3",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "PINN",
+      "dataset": "Open Buildings 2.5D",
+      "repro_score": 1,
+      "umap": [
+        -30.6,
+        -19.53
+      ],
+      "basilica": [
+        -0.73,
+        8.88,
+        0.27
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 140,
+      "title": "Embodied Carbon Estimator v3",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Hackathon",
+      "method": "EnergyPlus + ML",
+      "dataset": "ERA5-Land",
+      "repro_score": 2,
+      "umap": [
+        -24.82,
+        -24.66
+      ],
+      "basilica": [
+        0.12,
+        10.47,
+        -0.1
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 141,
+      "title": "Wind Comfort GNN v3",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Hackathon",
+      "method": "Physics Surrogate",
+      "dataset": "Open Buildings 2.5D",
+      "repro_score": 1,
+      "umap": [
+        -22.67,
+        -27.21
+      ],
+      "basilica": [
+        0.22,
+        12.17,
+        -0.05
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 142,
+      "title": "SURROUND PM2.5 v4",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "CNN",
+      "dataset": "Landsat LST",
+      "repro_score": 2,
+      "umap": [
+        -28.37,
+        -25.5
+      ],
+      "basilica": [
+        -0.02,
+        13.41,
+        0.15
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 143,
+      "title": "OASIS Heat Resilience v4",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "CNN",
+      "dataset": "Sentinel-2",
+      "repro_score": 1,
+      "umap": [
+        -30.29,
+        -19.27
+      ],
+      "basilica": [
+        -0.9,
+        14.56,
+        -0.17
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 144,
+      "title": "Urban Canyon UTCI v4",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Seminar",
+      "method": "Time-Series Transformer",
+      "dataset": "Sentinel-2",
+      "repro_score": 3,
+      "umap": [
+        -21.49,
+        -26.04
+      ],
+      "basilica": [
+        -0.27,
+        15.46,
+        0.14
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 145,
+      "title": "Passive Cooling Surrogate v4",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "EnergyPlus + ML",
+      "dataset": "Open Buildings 2.5D",
+      "repro_score": 3,
+      "umap": [
+        -14.11,
+        -28.53
+      ],
+      "basilica": [
+        -0.01,
+        16.18,
+        0.02
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 146,
+      "title": "Roof Albedo Microclimate v4",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "Physics Surrogate",
+      "dataset": "Open Buildings 2.5D",
+      "repro_score": 3,
+      "umap": [
+        -30.16,
+        -32.06
+      ],
+      "basilica": [
+        -0.57,
+        16.52,
+        0.43
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 147,
+      "title": "Flood-Resilient Blocks v4",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "EnergyPlus + ML",
+      "dataset": "Sentinel-2",
+      "repro_score": 3,
+      "umap": [
+        -40.16,
+        -21.59
+      ],
+      "basilica": [
+        -0.05,
+        16.9,
+        0.22
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 148,
+      "title": "Solar Envelope Predictor v4",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "CNN",
+      "dataset": "Open Buildings 2.5D",
+      "repro_score": 2,
+      "umap": [
+        -18.91,
+        -21.72
+      ],
+      "basilica": [
+        -0.13,
+        17.16,
+        0.08
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 149,
+      "title": "Night-Ventilation Optimizer v4",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Seminar",
+      "method": "CNN",
+      "dataset": "Open Buildings 2.5D",
+      "repro_score": 2,
+      "umap": [
+        -35.75,
+        -17.2
+      ],
+      "basilica": [
+        -0.26,
+        17.52,
+        -0.24
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 150,
+      "title": "Tree Canopy Cooling v4",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Time-Series Transformer",
+      "dataset": "EPW Weather",
+      "repro_score": 3,
+      "umap": [
+        -27.64,
+        -22.95
+      ],
+      "basilica": [
+        -0.4,
+        18.53,
+        -0.51
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 151,
+      "title": "Building-Scale LST Downscaling v4",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Seminar",
+      "method": "EnergyPlus + ML",
+      "dataset": "Landsat LST",
+      "repro_score": 4,
+      "umap": [
+        -32.61,
+        -35.84
+      ],
+      "basilica": [
+        -0.34,
+        19.44,
+        0.38
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 152,
+      "title": "Embodied Carbon Estimator v4",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Seminar",
+      "method": "Time-Series Transformer",
+      "dataset": "Open Buildings 2.5D",
+      "repro_score": 2,
+      "umap": [
+        -24.96,
+        -14.78
+      ],
+      "basilica": [
+        0.03,
+        20.58,
+        0.4
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 153,
+      "title": "Wind Comfort GNN v4",
+      "branch": "climate",
+      "branch_idx": 2,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "PINN",
+      "dataset": "EPW Weather",
+      "repro_score": 3,
+      "umap": [
+        -15.2,
+        -21.19
+      ],
+      "basilica": [
+        -0.33,
+        22.38,
+        -0.89
+      ],
+      "point_count": 221
+    },
+    {
+      "id": 154,
+      "title": "Robotic Clay Extrusion CV",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Reinforcement Learning",
+      "dataset": "Depth Sensors",
+      "repro_score": 2,
+      "umap": [
+        42.35,
+        -30.2
+      ],
+      "basilica": [
+        0.23,
+        -33.21,
+        -4.49
+      ],
+      "point_count": 361
+    },
+    {
+      "id": 155,
+      "title": "Adaptive Timber Milling",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Hackathon",
+      "method": "Computer Vision",
+      "dataset": "3D Clay Scans",
+      "repro_score": 3,
+      "umap": [
+        29.62,
+        -9.78
+      ],
+      "basilica": [
+        -0.15,
+        -32.67,
+        -3.54
+      ],
+      "point_count": 361
+    },
+    {
+      "id": 156,
+      "title": "Stone Stereotomy RL",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Hackathon",
+      "method": "Inverse Kinematics",
+      "dataset": "Robotic Toolpaths",
+      "repro_score": 3,
+      "umap": [
+        30.37,
+        -5.63
+      ],
+      "basilica": [
+        0.02,
+        -31.76,
+        -3.94
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 157,
+      "title": "Vision-Guided Assembly",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "Computer Vision",
+      "dataset": "Depth Sensors",
+      "repro_score": 1,
+      "umap": [
+        22.43,
+        -25.99
+      ],
+      "basilica": [
+        -0.4,
+        -30.83,
+        -2.73
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 158,
+      "title": "Mycelium Growth Tracking",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "Inverse Kinematics",
+      "dataset": "3D Clay Scans",
+      "repro_score": 1,
+      "umap": [
+        21.8,
+        -19.08
+      ],
+      "basilica": [
+        -0.6,
+        -29.64,
+        -4.31
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 159,
+      "title": "3D Concrete Defect Net",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "PointNet++",
+      "dataset": "3D Clay Scans",
+      "repro_score": 4,
+      "umap": [
+        31.33,
+        -28.45
+      ],
+      "basilica": [
+        -0.06,
+        -28.57,
+        -4.38
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 160,
+      "title": "Reclaimed Steel Sorting",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "Computer Vision",
+      "dataset": "Timber Scans",
+      "repro_score": 1,
+      "umap": [
+        9.23,
+        -25.87
+      ],
+      "basilica": [
+        0.53,
+        -27.39,
+        -4.52
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 161,
+      "title": "Drone Masonry Inspection",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "PointNet++",
+      "dataset": "Depth Sensors",
+      "repro_score": 1,
+      "umap": [
+        29.59,
+        -28.45
+      ],
+      "basilica": [
+        0.61,
+        -26.28,
+        -4.06
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 162,
+      "title": "Biopolymer Toolpathing",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Inverse Kinematics",
+      "dataset": "Robotic Toolpaths",
+      "repro_score": 2,
+      "umap": [
+        23.83,
+        -25.91
+      ],
+      "basilica": [
+        1.07,
+        -25.0,
+        -5.19
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 163,
+      "title": "Kuka Force-Feedback Carving",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "PointNet++",
+      "dataset": "Timber Scans",
+      "repro_score": 2,
+      "umap": [
+        18.37,
+        -27.49
+      ],
+      "basilica": [
+        0.95,
+        -24.14,
+        -4.86
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 164,
+      "title": "Tensegrity Form-Finding",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Inverse Kinematics",
+      "dataset": "Robotic Toolpaths",
+      "repro_score": 1,
+      "umap": [
+        27.52,
+        -23.03
+      ],
+      "basilica": [
+        -0.31,
+        -23.61,
+        -4.22
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 165,
+      "title": "Bio-Brick Curing Model",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Reinforcement Learning",
+      "dataset": "Depth Sensors",
+      "repro_score": 3,
+      "umap": [
+        26.38,
+        -13.3
+      ],
+      "basilica": [
+        0.52,
+        -23.14,
+        -4.79
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 166,
+      "title": "Robotic Clay Extrusion CV v2",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "PointNet++",
+      "dataset": "Robotic Toolpaths",
+      "repro_score": 4,
+      "umap": [
+        48.3,
+        -18.99
+      ],
+      "basilica": [
+        -0.14,
+        -22.72,
+        -4.82
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 167,
+      "title": "Adaptive Timber Milling v2",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Seminar",
+      "method": "Computer Vision",
+      "dataset": "3D Clay Scans",
+      "repro_score": 3,
+      "umap": [
+        22.84,
+        -22.91
+      ],
+      "basilica": [
+        -0.65,
+        -22.32,
+        -5.64
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 168,
+      "title": "Stone Stereotomy RL v2",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "PointNet++",
+      "dataset": "Depth Sensors",
+      "repro_score": 2,
+      "umap": [
+        19.57,
+        -28.59
+      ],
+      "basilica": [
+        -0.54,
+        -21.84,
+        -4.63
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 169,
+      "title": "Vision-Guided Assembly v2",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Computer Vision",
+      "dataset": "3D Clay Scans",
+      "repro_score": 4,
+      "umap": [
+        42.96,
+        -12.37
+      ],
+      "basilica": [
+        -0.53,
+        -21.48,
+        -4.28
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 170,
+      "title": "Mycelium Growth Tracking v2",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Seminar",
+      "method": "Reinforcement Learning",
+      "dataset": "3D Clay Scans",
+      "repro_score": 1,
+      "umap": [
+        27.74,
+        -21.48
+      ],
+      "basilica": [
+        -0.85,
+        -20.99,
+        -3.36
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 171,
+      "title": "3D Concrete Defect Net v2",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "Computer Vision",
+      "dataset": "Robotic Toolpaths",
+      "repro_score": 3,
+      "umap": [
+        21.92,
+        -27.46
+      ],
+      "basilica": [
+        0.35,
+        -20.71,
+        -5.35
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 172,
+      "title": "Reclaimed Steel Sorting v2",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "Inverse Kinematics",
+      "dataset": "Depth Sensors",
+      "repro_score": 2,
+      "umap": [
+        16.27,
+        -31.91
+      ],
+      "basilica": [
+        -0.05,
+        -20.37,
+        -5.59
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 173,
+      "title": "Drone Masonry Inspection v2",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "Computer Vision",
+      "dataset": "Timber Scans",
+      "repro_score": 2,
+      "umap": [
+        38.58,
+        -31.71
+      ],
+      "basilica": [
+        0.66,
+        -20.18,
+        -3.87
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 174,
+      "title": "Biopolymer Toolpathing v2",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Inverse Kinematics",
+      "dataset": "Depth Sensors",
+      "repro_score": 1,
+      "umap": [
+        24.98,
+        -12.22
+      ],
+      "basilica": [
+        -0.82,
+        -20.07,
+        -5.32
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 175,
+      "title": "Kuka Force-Feedback Carving v2",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "PointNet++",
+      "dataset": "Depth Sensors",
+      "repro_score": 4,
+      "umap": [
+        19.84,
+        -26.3
+      ],
+      "basilica": [
+        -0.03,
+        -19.83,
+        -4.89
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 176,
+      "title": "Tensegrity Form-Finding v2",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Seminar",
+      "method": "PointNet++",
+      "dataset": "Robotic Toolpaths",
+      "repro_score": 1,
+      "umap": [
+        34.51,
+        -32.2
+      ],
+      "basilica": [
+        -0.74,
+        -19.63,
+        -3.89
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 177,
+      "title": "Bio-Brick Curing Model v2",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Inverse Kinematics",
+      "dataset": "Depth Sensors",
+      "repro_score": 4,
+      "umap": [
+        21.51,
+        -36.56
+      ],
+      "basilica": [
+        0.58,
+        -19.37,
+        -4.7
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 178,
+      "title": "Robotic Clay Extrusion CV v3",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Computer Vision",
+      "dataset": "Timber Scans",
+      "repro_score": 4,
+      "umap": [
+        14.93,
+        -35.9
+      ],
+      "basilica": [
+        -0.83,
+        -18.99,
+        -4.54
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 179,
+      "title": "Adaptive Timber Milling v3",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Reinforcement Learning",
+      "dataset": "3D Clay Scans",
+      "repro_score": 4,
+      "umap": [
+        25.7,
+        -22.71
+      ],
+      "basilica": [
+        -0.33,
+        -18.62,
+        -4.92
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 180,
+      "title": "Stone Stereotomy RL v3",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Reinforcement Learning",
+      "dataset": "Timber Scans",
+      "repro_score": 3,
+      "umap": [
+        20.31,
+        -29.9
+      ],
+      "basilica": [
+        -0.36,
+        -18.16,
+        -4.45
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 181,
+      "title": "Vision-Guided Assembly v3",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Reinforcement Learning",
+      "dataset": "Depth Sensors",
+      "repro_score": 2,
+      "umap": [
+        30.2,
+        -18.38
+      ],
+      "basilica": [
+        0.26,
+        -17.55,
+        -4.87
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 182,
+      "title": "Mycelium Growth Tracking v3",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Seminar",
+      "method": "Computer Vision",
+      "dataset": "3D Clay Scans",
+      "repro_score": 2,
+      "umap": [
+        20.8,
+        -26.74
+      ],
+      "basilica": [
+        1.04,
+        -16.92,
+        -4.74
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 183,
+      "title": "3D Concrete Defect Net v3",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Seminar",
+      "method": "PointNet++",
+      "dataset": "Depth Sensors",
+      "repro_score": 1,
+      "umap": [
+        25.23,
+        -29.14
+      ],
+      "basilica": [
+        -0.01,
+        -16.35,
+        -4.32
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 184,
+      "title": "Reclaimed Steel Sorting v3",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "Inverse Kinematics",
+      "dataset": "3D Clay Scans",
+      "repro_score": 2,
+      "umap": [
+        38.63,
+        -30.87
+      ],
+      "basilica": [
+        0.25,
+        -15.67,
+        -5.56
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 185,
+      "title": "Drone Masonry Inspection v3",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Seminar",
+      "method": "Inverse Kinematics",
+      "dataset": "Depth Sensors",
+      "repro_score": 1,
+      "umap": [
+        21.13,
+        -21.95
+      ],
+      "basilica": [
+        0.21,
+        -14.94,
+        -4.29
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 186,
+      "title": "Biopolymer Toolpathing v3",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Reinforcement Learning",
+      "dataset": "Depth Sensors",
+      "repro_score": 1,
+      "umap": [
+        21.65,
+        -11.62
+      ],
+      "basilica": [
+        -0.15,
+        -14.14,
+        -4.48
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 187,
+      "title": "Kuka Force-Feedback Carving v3",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Seminar",
+      "method": "Computer Vision",
+      "dataset": "Timber Scans",
+      "repro_score": 2,
+      "umap": [
+        19.1,
+        -19.81
+      ],
+      "basilica": [
+        -0.49,
+        -13.27,
+        -3.44
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 188,
+      "title": "Tensegrity Form-Finding v3",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Seminar",
+      "method": "Inverse Kinematics",
+      "dataset": "Robotic Toolpaths",
+      "repro_score": 2,
+      "umap": [
+        27.7,
+        -18.92
+      ],
+      "basilica": [
+        -0.64,
+        -12.67,
+        -4.31
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 189,
+      "title": "Bio-Brick Curing Model v3",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "Inverse Kinematics",
+      "dataset": "3D Clay Scans",
+      "repro_score": 4,
+      "umap": [
+        22.22,
+        -32.14
+      ],
+      "basilica": [
+        0.54,
+        -11.99,
+        -5.2
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 190,
+      "title": "Robotic Clay Extrusion CV v4",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "Inverse Kinematics",
+      "dataset": "Timber Scans",
+      "repro_score": 4,
+      "umap": [
+        20.11,
+        -28.24
+      ],
+      "basilica": [
+        -0.59,
+        -11.28,
+        -4.67
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 191,
+      "title": "Adaptive Timber Milling v4",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "PointNet++",
+      "dataset": "Robotic Toolpaths",
+      "repro_score": 3,
+      "umap": [
+        15.6,
+        -21.13
+      ],
+      "basilica": [
+        -0.21,
+        -10.71,
+        -4.85
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 192,
+      "title": "Stone Stereotomy RL v4",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Reinforcement Learning",
+      "dataset": "3D Clay Scans",
+      "repro_score": 1,
+      "umap": [
+        24.16,
+        -21.0
+      ],
+      "basilica": [
+        -0.02,
+        -9.99,
+        -5.32
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 193,
+      "title": "Vision-Guided Assembly v4",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "Computer Vision",
+      "dataset": "Depth Sensors",
+      "repro_score": 3,
+      "umap": [
+        42.25,
+        -23.7
+      ],
+      "basilica": [
+        0.21,
+        -9.49,
+        -5.47
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 194,
+      "title": "Mycelium Growth Tracking v4",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Seminar",
+      "method": "Reinforcement Learning",
+      "dataset": "3D Clay Scans",
+      "repro_score": 3,
+      "umap": [
+        14.56,
+        -30.21
+      ],
+      "basilica": [
+        0.73,
+        -9.04,
+        -3.81
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 195,
+      "title": "3D Concrete Defect Net v4",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Reinforcement Learning",
+      "dataset": "Depth Sensors",
+      "repro_score": 2,
+      "umap": [
+        37.29,
+        -14.16
+      ],
+      "basilica": [
+        -0.15,
+        -8.78,
+        -4.45
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 196,
+      "title": "Reclaimed Steel Sorting v4",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "Reinforcement Learning",
+      "dataset": "3D Clay Scans",
+      "repro_score": 1,
+      "umap": [
+        19.23,
+        -14.67
+      ],
+      "basilica": [
+        0.87,
+        -8.31,
+        -4.74
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 197,
+      "title": "Drone Masonry Inspection v4",
+      "branch": "fabrication",
+      "branch_idx": 3,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "Reinforcement Learning",
+      "dataset": "Robotic Toolpaths",
+      "repro_score": 2,
+      "umap": [
+        41.28,
+        -38.99
+      ],
+      "basilica": [
+        -0.29,
+        -7.86,
+        -4.7
+      ],
+      "point_count": 360
+    },
+    {
+      "id": 198,
+      "title": "MaAI Semantic Knowledge Graph",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "Fine-Tuning",
+      "dataset": "Building Codes",
+      "repro_score": 2,
+      "umap": [
+        -2.44,
+        51.95
+      ],
+      "basilica": [
+        -0.7,
+        -33.23,
+        21.17
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 199,
+      "title": "IFC Code-Compliance RAG",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Knowledge Graph",
+      "dataset": "IAAC Archive",
+      "repro_score": 1,
+      "umap": [
+        -13.13,
+        32.41
+      ],
+      "basilica": [
+        0.98,
+        -32.55,
+        20.72
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 200,
+      "title": "Architectural Ontology",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Semantic Embeddings",
+      "dataset": "OpenAlex",
+      "repro_score": 1,
+      "umap": [
+        8.34,
+        41.45
+      ],
+      "basilica": [
+        -0.87,
+        -31.65,
+        20.8
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 201,
+      "title": "Multimodal Jury Critique",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Fine-Tuning",
+      "dataset": "BIM / IFC Graphs",
+      "repro_score": 4,
+      "umap": [
+        -8.31,
+        20.01
+      ],
+      "basilica": [
+        -0.41,
+        -30.79,
+        20.79
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 202,
+      "title": "Design Precedent Retrieval",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Semantic Embeddings",
+      "dataset": "BIM / IFC Graphs",
+      "repro_score": 3,
+      "umap": [
+        -1.8,
+        42.52
+      ],
+      "basilica": [
+        0.05,
+        -29.94,
+        21.33
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 203,
+      "title": "Sketch-to-Query Search",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "RAG",
+      "dataset": "IAAC Archive",
+      "repro_score": 1,
+      "umap": [
+        4.59,
+        24.11
+      ],
+      "basilica": [
+        -0.13,
+        -28.7,
+        21.03
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 204,
+      "title": "Zoning Law Extractor",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "RAG",
+      "dataset": "OpenAlex",
+      "repro_score": 1,
+      "umap": [
+        20.63,
+        35.48
+      ],
+      "basilica": [
+        0.51,
+        -27.26,
+        21.51
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 205,
+      "title": "Open-Source AEC Benchmarks",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "Multimodal VLM",
+      "dataset": "BIM / IFC Graphs",
+      "repro_score": 4,
+      "umap": [
+        -2.37,
+        41.11
+      ],
+      "basilica": [
+        -0.26,
+        -25.92,
+        20.62
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 206,
+      "title": "Citation Lineage Mapper",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "RAG",
+      "dataset": "BIM / IFC Graphs",
+      "repro_score": 1,
+      "umap": [
+        3.8,
+        41.91
+      ],
+      "basilica": [
+        -1.24,
+        -24.6,
+        21.0
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 207,
+      "title": "Prompt-to-Grasshopper Compiler",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Seminar",
+      "method": "Multimodal VLM",
+      "dataset": "Building Codes",
+      "repro_score": 4,
+      "umap": [
+        19.41,
+        47.47
+      ],
+      "basilica": [
+        0.53,
+        -23.17,
+        21.44
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 208,
+      "title": "Spatial Reasoning Eval",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "Knowledge Graph",
+      "dataset": "BIM / IFC Graphs",
+      "repro_score": 2,
+      "umap": [
+        3.8,
+        43.68
+      ],
+      "basilica": [
+        -0.27,
+        -21.84,
+        21.09
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 209,
+      "title": "Design Brief Parser",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "RAG",
+      "dataset": "Building Codes",
+      "repro_score": 2,
+      "umap": [
+        1.57,
+        40.95
+      ],
+      "basilica": [
+        0.06,
+        -20.6,
+        21.34
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 210,
+      "title": "MaAI Semantic Knowledge Graph v2",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "Fine-Tuning",
+      "dataset": "Building Codes",
+      "repro_score": 1,
+      "umap": [
+        6.09,
+        54.83
+      ],
+      "basilica": [
+        0.2,
+        -19.25,
+        20.83
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 211,
+      "title": "IFC Code-Compliance RAG v2",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Hackathon",
+      "method": "Multimodal VLM",
+      "dataset": "BIM / IFC Graphs",
+      "repro_score": 1,
+      "umap": [
+        6.18,
+        42.69
+      ],
+      "basilica": [
+        0.21,
+        -17.78,
+        20.89
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 212,
+      "title": "Architectural Ontology v2",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Semantic Embeddings",
+      "dataset": "IAAC Archive",
+      "repro_score": 1,
+      "umap": [
+        -4.17,
+        30.42
+      ],
+      "basilica": [
+        -0.78,
+        -16.72,
+        21.55
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 213,
+      "title": "Multimodal Jury Critique v2",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "Fine-Tuning",
+      "dataset": "Building Codes",
+      "repro_score": 3,
+      "umap": [
+        2.42,
+        33.76
+      ],
+      "basilica": [
+        0.71,
+        -15.73,
+        20.13
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 214,
+      "title": "Design Precedent Retrieval v2",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "Fine-Tuning",
+      "dataset": "Building Codes",
+      "repro_score": 1,
+      "umap": [
+        -4.04,
+        44.68
+      ],
+      "basilica": [
+        0.12,
+        -14.75,
+        19.35
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 215,
+      "title": "Sketch-to-Query Search v2",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Seminar",
+      "method": "Fine-Tuning",
+      "dataset": "IAAC Archive",
+      "repro_score": 2,
+      "umap": [
+        1.23,
+        32.37
+      ],
+      "basilica": [
+        0.07,
+        -14.16,
+        19.49
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 216,
+      "title": "Zoning Law Extractor v2",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "RAG",
+      "dataset": "OpenAlex",
+      "repro_score": 2,
+      "umap": [
+        -5.44,
+        42.38
+      ],
+      "basilica": [
+        -0.15,
+        -13.56,
+        18.66
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 217,
+      "title": "Open-Source AEC Benchmarks v2",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Semantic Embeddings",
+      "dataset": "Building Codes",
+      "repro_score": 3,
+      "umap": [
+        -3.81,
+        60.15
+      ],
+      "basilica": [
+        -0.19,
+        -12.98,
+        18.71
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 218,
+      "title": "Citation Lineage Mapper v2",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Seminar",
+      "method": "Semantic Embeddings",
+      "dataset": "Building Codes",
+      "repro_score": 1,
+      "umap": [
+        -1.78,
+        39.31
+      ],
+      "basilica": [
+        1.35,
+        -12.45,
+        18.6
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 219,
+      "title": "Prompt-to-Grasshopper Compiler v2",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "Fine-Tuning",
+      "dataset": "OpenAlex",
+      "repro_score": 2,
+      "umap": [
+        10.46,
+        41.23
+      ],
+      "basilica": [
+        0.59,
+        -11.77,
+        18.52
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 220,
+      "title": "Spatial Reasoning Eval v2",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "Multimodal VLM",
+      "dataset": "OpenAlex",
+      "repro_score": 1,
+      "umap": [
+        0.61,
+        46.89
+      ],
+      "basilica": [
+        -0.6,
+        -10.88,
+        17.96
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 221,
+      "title": "Design Brief Parser v2",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Semantic Embeddings",
+      "dataset": "IAAC Archive",
+      "repro_score": 2,
+      "umap": [
+        9.76,
+        26.2
+      ],
+      "basilica": [
+        0.44,
+        -10.1,
+        17.49
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 222,
+      "title": "MaAI Semantic Knowledge Graph v3",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "RAG",
+      "dataset": "OpenAlex",
+      "repro_score": 4,
+      "umap": [
+        -4.52,
+        36.74
+      ],
+      "basilica": [
+        0.84,
+        -9.41,
+        17.84
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 223,
+      "title": "IFC Code-Compliance RAG v3",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "Multimodal VLM",
+      "dataset": "Building Codes",
+      "repro_score": 3,
+      "umap": [
+        -13.9,
+        47.59
+      ],
+      "basilica": [
+        -0.36,
+        -8.55,
+        16.58
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 224,
+      "title": "Architectural Ontology v3",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Studio",
+      "method": "Fine-Tuning",
+      "dataset": "OpenAlex",
+      "repro_score": 1,
+      "umap": [
+        6.42,
+        44.79
+      ],
+      "basilica": [
+        -0.77,
+        -7.82,
+        17.19
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 225,
+      "title": "Multimodal Jury Critique v3",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Semantic Embeddings",
+      "dataset": "IAAC Archive",
+      "repro_score": 3,
+      "umap": [
+        5.16,
+        39.18
+      ],
+      "basilica": [
+        -0.3,
+        -6.74,
+        16.18
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 226,
+      "title": "Design Precedent Retrieval v3",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Semantic Embeddings",
+      "dataset": "Building Codes",
+      "repro_score": 2,
+      "umap": [
+        2.44,
+        29.89
+      ],
+      "basilica": [
+        0.19,
+        -5.9,
+        15.96
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 227,
+      "title": "Sketch-to-Query Search v3",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Seminar",
+      "method": "Fine-Tuning",
+      "dataset": "IAAC Archive",
+      "repro_score": 1,
+      "umap": [
+        5.06,
+        49.03
+      ],
+      "basilica": [
+        0.18,
+        -4.31,
+        15.63
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 228,
+      "title": "Zoning Law Extractor v3",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Knowledge Graph",
+      "dataset": "OpenAlex",
+      "repro_score": 4,
+      "umap": [
+        -5.6,
+        33.4
+      ],
+      "basilica": [
+        -0.14,
+        -1.49,
+        14.75
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 229,
+      "title": "Open-Source AEC Benchmarks v3",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "Fine-Tuning",
+      "dataset": "IAAC Archive",
+      "repro_score": 3,
+      "umap": [
+        3.38,
+        33.92
+      ],
+      "basilica": [
+        -0.08,
+        2.6,
+        14.19
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 230,
+      "title": "Citation Lineage Mapper v3",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Hackathon",
+      "method": "RAG",
+      "dataset": "IAAC Archive",
+      "repro_score": 3,
+      "umap": [
+        -2.74,
+        42.45
+      ],
+      "basilica": [
+        -0.12,
+        6.68,
+        14.53
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 231,
+      "title": "Prompt-to-Grasshopper Compiler v3",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "Fine-Tuning",
+      "dataset": "IAAC Archive",
+      "repro_score": 3,
+      "umap": [
+        -0.59,
+        47.42
+      ],
+      "basilica": [
+        0.13,
+        9.7,
+        14.52
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 232,
+      "title": "Spatial Reasoning Eval v3",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "Multimodal VLM",
+      "dataset": "BIM / IFC Graphs",
+      "repro_score": 2,
+      "umap": [
+        -0.86,
+        48.32
+      ],
+      "basilica": [
+        0.09,
+        13.41,
+        14.1
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 233,
+      "title": "Design Brief Parser v3",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "Knowledge Graph",
+      "dataset": "IAAC Archive",
+      "repro_score": 2,
+      "umap": [
+        10.03,
+        35.75
+      ],
+      "basilica": [
+        0.11,
+        16.7,
+        14.23
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 234,
+      "title": "MaAI Semantic Knowledge Graph v4",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Seminar",
+      "method": "RAG",
+      "dataset": "BIM / IFC Graphs",
+      "repro_score": 4,
+      "umap": [
+        -1.71,
+        41.82
+      ],
+      "basilica": [
+        -0.03,
+        19.55,
+        14.31
+      ],
+      "point_count": 212
+    },
+    {
+      "id": 235,
+      "title": "IFC Code-Compliance RAG v4",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Seminar",
+      "method": "Knowledge Graph",
+      "dataset": "BIM / IFC Graphs",
+      "repro_score": 3,
+      "umap": [
+        -2.97,
+        49.56
+      ],
+      "basilica": [
+        -0.13,
+        22.6,
+        14.2
+      ],
+      "point_count": 211
+    },
+    {
+      "id": 236,
+      "title": "Architectural Ontology v4",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Fine-Tuning",
+      "dataset": "BIM / IFC Graphs",
+      "repro_score": 4,
+      "umap": [
+        10.84,
+        48.01
+      ],
+      "basilica": [
+        -0.09,
+        25.82,
+        14.4
+      ],
+      "point_count": 211
+    },
+    {
+      "id": 237,
+      "title": "Multimodal Jury Critique v4",
+      "branch": "foundations",
+      "branch_idx": 4,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Semantic Embeddings",
+      "dataset": "IAAC Archive",
+      "repro_score": 3,
+      "umap": [
+        -13.74,
+        45.72
+      ],
+      "basilica": [
+        -0.06,
+        28.18,
+        14.38
+      ],
+      "point_count": 211
+    },
+    {
+      "id": 238,
+      "title": "Causal Passive Cooling Twins",
+      "branch": "frontier",
+      "branch_idx": 5,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "Embodied AI",
+      "dataset": "Longitudinal Urban Twins",
+      "repro_score": 3,
+      "umap": [
+        4.76,
+        -2.29
+      ],
+      "basilica": [
+        -0.13,
+        -31.96,
+        -25.87
+      ],
+      "point_count": 410
+    },
+    {
+      "id": 239,
+      "title": "Embodied Construction World Model",
+      "branch": "frontier",
+      "branch_idx": 5,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Studio",
+      "method": "Embodied AI",
+      "dataset": "Post-Occupancy Sensors",
+      "repro_score": 3,
+      "umap": [
+        3.44,
+        -6.94
+      ],
+      "basilica": [
+        -0.12,
+        -28.44,
+        -25.74
+      ],
+      "point_count": 410
+    },
+    {
+      "id": 240,
+      "title": "Neuro-Symbolic Structural Code",
+      "branch": "frontier",
+      "branch_idx": 5,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "World Models",
+      "dataset": "Open Embodied Logs",
+      "repro_score": 3,
+      "umap": [
+        13.69,
+        -10.89
+      ],
+      "basilica": [
+        0.06,
+        -26.22,
+        -25.37
+      ],
+      "point_count": 410
+    },
+    {
+      "id": 241,
+      "title": "Post-Occupancy Adaptive Facades",
+      "branch": "frontier",
+      "branch_idx": 5,
+      "cohort": "24/25",
+      "cohort_idx": 0,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Neuro-Symbolic",
+      "dataset": "Post-Occupancy Sensors",
+      "repro_score": 2,
+      "umap": [
+        4.98,
+        -9.16
+      ],
+      "basilica": [
+        0.25,
+        -24.98,
+        -25.28
+      ],
+      "point_count": 409
+    },
+    {
+      "id": 242,
+      "title": "Longitudinal Neighbourhood Drift",
+      "branch": "frontier",
+      "branch_idx": 5,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Seminar",
+      "method": "Embodied AI",
+      "dataset": "Longitudinal Urban Twins",
+      "repro_score": 4,
+      "umap": [
+        -6.22,
+        -12.21
+      ],
+      "basilica": [
+        -0.17,
+        -23.51,
+        -25.35
+      ],
+      "point_count": 409
+    },
+    {
+      "id": 243,
+      "title": "Multi-Agent Urban Negotiation",
+      "branch": "frontier",
+      "branch_idx": 5,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Seminar",
+      "method": "Causal Inference",
+      "dataset": "Longitudinal Urban Twins",
+      "repro_score": 2,
+      "umap": [
+        20.45,
+        -28.53
+      ],
+      "basilica": [
+        -0.09,
+        -22.32,
+        -25.37
+      ],
+      "point_count": 409
+    },
+    {
+      "id": 244,
+      "title": "Causal Passive Cooling Twins v2",
+      "branch": "frontier",
+      "branch_idx": 5,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Seminar",
+      "method": "World Models",
+      "dataset": "Post-Occupancy Sensors",
+      "repro_score": 2,
+      "umap": [
+        4.2,
+        -4.45
+      ],
+      "basilica": [
+        0.01,
+        -20.95,
+        -25.43
+      ],
+      "point_count": 409
+    },
+    {
+      "id": 245,
+      "title": "Embodied Construction World Model v2",
+      "branch": "frontier",
+      "branch_idx": 5,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Seminar",
+      "method": "Neuro-Symbolic",
+      "dataset": "Open Embodied Logs",
+      "repro_score": 2,
+      "umap": [
+        -4.95,
+        5.15
+      ],
+      "basilica": [
+        0.28,
+        -19.49,
+        -25.49
+      ],
+      "point_count": 409
+    },
+    {
+      "id": 246,
+      "title": "Neuro-Symbolic Structural Code v2",
+      "branch": "frontier",
+      "branch_idx": 5,
+      "cohort": "25/26",
+      "cohort_idx": 1,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Neuro-Symbolic",
+      "dataset": "Post-Occupancy Sensors",
+      "repro_score": 2,
+      "umap": [
+        2.68,
+        -2.03
+      ],
+      "basilica": [
+        0.24,
+        -17.98,
+        -25.27
+      ],
+      "point_count": 409
+    },
+    {
+      "id": 247,
+      "title": "Post-Occupancy Adaptive Facades v2",
+      "branch": "frontier",
+      "branch_idx": 5,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Thesis (MaAI-02)",
+      "method": "Causal Inference",
+      "dataset": "Longitudinal Urban Twins",
+      "repro_score": 3,
+      "umap": [
+        10.76,
+        -9.6
+      ],
+      "basilica": [
+        -0.03,
+        -16.71,
+        -25.34
+      ],
+      "point_count": 409
+    },
+    {
+      "id": 248,
+      "title": "Longitudinal Neighbourhood Drift v2",
+      "branch": "frontier",
+      "branch_idx": 5,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Hackathon",
+      "method": "World Models",
+      "dataset": "Longitudinal Urban Twins",
+      "repro_score": 4,
+      "umap": [
+        0.82,
+        -6.11
+      ],
+      "basilica": [
+        -0.32,
+        -15.12,
+        -25.12
+      ],
+      "point_count": 409
+    },
+    {
+      "id": 249,
+      "title": "Multi-Agent Urban Negotiation v2",
+      "branch": "frontier",
+      "branch_idx": 5,
+      "cohort": "26/27",
+      "cohort_idx": 2,
+      "work_type": "Studio",
+      "method": "Causal Inference",
+      "dataset": "Longitudinal Urban Twins",
+      "repro_score": 3,
+      "umap": [
+        2.47,
+        -9.63
+      ],
+      "basilica": [
+        0.1,
+        -13.36,
+        -25.04
+      ],
+      "point_count": 409
+    }
+  ]
+}

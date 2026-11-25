@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Map style mockups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root { --bg: #000; --panel: #0d0f14; --border: rgba(255,255,255,0.08); --text: #eef0f4; --text-2: #c4cad4; --muted: #8790a0; --accent: #e9c46a; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--text); font-family: Inter, system-ui, sans-serif; }
+  header { padding: 28px 28px 8px; max-width: 1600px; margin: 0 auto; }
+  h1 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+  header p { margin: 6px 0 0; color: var(--muted); font-size: 13.5px; max-width: 900px; line-height: 1.5; }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; padding: 18px 28px 40px; max-width: 1600px; margin: 0 auto; }
+  .grid.single { grid-template-columns: 1fr; }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+  .card-head { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px 10px; }
+  .letter { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; font-weight: 700; background: rgba(233,196,106,0.13); color: var(--accent); flex-shrink: 0; }
+  .card-head h2 { margin: 0; font-size: 15px; font-weight: 600; }
+  .card-head .src { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+  .card-head .tools { margin-left: auto; display: flex; gap: 6px; }
+  button { font: 500 12px Inter, sans-serif; color: var(--text-2); background: transparent; border: 1px solid rgba(255,255,255,0.16); border-radius: 7px; padding: 5px 10px; cursor: pointer; }
+  button:hover { background: rgba(255,255,255,0.08); color: var(--text); }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .stage { position: relative; aspect-ratio: 16 / 10; background: #000; cursor: grab; touch-action: none; }
+  .stage:active { cursor: grabbing; }
+  .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .zoomtag { position: absolute; right: 10px; bottom: 10px; font: 500 11px 'Fira Code', monospace; color: var(--muted); background: rgba(0,0,0,0.6); padding: 3px 7px; border-radius: 6px; pointer-events: none; }
+  .key { display: flex; flex-wrap: wrap; gap: 6px 16px; padding: 10px 16px 14px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-2); line-height: 1.4; }
+  .key b { color: var(--text); font-weight: 600; }
+  .card.wide { grid-column: 1 / -1; }
+  .card.wide .stage { aspect-ratio: 16 / 8; }
+  .ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 10px 16px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-2); }
+  .ctl label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+  .ctl input[type=range] { width: 180px; accent-color: var(--accent); }
+  .ctl .step { font: 500 12px 'Fira Code', monospace; color: var(--text); min-width: 170px; }
+  .ctl .stat { margin-left: auto; color: var(--muted); }
+  .grid.single .card.wide .stage { aspect-ratio: 16 / 10; }
+  code { font-family: 'Fira Code', monospace; font-size: 11.5px; color: var(--text-2); }
+  .note { font-size: 12px; color: var(--muted); padding: 0 28px 30px; max-width: 1600px; margin: 0 auto; }
+  @media (max-width: 1000px) { .grid { grid-template-columns: 1fr; padding: 16px; } header { padding: 20px 16px 4px; } .note { padding: 0 16px 24px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Map style mockups: the 2D semantic map</h1>
+  <p>Five styles drawn from the same Atlas data (192 synthetic projects). Use the mouse wheel to zoom and drag to pan in each panel. Style D changes its labels with the zoom level. Style E draws the output of the new structure stage (corridors, voids and cohorts), found with methods from cosmology.</p>
+</header>
+<div class="grid" id="grid"></div>
+<p class="note">E uses <code>meta.structure</code> from pipeline stage 08b (pipeline/structure.py). The trail layer is visual only; the corridors, voids and node roles come from the analysis. Mockups only. The style you choose will be built into the Atlas as a map style, with the toggle in the view bar.</p>
+
+<script>
+const PANELS = [
+  { id: 'A', inset: 200, name: 'Clean data map', src: 'After DataMapPlot (Tutte Institute): soft cluster glow, labels around the edge',
+    key: ['<b>Dot</b> = project', '<b>Glow</b> = branch', '<b>Edge label</b> = branch name and size', '<b>Ring</b> = gap (colour = gap type)'] },
+  { id: 'B', name: 'Topographic landscape', src: 'After landscape maps of science and contour maps',
+    key: ['<b>Contour</b> = project density (thick line every 4th level)', '<b>Line colour</b> = branch that owns the ground', '<b>▲ Peak</b> = branch centre', '<b>Valley</b> = sparse-region gap', '<b>×</b> = other gaps'] },
+  { id: 'C', name: 'Countries and cities', src: 'After Maps of Computer Science and Cartograph',
+    key: ['<b>Country</b> = branch', '<b>Dashed border</b> = where one branch takes over', '<b>City</b> = project, <b>★</b> = most cited', '<b>Uncharted waters</b> = sparse-region gap', '<b>◌</b> = unexplored topic'] },
+  { id: 'D', name: 'Zoomable labels', src: 'After WizMap and Embedding Atlas: density bands, labels by zoom level',
+    key: ['<b>Far</b>: branch names', '<b>Middle</b>: topic of each sub-cluster (most common method)', '<b>Near</b>: project titles', '<b>Bands</b> = density'] },
+  { id: 'E', wide: true, name: 'Cosmic web', src: 'After the cosmic web: MST corridors and Delaunay voids from the structure stage, with a Physarum (slime-mould) trail layer',
+    controls: `<label>Cohorts <input type="range" id="e-step" min="0" max="0" value="0"></label><span class="step" id="e-label"></span>
+      <label><input type="checkbox" id="e-trails" checked> Trails</label><label><input type="checkbox" id="e-field"> Hessian field</label>
+      <label><input type="checkbox" id="e-cor" checked> Corridors</label><label><input type="checkbox" id="e-void" checked> Voids</label><span class="stat" id="e-stat"></span>`,
+    key: ['<b>Trail</b> = Physarum agents that move between projects (visual layer)', '<b>Line</b> = corridor: MST path between two branch cores in 64D, % = bootstrap support',
+      '<b>&#9670;</b> = bridge project', '<b>Dark circle</b> = void, largest empty circle (solid ring = also empty in 64D, dotted = map only)',
+      '<b>Bright dot</b> = node project (dense in 64D), <b>ring</b> = isolated project'] },
+];
+const GAP_COL = { density: '#FACC15', untested: '#F472B6', external: '#60A5FA', fading: '#94A3B8' };
+
+// ---------- helpers ----------
+const hex = (h) => { const n = parseInt(h.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
+const mix = (a, b, t) => a.map((v, i) => Math.round(v + (b[i] - v) * t));
+const rgba = (c, a) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
+const short = (s, n) => (s.length > n ? s.slice(0, n - 1) + '…' : s);
+
+let M, B, G; // meta, bounds, grid
+
+function buildGrid() {
+  const ps = M.projects.filter((p) => p.xy);
+  const xs = ps.map((p) => p.xy[0]), ys = ps.map((p) => p.xy[1]);
+  const pad = 14;
+  B = { x0: Math.min(...xs) - pad, x1: Math.max(...xs) + pad, y0: Math.min(...ys) - pad, y1: Math.max(...ys) + pad };
+  const W = 340, H = Math.round(W * (B.y1 - B.y0) / (B.x1 - B.x0));
+  const cell = (B.x1 - B.x0) / W;
+  const nb = M.branches.length;
+  const dens = Array.from({ length: nb }, () => new Float32Array(W * H));
+  const sig = 4.2 / cell, inv = 1 / (2 * sig * sig), win = Math.ceil(sig * 3);
+  for (const p of ps) {
+    const gx = (p.xy[0] - B.x0) / cell, gy = (B.y1 - p.xy[1]) / cell;
+    const d = dens[p.branch_idx];
+    for (let j = Math.max(0, Math.floor(gy - win)); j < Math.min(H, gy + win); j++)
+      for (let i = Math.max(0, Math.floor(gx - win)); i < Math.min(W, gx + win); i++)
+        d[j * W + i] += Math.exp(-((i - gx) ** 2 + (j - gy) ** 2) * inv);
+  }
+  const T = new Float32Array(W * H), owner = new Int8Array(W * H);
+  let max = 0;
+  for (let o = 0; o < W * H; o++) {
+    let best = -1, bv = 0, s = 0;
+    for (let b = 0; b < nb; b++) { s += dens[b][o]; if (dens[b][o] > bv) { bv = dens[b][o]; best = b; } }
+    T[o] = s; owner[o] = best; if (s > max) max = s;
+  }
+  G = { W, H, cell, dens, T, owner, max };
+}
+const g2w = (i, j) => [B.x0 + i * G.cell, B.y1 - j * G.cell];
+
+// Marching squares: returns flat [x1,y1,x2,y2,...] in world units
+const EDGES = [[], [[3, 2]], [[2, 1]], [[3, 1]], [[0, 1]], [[0, 1], [3, 2]], [[0, 2]], [[0, 3]], [[0, 3]], [[0, 2]], [[0, 3], [2, 1]], [[0, 1]], [[3, 1]], [[1, 2]], [[3, 2]], []];
+function contour(f, L, mask) {
+  const { W, H } = G, out = [];
+  for (let j = 0; j < H - 1; j++) for (let i = 0; i < W - 1; i++) {
+    const a = f[j * W + i], b = f[j * W + i + 1], c = f[(j + 1) * W + i + 1], d = f[(j + 1) * W + i];
+    const code = (a > L ? 8 : 0) | (b > L ? 4 : 0) | (c > L ? 2 : 0) | (d > L ? 1 : 0);
+    if (code === 0 || code === 15) continue;
+    if (mask && !mask(i, j)) continue;
+    const pt = (e) => {
+      if (e === 0) return [i + (L - a) / (b - a), j];
+      if (e === 1) return [i + 1, j + (L - b) / (c - b)];
+      if (e === 2) return [i + (L - d) / (c - d), j + 1];
+      return [i, j + (L - a) / (d - a)];
+    };
+    for (const [e1, e2] of EDGES[code]) {
+      const p1 = g2w(...pt(e1)), p2 = g2w(...pt(e2));
+      out.push(p1[0], p1[1], p2[0], p2[1]);
+    }
+  }
+  return out;
+}
+function gridImage(fn) {
+  const cv = document.createElement('canvas'); cv.width = G.W; cv.height = G.H;
+  const g = cv.getContext('2d'), img = g.createImageData(G.W, G.H);
+  for (let o = 0; o < G.W * G.H; o++) { const c = fn(o); if (!c) continue; img.data.set(c, o * 4); }
+  g.putImageData(img, 0, 0);
+  return cv;
+}
+
+// ---------- panel framework (zoom + pan, retina) ----------
+class Panel {
+  constructor(spec, el) {
+    this.spec = spec; this.stage = el.querySelector('.stage'); this.cv = el.querySelector('canvas'); this.tag = el.querySelector('.zoomtag');
+    this.ctx = this.cv.getContext('2d'); this.k = 1; this.tx = 0; this.ty = 0;
+    new ResizeObserver(() => this.resize()).observe(this.stage);
+    this.stage.addEventListener('wheel', (e) => { e.preventDefault(); this.zoomAt(e.offsetX, e.offsetY, Math.exp(-e.deltaY * 0.0015)); }, { passive: false });
+    let drag = null;
+    this.stage.addEventListener('pointerdown', (e) => { drag = { x: e.clientX, y: e.clientY, tx: this.tx, ty: this.ty }; this.stage.setPointerCapture(e.pointerId); });
+    this.stage.addEventListener('pointermove', (e) => { if (!drag) return; this.tx = drag.tx + e.clientX - drag.x; this.ty = drag.ty + e.clientY - drag.y; this.draw(); });
+    this.stage.addEventListener('pointerup', () => { drag = null; });
+    el.querySelector('[data-fit]').addEventListener('click', () => { this.k = 1; this.tx = this.ty = 0; this.draw(); });
+    el.querySelector('[data-in]').addEventListener('click', () => this.zoomAt(this.w / 2, this.h / 2, 1.6));
+  }
+  resize() {
+    const r = this.stage.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
+    this.w = r.width; this.h = r.height; this.cv.width = r.width * dpr; this.cv.height = r.height * dpr; this.dpr = dpr;
+    const ins = Math.min(this.spec.inset || 0, this.w * 0.22);
+    this.ins = ins;
+    const s = Math.min((this.w - 2 * ins) / (B.x1 - B.x0), this.h / (B.y1 - B.y0)) * 0.98;
+    this.base = { s, ox: (this.w - s * (B.x1 - B.x0)) / 2, oy: (this.h - s * (B.y1 - B.y0)) / 2 };
+    this.draw();
+  }
+  zoomAt(x, y, f) {
+    const k2 = Math.min(12, Math.max(0.6, this.k * f)); f = k2 / this.k;
+    this.tx = x - (x - this.tx) * f; this.ty = y - (y - this.ty) * f; this.k = k2; this.draw();
+  }
+  get s() { return this.base.s * this.k; }
+  X(x) { return (this.base.ox + (x - B.x0) * this.base.s) * this.k + this.tx; }
+  Y(y) { return (this.base.oy + (B.y1 - y) * this.base.s) * this.k + this.ty; }
+  image(cv, alpha = 1, blur = 0) {
+    const c = this.ctx; c.save(); c.globalAlpha = alpha; c.imageSmoothingEnabled = true; c.imageSmoothingQuality = 'high';
+    if (blur) c.filter = `blur(${(blur * G.cell * this.s).toFixed(1)}px)`;
+    c.drawImage(cv, this.X(B.x0), this.Y(B.y1), (B.x1 - B.x0) * this.s, (B.y1 - B.y0) * this.s); c.restore();
+  }
+  segs(arr, style, width, dash) {
+    const c = this.ctx; c.beginPath();
+    for (let q = 0; q < arr.length; q += 4) { c.moveTo(this.X(arr[q]), this.Y(arr[q + 1])); c.lineTo(this.X(arr[q + 2]), this.Y(arr[q + 3])); }
+    c.strokeStyle = style; c.lineWidth = width; c.setLineDash(dash || []); c.stroke(); c.setLineDash([]);
+  }
+  draw() {
+    if (!this.w) return;
+    const c = this.ctx; c.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+    c.clearRect(0, 0, this.w, this.h);
+    this.labels = [];
+    RENDER[this.spec.id](this, c);
+    this.tag.textContent = `zoom ${this.k.toFixed(1)}×${this.spec.id === 'D' ? ' · ' + levelName(this.k) : ''}`;
+  }
+  // label with simple collision test; returns false if it would overlap
+  label(text, x, y, { font = '600 12px Inter', color = '#fff', align = 'center', halo = 'rgba(0,0,0,0.85)', pad = 3, force = false } = {}) {
+    const c = this.ctx; c.font = font;
+    const w = c.measureText(text).width, h = parseInt(font.match(/(\d+)px/)[1], 10);
+    const x0 = align === 'center' ? x - w / 2 : align === 'right' ? x - w : x;
+    const r = [x0 - pad, y - h / 2 - pad, x0 + w + pad, y + h / 2 + pad];
+    if (!force && this.labels.some((o) => r[0] < o[2] && r[2] > o[0] && r[1] < o[3] && r[3] > o[1])) return false;
+    this.labels.push(r);
+    c.textAlign = align; c.textBaseline = 'middle';
+    if (halo) { c.lineWidth = 3.5; c.strokeStyle = halo; c.lineJoin = 'round'; c.strokeText(text, x, y); }
+    c.fillStyle = color; c.fillText(text, x, y);
+    return true;
+  }
+}
+
+// ---------- shared derived data ----------
+let D = {};
+function derive() {
+  const bs = M.branches;
+  D.col = bs.map((b) => hex(b.color));
+  D.anchor = bs.map((b) => M.projects.filter((p) => p.branch_idx === b.idx)
+    .map((p) => ({ p, w: (p.coupled || []).reduce((s, c) => s + (c.shared || 0), 0) })).sort((a, b2) => b2.w - a.w)[0]?.p);
+  // peaks: max of each branch density
+  D.peak = bs.map((b) => { const d = G.dens[b.idx]; let m = 0, o = 0; for (let k = 0; k < d.length; k++) if (d[k] > m) { m = d[k]; o = k; } return g2w(o % G.W, Math.floor(o / G.W)); });
+
+  // A: glow image
+  D.glow = gridImage((o) => { const b = G.owner[o]; if (b < 0) return null; const v = G.dens[b][o] / G.max; const a = Math.min(1, v * 1.6); return [...D.col[b], Math.round(255 * a * 0.45)]; });
+
+  // B: contours + hillshade
+  const levels = 16; D.topo = [];
+  for (let l = 1; l <= levels; l++) {
+    const L = G.max * Math.pow(l / (levels + 1), 1.35);
+    // split one level by owning branch so each line takes that branch colour
+    const per = bs.map(() => []);
+    const seg = contour(G.T, L);
+    for (let q = 0; q < seg.length; q += 4) {
+      const mx = (seg[q] + seg[q + 2]) / 2, my = (seg[q + 1] + seg[q + 3]) / 2;
+      const i = Math.min(G.W - 1, Math.max(0, Math.round((mx - B.x0) / G.cell))), j = Math.min(G.H - 1, Math.max(0, Math.round((B.y1 - my) / G.cell)));
+      const b = Math.max(0, G.owner[j * G.W + i]);
+      per[b].push(seg[q], seg[q + 1], seg[q + 2], seg[q + 3]);
+    }
+    D.topo.push({ l, per, index: l % 4 === 0 });
+  }
+  D.shade = gridImage((o) => {
+    const i = o % G.W, j = Math.floor(o / G.W); if (i < 1 || j < 1 || i >= G.W - 1 || j >= G.H - 1) return null;
+    const dx = (G.T[o + 1] - G.T[o - 1]) / G.max, dy = (G.T[o + G.W] - G.T[o - G.W]) / G.max;
+    const lum = Math.max(0, Math.min(1, 0.5 + (-dx + -dy) * 9));
+    const a = Math.min(1, G.T[o] / G.max * 3);
+    return [Math.round(255 * lum), Math.round(255 * lum), Math.round(255 * lum), Math.round(70 * a)];
+  });
+
+  // C: land, coast, borders
+  const thr = G.max * 0.1;
+  D.land = gridImage((o) => { if (G.T[o] < thr) return null; const b = G.owner[o]; const c = mix(D.col[b], [16, 18, 24], 0.62); const v = Math.min(1, (G.T[o] - thr) / (G.max * 0.5)); return [...mix(c, D.col[b], v * 0.25), 255]; });
+  D.coast = contour(G.T, thr);
+  D.coast2 = contour(G.T, thr * 0.7);
+  D.borders = [];
+  bs.forEach((b) => {
+    const f = new Float32Array(G.W * G.H);
+    for (let o = 0; o < f.length; o++) { let other = 0; for (let k = 0; k < bs.length; k++) if (k !== b.idx && G.dens[k][o] > other) other = G.dens[k][o]; f[o] = G.dens[b.idx][o] - other; }
+    D.borders.push(...contour(f, 0, (i, j) => G.T[j * G.W + i] > thr * 1.05));
+  });
+
+  // D: density bands + sub-clusters
+  D.bands = gridImage((o) => {
+    const v = G.T[o] / G.max; if (v < 0.04) return null; const q = Math.floor(v * 7) / 7; const b = G.owner[o];
+    const c = mix([40, 44, 54], D.col[b], 0.35); return [...c, Math.round(255 * (0.12 + 0.6 * q))];
+  });
+  D.sub = [];
+  bs.forEach((b) => {
+    const ps = M.projects.filter((p) => p.branch_idx === b.idx && p.xy);
+    if (ps.length < 4) return;
+    const k = Math.max(2, Math.round(ps.length / 9));
+    const sorted = [...ps].sort((a, c) => a.xy[0] - c.xy[0]);
+    let cen = Array.from({ length: k }, (_, i) => [...sorted[Math.floor((i + 0.5) * sorted.length / k)].xy]);
+    let asg = [];
+    for (let it = 0; it < 12; it++) {
+      asg = ps.map((p) => { let bi = 0, bd = Infinity; cen.forEach((c, i) => { const d = (p.xy[0] - c[0]) ** 2 + (p.xy[1] - c[1]) ** 2; if (d < bd) { bd = d; bi = i; } }); return bi; });
+      cen = cen.map((c, i) => { const m = ps.filter((_, q) => asg[q] === i); return m.length ? [m.reduce((s, p) => s + p.xy[0], 0) / m.length, m.reduce((s, p) => s + p.xy[1], 0) / m.length] : c; });
+    }
+    cen.forEach((c, i) => {
+      const m = ps.filter((_, q) => asg[q] === i); if (!m.length) return;
+      const cnt = {}; m.forEach((p) => (p.methods || []).forEach((t) => { cnt[t] = (cnt[t] || 0) + 1; }));
+      const top = Object.entries(cnt).sort((a, c2) => c2[1] - a[1])[0];
+      if (top) D.sub.push({ x: c[0], y: c[1], text: top[0], n: m.length, b: b.idx });
+    });
+  });
+}
+// ---------- E: cosmic web ----------
+function mulberry32(a) { return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+const E = { step: 0, trails: true, field: false, cor: true, void: true, phys: [] };
+function eStep() {
+  const S = M.structure, T = S.timeline, last = E.step === T.length - 1;
+  const t = T[E.step];
+  return { t, upto: t.upto, corridors: last ? S.corridors : t.corridors, voids: last ? S.voids : t.voids, last };
+}
+// Physarum polycephalum model (Jones 2010), as used by Burchett et al. 2020 on SDSS galaxies.
+// Agents sense the trail ahead, turn toward the strongest trail, move and deposit. Projects are food.
+function physarum(step) {
+  if (E.phys[step]) return E.phys[step];
+  const { W, H } = G, N = W * H, upto = M.structure.timeline[step].upto, roles = M.structure.roles;
+  const ps = M.projects.filter((p) => p.xy && p.cohort_idx <= upto);
+  const F = new Float32Array(N), sig = 2.0, win = 6;
+  const gpos = ps.map((p) => [(p.xy[0] - B.x0) / G.cell, (B.y1 - p.xy[1]) / G.cell, roles[p.idx] === 'node' ? 1.4 : 1]);
+  for (const [gx, gy, w] of gpos)
+    for (let j = Math.max(0, Math.floor(gy - win)); j < Math.min(H, gy + win); j++)
+      for (let i = Math.max(0, Math.floor(gx - win)); i < Math.min(W, gx + win); i++)
+        F[j * W + i] += w * Math.exp(-((i - gx) ** 2 + (j - gy) ** 2) / (2 * sig * sig));
+  // decay grows with the distance to the nearest project, so trails do not wander off the map
+  const decay = new Float32Array(N);
+  for (let j = 0; j < H; j++) for (let i = 0; i < W; i++) {
+    let m = Infinity; for (const g of gpos) { const d = (g[0] - i) ** 2 + (g[1] - j) ** 2; if (d < m) m = d; }
+    const d = Math.sqrt(m) * G.cell; decay[j * W + i] = d < 9 ? 0.9 : Math.max(0.7, 0.9 - (d - 9) * 0.02);
+  }
+  const rnd = mulberry32(911 + step), NA = 24000;
+  const ax = new Float32Array(NA), ay = new Float32Array(NA), aa = new Float32Array(NA);
+    let Tr = new Float32Array(N), T2 = new Float32Array(N);
+  const SA = 0.5, RA = 0.42, SO = 8;
+  const sense = (x, y) => { const i = x | 0, j = y | 0; if (i < 0 || j < 0 || i >= W || j >= H) return -1; return Tr[j * W + i]; };
+  const spawn = (k) => { const g = gpos[Math.floor(rnd() * gpos.length)]; ax[k] = g[0] + (rnd() - 0.5) * 4; ay[k] = g[1] + (rnd() - 0.5) * 4; aa[k] = rnd() * 6.2832; };
+  for (let k = 0; k < NA; k++) spawn(k);
+  for (let it = 0; it < 260; it++) {
+    for (let o = 0; o < N; o++) Tr[o] += F[o] * 3; // projects emit trail, so agents stay on the data (MCPM)
+    for (let k = 0; k < NA; k++) {
+      if (rnd() < 0.012) spawn(k);
+      let a = aa[k]; const x = ax[k], y = ay[k];
+      const f = sense(x + Math.cos(a) * SO, y + Math.sin(a) * SO), l = sense(x + Math.cos(a - SA) * SO, y + Math.sin(a - SA) * SO), r = sense(x + Math.cos(a + SA) * SO, y + Math.sin(a + SA) * SO);
+      if (f >= l && f >= r) { /* keep going */ } else if (f < l && f < r) a += (rnd() < 0.5 ? -1 : 1) * RA; else a += l > r ? -RA : RA;
+      const nx = x + Math.cos(a), ny = y + Math.sin(a);
+      if (nx < 0 || ny < 0 || nx >= W || ny >= H) { spawn(k); continue; }
+      ax[k] = nx; ay[k] = ny; aa[k] = a; Tr[(ny | 0) * W + (nx | 0)] += 1;
+    }
+    for (let j = 0; j < H; j++) for (let i = 0; i < W; i++) {
+      let s = 0, c = 0;
+      for (let dj = -1; dj <= 1; dj++) { const jj = j + dj; if (jj < 0 || jj >= H) continue; for (let di = -1; di <= 1; di++) { const ii = i + di; if (ii < 0 || ii >= W) continue; s += Tr[jj * W + ii]; c++; } }
+      T2[j * W + i] = (s / c) * decay[j * W + i];
+    }
+    [Tr, T2] = [T2, Tr];
+  }
+  const sorted = Float32Array.from(Tr).sort(), ref = sorted[Math.floor(N * 0.997)] || 1;
+  const img = gridImage((o) => {
+    const v = Math.min(1, Tr[o] / ref); if (v < 0.02) return null;
+    const b = G.owner[o], base = b >= 0 ? mix([190, 210, 255], D.col[b], 0.4) : [190, 210, 255];
+    return [...mix(base, [255, 255, 255], v * v * 0.6), Math.round(255 * Math.pow(v, 0.75))];
+  });
+  E.phys[step] = img;
+  return img;
+}
+function fieldImage() {
+  if (E.fieldImg) return E.fieldImg;
+  const f = M.structure.field, cv = document.createElement('canvas'); cv.width = f.w; cv.height = f.h;
+  const g = cv.getContext('2d'), img = g.createImageData(f.w, f.h);
+  const COL = { n: [255, 214, 150, 150], f: [120, 170, 255, 120] };
+  for (let j = 0; j < f.h; j++) for (let i = 0; i < f.w; i++) { const c = COL[f.cls[j * f.w + i]]; if (c) img.data.set(c, ((f.h - 1 - j) * f.w + i) * 4); }
+  g.putImageData(img, 0, 0);
+  return (E.fieldImg = cv);
+}
+function hull(pts) {
+  const a = [...pts].sort((p, q) => p[0] - q[0] || p[1] - q[1]), cr = (o, p, q) => (p[0] - o[0]) * (q[1] - o[1]) - (p[1] - o[1]) * (q[0] - o[0]);
+  const lo = [], up = [];
+  for (const p of a) { while (lo.length >= 2 && cr(lo.at(-2), lo.at(-1), p) <= 0) lo.pop(); lo.push(p); }
+  for (const p of a.reverse()) { while (up.length >= 2 && cr(up.at(-2), up.at(-1), p) <= 0) up.pop(); up.push(p); }
+  return lo.slice(0, -1).concat(up.slice(0, -1));
+}
+function curve(P, c, pts) {
+  c.beginPath(); c.moveTo(P.X(pts[0][0]), P.Y(pts[0][1]));
+  for (let q = 1; q < pts.length - 1; q++) { const mx = (pts[q][0] + pts[q + 1][0]) / 2, my = (pts[q][1] + pts[q + 1][1]) / 2; c.quadraticCurveTo(P.X(pts[q][0]), P.Y(pts[q][1]), P.X(mx), P.Y(my)); }
+  const e = pts[pts.length - 1]; c.lineTo(P.X(e[0]), P.Y(e[1]));
+}
+function diamond(c, x, y, r, col) { c.beginPath(); c.moveTo(x, y - r); c.lineTo(x + r, y); c.lineTo(x, y + r); c.lineTo(x - r, y); c.closePath(); c.fillStyle = col; c.fill(); }
+
+const levelName = (k) => (k < 1.7 ? 'branches' : k < 3.6 ? 'topics' : 'projects');
+
+// ---------- renderers ----------
+const RENDER = {
+  A(P, c) {
+    c.fillStyle = '#07080b'; c.fillRect(0, 0, P.w, P.h);
+    P.image(D.glow, 1, 0.8);
+    for (const p of M.projects) {
+      if (!p.xy) continue; const col = mix(D.col[p.branch_idx], [255, 255, 255], 0.3);
+      c.beginPath(); c.arc(P.X(p.xy[0]), P.Y(p.xy[1]), Math.max(1.8, 2.2 * Math.sqrt(P.k)), 0, Math.PI * 2); c.fillStyle = rgba(col, 0.92); c.fill();
+    }
+    for (const g of M.gaps) { c.beginPath(); c.arc(P.X(g.xy[0]), P.Y(g.xy[1]), 6, 0, Math.PI * 2); c.strokeStyle = rgba(hex(GAP_COL[g.type]), 0.75); c.lineWidth = 1.2; c.stroke(); }
+    // edge labels with leader lines
+    const cx = P.X((B.x0 + B.x1) / 2), items = M.branches.filter((b) => !b.is_frontier).map((b) => ({ b, x: P.X(b.centroid[0]), y: P.Y(b.centroid[1]) }));
+    for (const side of ['L', 'R']) {
+      const list = items.filter((it) => (side === 'L' ? it.x < cx : it.x >= cx)).sort((a, b) => a.y - b.y);
+      const lx = side === 'L' ? P.ins - 18 : P.w - P.ins + 18, step = 46;
+      let y = Math.max(30, P.h / 2 - (list.length - 1) * step / 2);
+      for (const it of list) {
+        it.ly = Math.max(y, Math.min(P.h - 30, it.y)); y = it.ly + step;
+      }
+      for (const it of list) {
+        const col = D.col[it.b.idx];
+        c.beginPath(); c.moveTo(it.x, it.y); c.lineTo(side === 'L' ? lx + 10 : lx - 10, it.ly);
+        c.strokeStyle = rgba(col, 0.55); c.lineWidth = 1; c.stroke();
+        c.beginPath(); c.arc(it.x, it.y, 3, 0, Math.PI * 2); c.fillStyle = rgba(col, 1); c.fill();
+        const al = side === 'L' ? 'right' : 'left';
+        P.label(short(it.b.name.replace('Fabrication & Materials: ', '').toUpperCase(), 21), lx, it.ly - 7, { font: '700 12px Inter', color: rgba(mix(col, [255, 255, 255], 0.35), 1), align: al, halo: null, force: true });
+        P.label(`${it.b.count} projects`, lx, it.ly + 9, { font: '500 10.5px Inter', color: '#8790a0', align: al, halo: null, force: true });
+      }
+    }
+  },
+
+  B(P, c) {
+    c.fillStyle = '#000'; c.fillRect(0, 0, P.w, P.h);
+    P.image(D.shade, 1);
+    for (const lv of D.topo) {
+      lv.per.forEach((seg, b) => { if (!seg.length) return; const a = 0.25 + 0.6 * lv.l / D.topo.length; P.segs(seg, rgba(mix(D.col[b], [255, 255, 255], 0.15), lv.index ? Math.min(1, a + 0.2) : a), lv.index ? 1.5 : 0.7); });
+    }
+    for (const p of M.projects) { if (!p.xy) continue; c.fillStyle = 'rgba(255,255,255,0.55)'; c.fillRect(P.X(p.xy[0]) - 0.8, P.Y(p.xy[1]) - 0.8, 1.6, 1.6); }
+    for (const g of M.gaps) {
+      const x = P.X(g.xy[0]), y = P.Y(g.xy[1]);
+      if (g.type === 'density') {
+        c.beginPath(); c.arc(x, y, 10 * Math.sqrt(P.k), 0, Math.PI * 2); c.setLineDash([3, 3]); c.strokeStyle = 'rgba(250,204,21,0.8)'; c.lineWidth = 1.1; c.stroke(); c.setLineDash([]);
+        P.label('valley', x, y + 18, { font: 'italic 500 10.5px Inter', color: '#facc15' });
+      } else {
+        const col = GAP_COL[g.type]; c.strokeStyle = col; c.lineWidth = 1.3; c.beginPath(); c.moveTo(x - 3.5, y - 3.5); c.lineTo(x + 3.5, y + 3.5); c.moveTo(x + 3.5, y - 3.5); c.lineTo(x - 3.5, y + 3.5); c.stroke();
+      }
+    }
+    M.branches.forEach((b, i) => {
+      if (b.is_frontier) return; const [px, py] = D.peak[i]; const x = P.X(px), y = P.Y(py);
+      c.beginPath(); c.moveTo(x, y - 6); c.lineTo(x + 5, y + 3); c.lineTo(x - 5, y + 3); c.closePath(); c.fillStyle = '#fff'; c.fill();
+      P.label(b.name.replace('Fabrication & Materials: ', ''), x, y - 16, { font: '600 12px Inter', color: rgba(mix(D.col[i], [255, 255, 255], 0.45), 1) });
+      P.label(`${b.count} projects`, x, y + 14, { font: '500 10px "Fira Code"', color: '#8790a0' });
+    });
+  },
+
+  C(P, c) {
+    c.fillStyle = '#04070c'; c.fillRect(0, 0, P.w, P.h);
+    c.strokeStyle = 'rgba(120,150,190,0.06)'; c.lineWidth = 1;
+    for (let y = (P.ty % 7 + 7) % 7; y < P.h; y += 7) { c.beginPath(); c.moveTo(0, y); c.lineTo(P.w, y); c.stroke(); }
+    P.segs(D.coast2, 'rgba(150,180,220,0.18)', 0.8);
+    P.image(D.land, 1);
+    P.segs(D.borders, 'rgba(255,255,255,0.45)', 0.9, [4, 3]);
+    P.segs(D.coast, 'rgba(230,225,210,0.85)', 1.3);
+    // sea labels first, so the cities do not hide them
+    for (const g of M.gaps) {
+      const x = P.X(g.xy[0]), y = P.Y(g.xy[1]);
+      if (g.type === 'density') P.label('Uncharted waters', x, y, { font: 'italic 500 11px Georgia, serif', color: '#9fb6d6', halo: 'rgba(4,7,12,0.9)' });
+      else if (g.type !== 'fading') { c.beginPath(); c.arc(x, y, 4.5, 0, Math.PI * 2); c.setLineDash([1.5, 2]); c.strokeStyle = GAP_COL[g.type]; c.lineWidth = 1.1; c.stroke(); c.setLineDash([]); }
+    }
+    for (const p of M.projects) { if (!p.xy) continue; c.beginPath(); c.arc(P.X(p.xy[0]), P.Y(p.xy[1]), 1.6, 0, Math.PI * 2); c.fillStyle = 'rgba(245,240,228,0.85)'; c.fill(); }
+    // country names first; city labels then skip any place they would overlap
+    M.branches.forEach((b, i) => {
+      if (b.is_frontier) return;
+      const name = b.name.replace('Fabrication & Materials: ', '').toUpperCase();
+      P.label(name, P.X(b.centroid[0]), P.Y(b.centroid[1]) - 14, { font: `600 ${name.length > 18 ? 10.5 : 12.5}px Georgia, serif`, color: rgba(mix(D.col[i], [255, 255, 255], 0.55), 0.95), halo: 'rgba(10,12,16,0.7)', force: true });
+    });
+    M.branches.forEach((b, i) => {
+      const a = D.anchor[i]; if (!a || !a.xy) return; const x = P.X(a.xy[0]), y = P.Y(a.xy[1]);
+      star(c, x, y, 5.5, '#fff'); P.label(short(a.title, 22), x + 8, y, { font: '500 10.5px Inter', color: '#f5f0e4', align: 'left', halo: 'rgba(10,12,16,0.85)' });
+    });
+  },
+
+  D(P, c) {
+    c.fillStyle = '#000'; c.fillRect(0, 0, P.w, P.h);
+    P.image(D.bands, 1, 0.7);
+    for (const p of M.projects) { if (!p.xy) continue; c.beginPath(); c.arc(P.X(p.xy[0]), P.Y(p.xy[1]), Math.max(1.4, 1.2 * Math.sqrt(P.k)), 0, Math.PI * 2); c.fillStyle = rgba(D.col[p.branch_idx], 0.95); c.fill(); }
+    const lvl = levelName(P.k);
+    if (lvl === 'branches') {
+      M.branches.forEach((b, i) => { if (!b.is_frontier) P.label(b.name.replace('Fabrication & Materials: ', ''), P.X(b.centroid[0]), P.Y(b.centroid[1]), { font: '700 15px Inter', color: rgba(mix(D.col[i], [255, 255, 255], 0.5), 1), force: true }); });
+    } else if (lvl === 'topics') {
+      [...D.sub].sort((a, b) => b.n - a.n).forEach((s) => P.label(s.text, P.X(s.x), P.Y(s.y), { font: '600 12px Inter', color: rgba(mix(D.col[s.b], [255, 255, 255], 0.55), 1) }));
+    } else {
+      const inView = M.projects.filter((p) => p.xy && P.X(p.xy[0]) > 0 && P.X(p.xy[0]) < P.w && P.Y(p.xy[1]) > 0 && P.Y(p.xy[1]) < P.h);
+      inView.forEach((p) => P.label(short(p.title, 28), P.X(p.xy[0]) + 6, P.Y(p.xy[1]), { font: '500 11px Inter', color: '#e8eaee', align: 'left' }));
+    }
+  },
+
+  E(P, c) {
+    c.fillStyle = '#000'; c.fillRect(0, 0, P.w, P.h);
+    const st = eStep(), S = M.structure, roles = S.roles, P2 = (i) => M.projects[i].xy;
+    const vis = (p) => p.xy && p.cohort_idx <= st.upto;
+    if (E.trails) { c.save(); c.globalCompositeOperation = 'lighter'; P.image(physarum(E.step), 0.95, 0.35); c.restore(); }
+    if (E.field) P.image(fieldImage(), 0.6, 2.2);
+    if (E.void) {
+      const H = hull(M.projects.filter(vis).map((p) => p.xy));
+      c.save(); c.beginPath(); H.forEach(([x, y], q) => (q ? c.lineTo(P.X(x), P.Y(y)) : c.moveTo(P.X(x), P.Y(y)))); c.closePath(); c.clip();
+      c.save(); c.beginPath();
+      for (const v of st.voids) for (const [x, y, r] of v.circles) { c.moveTo(P.X(x) + r * P.s, P.Y(y)); c.arc(P.X(x), P.Y(y), r * P.s, 0, Math.PI * 2); }
+      c.fillStyle = 'rgba(0,0,0,0.45)'; c.fill('nonzero'); c.restore();
+      for (const v of st.voids) {
+        const ok = v.status === 'robust', r = v.radius * P.s, x = P.X(v.xy[0]), y = P.Y(v.xy[1]);
+        c.beginPath(); c.arc(x, y, r, 0, Math.PI * 2);
+        c.strokeStyle = ok ? 'rgba(250,204,21,0.75)' : 'rgba(160,168,184,0.45)'; c.lineWidth = ok ? 1.3 : 1; c.setLineDash(ok ? [] : [2, 4]); c.stroke(); c.setLineDash([]);
+      }
+      c.restore();
+    }
+    if (E.cor) {
+      for (const cr of st.corridors) {
+        const pts = cr.path.map(P2), a = D.col[cr.branches[0]], b = D.col[cr.branches[1]];
+        const g = c.createLinearGradient(P.X(pts[0][0]), P.Y(pts[0][1]), P.X(pts.at(-1)[0]), P.Y(pts.at(-1)[1]));
+        g.addColorStop(0, rgba(mix(a, [255, 255, 255], 0.35), 1)); g.addColorStop(1, rgba(mix(b, [255, 255, 255], 0.35), 1));
+        const strong = cr.status === 'robust';
+        c.save(); c.lineCap = 'round'; c.lineJoin = 'round';
+        curve(P, c, pts); c.strokeStyle = g; c.globalAlpha = 0.18; c.lineWidth = 7; c.stroke();
+        curve(P, c, pts); c.globalAlpha = strong ? 0.95 : 0.6; c.lineWidth = strong ? 1.6 : 1.1; c.setLineDash(strong ? [] : [4, 4]); c.stroke(); c.restore();
+      }
+    }
+    for (const p of M.projects) {
+      if (!vis(p)) continue;
+      const x = P.X(p.xy[0]), y = P.Y(p.xy[1]), role = roles[p.idx], col = D.col[p.branch_idx];
+      if (role === 'node') {
+        const r = 7 * Math.sqrt(P.k); const g = c.createRadialGradient(x, y, 0, x, y, r);
+        g.addColorStop(0, rgba(mix(col, [255, 255, 255], 0.7), 0.55)); g.addColorStop(1, rgba(col, 0));
+        c.fillStyle = g; c.beginPath(); c.arc(x, y, r, 0, Math.PI * 2); c.fill();
+        c.beginPath(); c.arc(x, y, 1.6, 0, Math.PI * 2); c.fillStyle = '#fff'; c.fill();
+      } else if (role === 'isolated') {
+        c.beginPath(); c.arc(x, y, 3, 0, Math.PI * 2); c.strokeStyle = rgba(mix(col, [255, 255, 255], 0.4), 0.8); c.lineWidth = 1; c.stroke();
+      } else {
+        c.beginPath(); c.arc(x, y, role === 'filament' ? 1.7 : 1.3, 0, Math.PI * 2); c.fillStyle = role === 'filament' ? '#f3f6ff' : rgba(mix(col, [255, 255, 255], 0.3), 0.75); c.fill();
+      }
+    }
+    if (E.cor) for (const cr of st.corridors) for (const i of (cr.bridge || [])) { if (M.projects[i].cohort_idx > st.upto) continue; const q = P2(i); diamond(c, P.X(q[0]), P.Y(q[1]), 4, '#fff'); }
+    // labels: branches at their core project, then voids, then corridors
+    M.branches.forEach((b, i) => {
+      if (b.is_frontier) return;
+      const ms = M.projects.filter((p) => p.branch_idx === b.idx && vis(p));
+      if (!ms.length) return;
+      const q = ms.reduce((x, y) => (S.density_z[y.idx] > S.density_z[x.idx] ? y : x)).xy;
+      P.label(b.name.replace('Fabrication & Materials: ', ''), P.X(q[0]), P.Y(q[1]) - 16, { font: P.w < 600 ? '700 10.5px Inter' : '700 13px Inter', color: rgba(mix(D.col[i], [255, 255, 255], 0.55), 1), force: true });
+    });
+    if (E.void) st.voids.forEach((v) => {
+      const ok = v.status === 'robust';
+      const t = ok ? `Void${v.gap ? ' \u00b7 ' + v.gap : ''} \u00b7 ${Math.round(v.support * 100)}%` : `map only \u00b7 ${Math.round(v.support * 100)}%`;
+      P.label(t, P.X(v.xy[0]), P.Y(v.xy[1]), { font: ok ? '600 11.5px Inter' : '500 10.5px Inter', color: ok ? '#facc15' : '#8a93a3' });
+    });
+    if (E.cor) st.corridors.forEach((cr) => {
+      const br = cr.bridge || cr.path, q1 = P2(br[0]), q2 = P2(br.at(-1));
+      P.label(`${Math.round(cr.support * 100)}%`, P.X((q1[0] + q2[0]) / 2), P.Y((q1[1] + q2[1]) / 2) + 14, { font: '500 10.5px "Fira Code"', color: '#dfe6f5' });
+    });
+  },
+};
+function star(c, x, y, r, col) {
+  c.beginPath();
+  for (let k = 0; k < 10; k++) { const a = -Math.PI / 2 + k * Math.PI / 5, rr = k % 2 ? r * 0.45 : r; c.lineTo(x + rr * Math.cos(a), y + rr * Math.sin(a)); }
+  c.closePath(); c.fillStyle = col; c.fill();
+}
+
+// ---------- boot ----------
+const FONTS = ['400 12px Inter', '500 12px Inter', '600 12px Inter', '700 12px Inter', '500 12px "Fira Code"'];
+Promise.all([fetch('../data/atlas_meta.json').then((r) => r.json()), ...FONTS.map((f) => document.fonts.load(f).catch(() => null))]).then(([meta]) => {
+  M = meta; buildGrid(); derive();
+  const grid = document.getElementById('grid');
+  grid.innerHTML = PANELS.map((p) => `
+    <section class="card${p.wide ? ' wide' : ''}" id="card-${p.id}">
+      <div class="card-head"><span class="letter">${p.id}</span><div><h2>${p.name}</h2><div class="src">${p.src}</div></div>
+        <div class="tools"><button data-in>Zoom in</button><button data-fit>Fit</button><button data-big>Enlarge</button></div></div>
+      <div class="stage"><canvas></canvas><span class="zoomtag"></span></div>
+      ${p.controls ? `<div class="ctl">${p.controls}</div>` : ''}
+      <div class="key">${p.key.map((k) => `<span>${k}</span>`).join('')}</div>
+    </section>`).join('');
+  const panels = PANELS.map((p) => new Panel(p, document.getElementById(`card-${p.id}`)));
+  document.querySelectorAll('[data-big]').forEach((b) => b.addEventListener('click', () => {
+    const single = grid.classList.toggle('single');
+    document.querySelectorAll('[data-big]').forEach((x) => { x.textContent = single ? 'Show all' : 'Enlarge'; });
+    if (single) b.closest('.card').scrollIntoView({ block: 'start' });
+  }));
+  window.__panels = panels; window.__M = M;
+  // E controls
+  const pE = panels.find((x) => x.spec.id === 'E'), TL = M.structure ? M.structure.timeline : [];
+  if (!TL.length) { document.getElementById('card-E').querySelector('.ctl').textContent = 'Run the pipeline again: the data has no structure stage.'; return; }
+  const sl = document.getElementById('e-step'); sl.max = TL.length - 1; sl.value = E.step = TL.length - 1;
+  const upd = () => {
+    const st = eStep();
+    document.getElementById('e-label').textContent = `${st.t.label} \u00b7 ${st.t.n} projects`;
+    const rv = st.voids.filter((v) => v.status === 'robust').length;
+    document.getElementById('e-stat').textContent = `${st.corridors.length} corridors \u00b7 ${st.voids.length} voids (${rv} robust)`;
+    pE.draw();
+  };
+  sl.addEventListener('input', () => { E.step = Number(sl.value); upd(); });
+  [['e-trails', 'trails'], ['e-field', 'field'], ['e-cor', 'cor'], ['e-void', 'void']].forEach(([id, k]) => document.getElementById(id).addEventListener('change', (e) => { E[k] = e.target.checked; pE.draw(); }));
+  upd();
+}).catch((e) => { document.getElementById('grid').innerHTML = `<p style="color:#f88">Could not load ../data/atlas_meta.json (${e.message}). Open this page through the local server.</p>`; });
+</script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MaAI Atlas — Sagrada Família Living Knowledge Base Prototype</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://esm.sh/three@0.170.0",
+        "three/addons/": "https://esm.sh/three@0.170.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="canvas-wrap"></div>
+  <div id="labels-layer"></div>
+
+  <!-- Top-left brand & live counters -->
+  <header id="hud-header" class="glass">
+    <div class="brand-row">
+      <span class="brand-pill">IAAC · MaAI</span>
+      <h1>MaAI Atlas</h1>
+    </div>
+    <p class="subtitle">
+      Every uploaded project adds a stone to the basilica; unbuilt scaffold marks detected research gaps.
+    </p>
+    <div class="stats-row">
+      <div class="stat">
+        <span class="stat-val" id="stat-projects">—</span>
+        <span class="stat-lbl">Projects</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val" id="stat-built">—</span>
+        <span class="stat-lbl">Built Mass</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val" id="stat-points">—</span>
+        <span class="stat-lbl">Cloud Pts</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Left panel: cohort growth & branch legend -->
+  <aside id="hud-left" class="glass">
+    <div>
+      <div class="section-title">
+        <span>Cohort Growth</span>
+        <span id="cohort-label">All</span>
+      </div>
+      <div class="cohort-pills" id="cohort-pills">
+        <button class="pill-btn" data-cohort="0">24/25</button>
+        <button class="pill-btn" data-cohort="1">25/26</button>
+        <button class="pill-btn" data-cohort="2">26/27</button>
+        <button class="pill-btn active" data-cohort="3">All</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title">
+        <span>Research Branches → Towers</span>
+        <span id="branch-reset" style="cursor:pointer;color:var(--accent);display:none;">Reset</span>
+      </div>
+      <div id="branch-list"></div>
+    </div>
+
+    <label class="toggle-row">
+      <span>Show Unbuilt Gap Scaffold</span>
+      <input type="checkbox" id="toggle-ghosts" checked />
+    </label>
+    <label class="toggle-row">
+      <span>Auto-Orbit (3D Mode)</span>
+      <input type="checkbox" id="toggle-orbit" checked />
+    </label>
+  </aside>
+
+  <!-- Right panel: project inspector -->
+  <aside id="hud-inspector" class="glass">
+    <div class="section-title"><span>Project Inspector</span></div>
+    <div id="inspector-body" class="insp-empty">
+      Click or hover any node in <b>2D Semantic Map</b> or <b>3D Basilica</b> mode to inspect its methods, dataset, cohort, and reproducibility signals.
+    </div>
+  </aside>
+
+  <!-- Bottom morph & upload controls -->
+  <div id="hud-bottom" class="glass">
+    <div class="mode-switch">
+      <button class="mode-btn" id="btn-2d">2D Semantic Map</button>
+      <button class="mode-btn active" id="btn-3d">3D Living Basilica</button>
+    </div>
+
+    <div class="slider-wrap">
+      <input type="range" id="morph-slider" min="0" max="100" value="100" />
+      <span id="morph-pct">100%</span>
+    </div>
+
+    <button class="action-btn" id="btn-upload">+ Upload Project</button>
+    <button class="action-btn secondary" id="btn-reel">▶ 10s Kickoff Reel</button>
+  </div>
+
+  <!-- Upload Project Modal (floating side drawer so 3D basilica stays visible!) -->
+  <div id="upload-modal" class="glass hidden" aria-hidden="true">
+    <div class="modal-head">
+      <div>
+        <span class="brand-pill">Contribute Stone</span>
+        <h2>Upload MaAI Project</h2>
+      </div>
+      <button id="upload-close" class="icon-btn" title="Close">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <label class="field">
+        <span>Project Title</span>
+        <input type="text" id="up-title" placeholder="e.g. Causal Passive Cooling Twins" />
+      </label>
+
+      <div class="field-row">
+        <label class="field">
+          <span>Cohort</span>
+          <select id="up-cohort">
+            <option value="0">24/25</option>
+            <option value="1">25/26</option>
+            <option value="2" selected>26/27</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Work Type</span>
+          <select id="up-type">
+            <option>Thesis (MaAI-02)</option>
+            <option>Studio</option>
+            <option>Seminar</option>
+            <option>Hackathon</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="field-row">
+        <label class="field">
+          <span>AI Method</span>
+          <input type="text" id="up-method" placeholder="e.g. Physics Surrogate" />
+        </label>
+        <label class="field">
+          <span>Dataset</span>
+          <input type="text" id="up-dataset" placeholder="e.g. ERA5 + OSM" />
+        </label>
+      </div>
+
+      <div class="field">
+        <span>Reproducibility Signals <small>(controls stone density)</small></span>
+        <div class="repro-checks">
+          <label><input type="checkbox" class="up-repro" checked /> README</label>
+          <label><input type="checkbox" class="up-repro" checked /> Deps</label>
+          <label><input type="checkbox" class="up-repro" checked /> Data</label>
+          <label><input type="checkbox" class="up-repro" checked /> Licence</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <span>Choose Basilica Part to Build <small>(or click directly on the 3D model)</small></span>
+        <div id="zone-picker" class="zone-picker"></div>
+        <div id="pick-hint" class="pick-hint">Tip: Click any tower or façade on the 3D model to pin an exact spot.</div>
+      </div>
+    </div>
+
+    <div class="modal-foot">
+      <button class="action-btn secondary" id="upload-cancel">Cancel</button>
+      <button class="action-btn" id="upload-submit">✦ Place Stone on Basilica</button>
+    </div>
+  </div>
+
+  <div id="toast" class="glass"></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
